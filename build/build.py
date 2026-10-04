@@ -1,5 +1,5 @@
 import re, markdown, html
-from diagrams import D
+from diagrams2 import D
 md=open('guide.md').read()
 F=[ "a_j = g( Σ_i w_ij · x_i + b_j )",
  "P(x₁:T, e₁:T) = π(x₁) · b_x₁(e₁) · Π_{t=2..T} a(x_{t−1}, x_t) · b_xt(e_t)",
