@@ -30,11 +30,45 @@ Oct 4, 2026 · @sagar salunkhe
 | Internet shopping agent | Price, quality, delivery | Online stores, suppliers | Order placement system | HTML / web scraper |
 | Spam email filter | Block spam, allow genuine mails | Email inbox | Delete / label / move email | Email headers, content, sender info |
 
-**Agent–environment loop:** the environment generates signals → sensors convert them to percepts → the agent stores the percept sequence → the agent function f: P\* → A maps it to an action → actuators execute the action and change the environment → the cycle repeats.
+### Agents and the agent–environment interaction
+
+**Rational agent:** perceives the environment through **sensors**, takes actions through **actuators**, and always selects the action that maximises its expected performance measure.
+
+**Computational agent:** a software or hardware entity that works in a continuous loop – (1) perceives its environment (input), (2) processes the input using some function or program, (3) produces actions (output) that affect the environment.
+
+**Agent function:** maps percept sequences to actions, **f : P\* → A**, where P\* is the set of all possible percept sequences and A is the set of all possible actions. The **agent program** is the concrete implementation of this function running on the agent's architecture (computer, robot).
+
+**The interaction works as a continuous loop:**
+
+1. The environment generates signals (temperature, image, sound).
+2. Sensors convert these signals into percepts.
+3. The agent stores the history of percepts as the percept sequence.
+4. The agent function maps this percept sequence to an action.
+5. The action is executed by the actuators, affecting the environment.
+6. The cycle repeats.
 
 ## Q2. Problem formulation
 
-A problem is formally defined by five components: **Initial state**, **Actions**, **Transition model** (RESULT(s, a)), **Goal test**, and **Path cost** (sum of step costs). The **state space** is the set of all states reachable from the initial state.
+**Problem formulation** is the process of converting a real-world problem into a well-defined computational problem that an AI agent can solve (a structured format). It is a critical first step, because a poorly formulated problem leads to inefficient or incorrect solutions.
+
+**Why it matters:**
+
+- **Efficiency** – a well-defined problem reduces unnecessary computation.
+- **Accuracy** – ensures the AI solves the *right* problem.
+- **Scalability** – makes it easier to adapt the solution to similar problems.
+
+**Components of a problem formulation:**
+
+| No. | Component | Meaning | Example (route finding) |
+| --- | --- | --- | --- |
+| 1 | Initial state | The starting point of the problem | The starting city |
+| 2 | State space | All possible states the system can be in | All cities and roads on the map |
+| 3 | Actions (operators) | Possible actions the agent can take from a state | Drive from City A to City B |
+| 4 | Transition model | Result of performing an action in a state, RESULT(s, a) | Driving A → B puts you in B |
+| 5 | Goal state / goal test | Condition that tells whether the problem is solved | Reached the destination city |
+| 6 | Path cost function | Numeric cost of a path, used to find the optimal solution | Distance, time or fuel |
+
+**In short:** problem formulation = initial state + state space + actions + transition model + goal test + path cost, so that the agent can search for the best solution.
 
 ### 8-Queens problem (incremental formulation)
 
@@ -49,18 +83,39 @@ A problem is formally defined by five components: **Initial state**, **Actions**
 
 State-space size: about 1.8 × 10^14 for the naive version versus only 2,057 for the improved one.
 
-### Vacuum world (2 locations)
+### Vacuum cleaner world (2 rooms)
+
+- **Environment:** two rooms, A and B; each room is Clean (C) or Dirty (D).
+- **Initial state:** dirty room(s), e.g. (D, D, A).
+- **Goal:** both rooms clean.
+- **Actions:** Move Left (L), Move Right (R), Suck (S).
+
+**State representation:** a tuple **(Room A, Room B, Vacuum position)**:
+
+- (D, D, A) → both rooms dirty, vacuum in A
+- (C, D, A) → A clean, B dirty, vacuum in A
+- (C, C, B) → goal state (both rooms clean)
 
 | Component | Definition |
 | --- | --- |
-| States | Agent location (A or B) × dirt status of each square → 2 × 2² = **8 states** |
-| Initial state | Any state can be the initial state |
+| States | 2 rooms × 2 dirt values each × 2 vacuum positions = 2 × 2 × 2 = **8 states** |
+| Initial state | Any state, e.g. (D, D, A) |
 | Actions | Left, Right, Suck |
-| Transition model | Left/Right move the agent (no effect at the edge); Suck removes dirt from the current square |
-| Goal test | All squares are clean |
+| Transition model | Left/Right move the vacuum (no effect at the wall); Suck cleans the current room |
+| Goal test | (C, C, A) or (C, C, B) – both rooms clean |
 | Path cost | Each step costs 1, so path cost = number of steps |
 
-State notation used in class: **(Room A, Room B, Vacuum position)**, e.g. (D, D, A) = both rooms dirty, vacuum in A; (C, D, A) = A clean, B dirty; goal states (C, C, A) and (C, C, B). Sample transitions: from (D, D, A), Suck → (C, D, A) and Right → (D, D, B); from (C, D, B), Suck → (C, C, B) = goal.
+**Sample transitions:**
+
+| From state | Action | New state |
+| --- | --- | --- |
+| (D, D, A) | Suck | (C, D, A) |
+| (D, D, A) | Right | (D, D, B) |
+| (C, D, B) | Suck | (C, C, B) → **Goal** |
+
+FIG:Q2:0
+
+FIG:Q2:1
 
 ### 8-Puzzle (3 × 3 sliding tiles)
 
@@ -161,9 +216,19 @@ Combines the cost so far and the estimated cost to go: **f(n) = g(n) + h(n)**, w
 3. For each child compute g (cost so far) and f, and add it (keep only the cheaper copy of a repeated state).
 4. Repeat.
 
+**Worked example (from class notes).** Edges: S→A 1, S→G 10, A→B 2, A→C 1, B→D 5, C→D 3, C→G 4. Heuristic: h(S)=5, h(A)=3, h(B)=4, h(C)=2, h(D)=6, h(G)=0.
+
 FIG:Q3:2
 
-Example: S→A (cost 1, h(A)=3), S→B (cost 4, h(B)=1), A→G (cost 5), B→G (cost 2); h(S)=5. f(A)=1+3=4, f(B)=4+1=5 → expand A: f(G via A)=6; then expand B: f(G via B)=6. Both give cost 6, and A\* returns an optimal path.
+| Step | At node | Choices | f(n) = g(n) + h(n) | Move to |
+| --- | --- | --- | --- | --- |
+| 1 | S | A, G | f(A) = 1 + 3 = **4**; f(G) = 10 + 0 = 10 | A |
+| 2 | A | B, C | f(B) = (1+2) + 4 = 7; f(C) = (1+1) + 2 = **4** | C |
+| 3 | C | D, G | f(D) = (1+1+3) + 6 = 11; f(G) = (1+1+4) + 0 = **6** | G |
+
+G is the goal node, so we have reached our goal. **Optimal path: S → A → C → G, cost 6.**
+
+FIG:Q3:5
 
 - Complete: yes. Optimal: yes if h is **admissible** (never overestimates; tree search) and **consistent** (h(n) ≤ c(n,a,n') + h(n'); graph search).
 - Time and space are exponential in the worst case; memory is the practical limit.
@@ -235,18 +300,49 @@ Examples from your notes: simple reflex – thermostat, smoke alarm, basic Roomb
 
 ## Q5. Properties of task environments
 
-| Property | Meaning | Easy case | Hard case |
-| --- | --- | --- | --- |
-| **Fully vs. partially observable** | Fully: sensors give access to the complete relevant state at each time. Partially: noisy, inaccurate sensors or missing information. | Fully – Chess, crossword, 8-puzzle | Partially – Poker, taxi driving, vacuum with only local dirt sensor |
-| **Deterministic vs. stochastic** | Deterministic: next state is completely determined by current state and action. Stochastic: randomness / uncertainty in outcomes (if only other agents' actions are unpredictable it is *strategic*). | Deterministic – Chess, 8-puzzle | Stochastic – Taxi driving, poker, backgammon (dice) |
-| **Episodic vs. sequential** | Episodic: experience is divided into atomic episodes; each decision is independent of previous ones. Sequential: current decision affects future decisions. | Episodic – spotting defective parts on an assembly line, image classification | Sequential – Chess, taxi driving, any planning task |
-| **Single vs. multiagent** | Single: only one agent operates in the environment. Multiagent: other agents whose behaviour affects the performance measure (competitive or cooperative). | Single – crossword puzzle, solitaire | Multiagent – Chess (competitive), taxi driving (partly cooperative), soccer |
+The type of environment an agent operates in greatly determines how difficult the problem is. Environments are classified along **six dimensions**:
 
-### Other properties
+### 1. Fully observable vs. partially observable
 
-- **Static vs. dynamic** – the environment does not change while the agent is deliberating (static) vs. does (dynamic); *semi-dynamic* if only the score changes with time (chess with a clock).
-- **Discrete vs. continuous** – finite number of states/percepts/actions (chess) vs. continuous values (taxi speed and position).
-- **Known vs. unknown** – whether the agent knows the "laws" (outcomes of actions) of the environment.
+In a **fully observable** environment the agent's sensors give it access to the complete state of the environment at each point in time. In a **partially observable** environment the agent cannot observe the full state – because of noisy or inaccurate sensors, or because parts of the state are hidden.
+
+| Fully observable | Partially observable |
+| --- | --- |
+| Complete information | Incomplete information |
+| No hidden data | Hidden variables |
+| Clear decision making | Uncertain decisions |
+| Ex: Chess – all pieces visible, perfect information | Ex: Poker – opponent's cards are hidden |
+
+### 2. Deterministic vs. stochastic
+
+A **deterministic** environment's next state is completely determined by the current state and the agent's action. In a **stochastic** environment randomness is involved and outcomes cannot be predicted exactly. A deterministic environment with other agents is called **strategic**.
+
+| Deterministic | Stochastic |
+| --- | --- |
+| 100 % predictable, no randomness | Random and uncertain, variable outcomes |
+| Clear cause and effect | Must think in probabilities |
+| Ex: Tic-tac-toe, chess move | Ex: Rolling dice, taxi in traffic, stock trading |
+
+### 3. Episodic vs. sequential
+
+- **Episodic:** experience is divided into atomic episodes; the next decision does not depend on previous actions. Ex: a spam filter classifies each email independently; image classification.
+- **Sequential:** the current decision affects all future decisions. Ex: chess – each move affects the entire future of the game.
+
+### 4. Static vs. dynamic
+
+- **Static:** the environment does not change while the agent is deliberating. Ex: crossword puzzle.
+- **Dynamic:** the environment can change while the agent is deciding. Ex: taxi driving – other cars keep moving.
+- **Semi-dynamic:** the environment does not change, but the agent's performance score does. Ex: chess with a clock.
+
+### 5. Discrete vs. continuous
+
+- **Discrete:** a finite number of distinct states, percepts and actions. Ex: chess has a large but finite number of board positions.
+- **Continuous:** real-valued quantities, infinitely many states/actions. Ex: a robot arm in 3D space with continuous joint angles.
+
+### 6. Single agent vs. multiagent
+
+- **Single agent:** only one agent makes decisions. Ex: Sudoku solver, crossword.
+- **Multiagent:** several agents, either **cooperative** (working towards a common goal, e.g. delivery drones) or **adversarial/competitive** (working against each other, e.g. chess).
 
 ### Classification of examples
 
@@ -261,7 +357,6 @@ Examples from your notes: simple reflex – thermostat, smoke alarm, basic Roomb
 
 The hardest case is **partially observable, stochastic, sequential, dynamic, continuous and multiagent** – e.g. taxi driving.
 
-Notes examples: a chess game is fully observable, poker partially; tic-tac-toe is deterministic, rolling dice and stock trading are stochastic; an environment that is deterministic but has other agents is called **strategic**; a spam filter classifies each mail independently (episodic) while chess moves affect the whole future (sequential); Sudoku is single-agent, chess is adversarial multiagent, a team of delivery drones is cooperative multiagent.
 
 ## Q6. Supervised vs. unsupervised vs. reinforcement learning
 

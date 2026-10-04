@@ -243,3 +243,79 @@ S=N("S",[("",A),("",B)],fill=GR,stroke=GS,sub="h=6",order=1)
 body,W,H=draw_tree(S,dx=110,dy=80,pad=60)
 greedy=fig("Figure 3d. Greedy best-first: always expand the child with the smallest h → path S → B → F → G (green). Fast, but not guaranteed optimal",body,W+40,H)
 D["Q3"]=[D["Q3"][0],D["Q3"][1],D["Q3"][2].replace("Figure 3c.","Figure 3e."),idd,greedy]
+
+# ===== notes-based figures =====
+# Figure 1: interaction flow as in notes
+b=box(10,30,120,60,"Environment\n(signals)",fill="#f1f1f1",stroke="#888",fs=14)+box(165,30,120,60,"Sensors\n(percepts)",fill="#e0f4e8",stroke="#2a8a55",fs=14)
+b+=box(320,14,170,92,"AGENT\nagent program\non architecture\n→ agent function",fill="#ede7f6",stroke="#6a4cc2",fs=13)
+b+=box(525,30,120,60,"Actuators\n(actions)",fill="#fde9e0",stroke="#c9602a",fs=14)+box(680,30,120,60,"Effects on\nenvironment",fill="#fff3cd",stroke="#c99a00",fs=14)
+b+=arrow(130,60,165,60)+arrow(285,60,320,60)+arrow(490,60,525,60)+arrow(645,60,680,60)
+b+=f'<path d="M740,90 L740,140 L70,140 L70,92" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#a)"/>'+text(405,158,"the cycle repeats",fs=13,italic=True,color="#555")
+D["Q1"]=[fig("Figure 1. Agent–environment interaction flow",b,810,170)]
+
+# Figure 2a: full vacuum state space
+def vac(x,y):
+    return f'<rect x="{x-11}" y="{y-7}" width="22" height="13" rx="4" fill="#1a3f8f"/><line x1="{x+9}" y1="{y-6}" x2="{x+16}" y2="{y-20}" stroke="#1a3f8f" stroke-width="2.5"/><circle cx="{x-6}" cy="{y+8}" r="3" fill="#1a3f8f"/><circle cx="{x+6}" cy="{y+8}" r="3" fill="#1a3f8f"/>'
+def dirt(x,y):
+    return "".join(f'<circle cx="{x+dx}" cy="{y+dy}" r="2.6" fill="#8a5a1a"/>' for dx,dy in ((-8,0),(0,-4),(8,0),(-4,5),(4,5),(0,1)))
+W_=60;H_=48
+def vroom(x,y,a,b_,p):
+    o=f'<rect x="{x}" y="{y}" width="{W_}" height="{H_}" fill="#fff" stroke="#1a3f8f" stroke-width="2"/><rect x="{x+W_}" y="{y}" width="{W_}" height="{H_}" fill="#fff" stroke="#1a3f8f" stroke-width="2"/>'
+    if a: o+=dirt(x+30,y+34)
+    if b_: o+=dirt(x+W_+30,y+34)
+    o+=vac(x+(22 if p=="A" else W_+22),y+16)
+    lab="("+("D" if a else "C")+", "+("D" if b_ else "C")+", "+p+")"
+    return o, lab
+P={"DDA":(265,30),"DDB":(495,30),"CDA":(50,190),"CDB":(260,190),"DCA":(500,190),"DCB":(710,190),"CCA":(265,360),"CCB":(495,360)}
+b=""
+for k,(x,y) in P.items():
+    o,lab=vroom(x,y,k[0]=="D",k[1]=="D",k[2]); b+=o
+    goal=k.startswith("CC")
+    b+=text(x+60,y-8,lab+("  GOAL" if goal else ""),fs=13,bold=goal,color="#2a7a3a" if goal else "#333")
+def lr(a,c):
+    (xa,ya),(xc,yc)=P[a],P[c]
+    return arrow(xa+120,ya+16,xc,yc+16,"R",ly=-5)+arrow(xc,ya+34,xa+120,ya+34,"L",ly=14)
+b+=lr("DDA","DDB")+lr("CDA","CDB")+lr("DCA","DCB")+lr("CCA","CCB")
+def S_(a,c,lx):
+    (xa,ya),(xc,yc)=P[a],P[c]
+    return arrow(xa+60,ya+48,xc+60,yc-22,"S",lx=lx)
+b+=S_("DDA","CDA",-12)+S_("DDB","DCB",12)+S_("CDB","CCB",22)+S_("DCA","CCA",-22)
+def loop(k,side,lab):
+    x,y=P[k]
+    if side=="L": d=f'M{x},{y+14} C{x-34},{y+2} {x-34},{y+46} {x},{y+36}'; t=text(x-36,y+28,lab,fs=12,anchor="end")
+    elif side=="R": d=f'M{x+120},{y+14} C{x+154},{y+2} {x+154},{y+46} {x+120},{y+36}'; t=text(x+156,y+28,lab,fs=12,anchor="start")
+    else:
+        cx=x+(30 if side=="BA" else 90); d=f'M{cx-10},{y+48} C{cx-26},{y+80} {cx+26},{y+80} {cx+10},{y+48}'; t=text(cx,y+90,lab,fs=12)
+    return f'<path d="{d}" fill="none" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>'+t
+b+=loop("DDA","L","L")+loop("DDB","R","R")+loop("CDA","L","L")+loop("CDA","BA","S")+loop("CDB","R","R")+loop("DCA","L","L")+loop("DCB","R","R")+loop("DCB","BB","S")
+b+=loop("CCA","L","L")+loop("CCA","BA","S")+loop("CCB","R","R")+loop("CCB","BB","S")
+full=fig("Figure 2a. State space of the vacuum cleaner world: 8 states; L = Left, R = Right, S = Suck; loops = action has no effect",b,880,460)
+D["Q2"]=[full,D["Q2"][0].replace("Figure 2a.","Figure 2b."),D["Q2"][1].replace("Figure 2b.","Figure 2c."),D["Q2"][2].replace("Figure 2c.","Figure 2d.")]
+
+# A* graph (notes example)
+Pg={"S":(60,185),"A":(200,105),"B":(350,55),"C":(350,185),"D":(500,105),"G":(500,265)}
+hv={"S":5,"A":3,"B":4,"C":2,"D":6,"G":0}
+E_=[("S","A",1),("S","G",10),("A","B",2),("A","C",1),("B","D",5),("C","D",3),("C","G",4)]
+path={("S","A"),("A","C"),("C","G")}
+b=""
+for a,c,w in E_:
+    on=(a,c) in path
+    b+=line(*Pg[a],*Pg[c],color="#2a8a55" if on else "#999",w=3.2 if on else 1.6)
+    mx=(Pg[a][0]+Pg[c][0])/2; my=(Pg[a][1]+Pg[c][1])/2
+    b+=f'<circle cx="{mx}" cy="{my}" r="11" fill="#fff" stroke="#ccc"/>'+text(mx,my+5,str(w),fs=13,bold=True)
+for n,(x,y) in Pg.items():
+    b+=node(x,y,n,r=20,fs=15,fill="#fff3cd" if n=="G" else ("#d8efdf" if n in "SAC" else "#e8f0fe"),stroke="#c99a00" if n=="G" else ("#2a8a55" if n in "SAC" else "#3b6fd4"))
+    b+=text(x,y-27,f"h={hv[n]}",fs=12,color="#6a4cc2",bold=True)
+b+=text(290,315,"Edge numbers = step cost g; purple = heuristic h; green = path found by A* (cost 6)",fs=12,italic=True)
+astar_graph=fig("Figure 3e. A* example graph (S = start, G = goal)",b,580,325)
+# A* search tree with f values
+G1=N("G",fill="#f4f4f4",stroke="#bbb",sub="f=10+0=10")
+B_=N("B",sub="f=3+4=7",fill="#f4f4f4",stroke="#bbb");D_=N("D",sub="f=5+6=11",fill="#f4f4f4",stroke="#bbb")
+G2=N("G",fill="#fff3cd",stroke="#c99a00",sub="f=6+0=6 GOAL")
+C_=N("C",[("3",D_),("4",G2)],fill="#d8efdf",stroke="#2a8a55",sub="f=2+2=4")
+A_=N("A",[("2",B_),("1",C_)],fill="#d8efdf",stroke="#2a8a55",sub="f=1+3=4")
+S_n=N("S",[("1",A_),("10",G1)],fill="#d8efdf",stroke="#2a8a55",sub="f=0+5=5")
+body,W,H=draw_tree(S_n,dx=130,dy=85,pad=70)
+astar_tree=fig("Figure 3f. A* search tree: at each step expand the node with the smallest f; green path S → A → C → G (f = 6)",body,W+60,H)
+D["Q3"][2]=astar_graph
+D["Q3"].append(astar_tree)
