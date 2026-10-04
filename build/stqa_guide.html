@@ -1,0 +1,1563 @@
+<!doctype html><meta charset=utf-8><title>Software Testing and Quality Assurance – Exam Answer Guide</title><style>
+@page{size:A4;margin:16mm 14mm}
+body{font-family:Helvetica,Arial,sans-serif;font-size:10.5pt;line-height:1.45;color:#1b1b1b}
+h1{font-size:26pt;margin:0 0 4px} h2.sec{font-size:15pt;color:#1a3f8f;border-bottom:2px solid #1a3f8f;padding-bottom:3px;margin-top:26px;page-break-before:always}
+h3{font-size:12pt;color:#2b2b6b;margin:16px 0 6px}
+table{border-collapse:collapse;width:100%;margin:8px 0 12px;font-size:9.5pt;page-break-inside:auto}
+tr{page-break-inside:avoid} th{background:#1a3f8f;color:#fff;text-align:left} th,td{border:1px solid #9aa7c7;padding:4px 6px;vertical-align:top} tr:nth-child(even) td{background:#f3f6fd}
+pre{background:#f6f8fa;border:1px solid #d5dbe5;padding:8px;font-size:9pt;white-space:pre-wrap;page-break-inside:avoid;border-radius:4px}
+code{font-family:Menlo,Consolas,monospace;font-size:9pt}
+figure{margin:12px auto;text-align:center;page-break-inside:avoid;border:1px solid #dde3ef;border-radius:6px;padding:8px;background:#fcfdff}
+figcaption{font-size:9pt;color:#444;font-style:italic;margin-top:4px}
+.cover{text-align:center;padding:90px 0 30px} .cover p{color:#555}
+ol.toc{font-size:11pt;line-height:1.7}
+</style>
+<div class=cover><h1>Software Testing and Quality Assurance</h1><h2 style="border:0;color:#1a3f8f">Exam Answer Guide</h2><p>Mumbai University · BSc CS · Semester 5<br>15 most frequently asked questions, with diagrams, tables and worked examples</p></div>
+<h3>Contents</h3><ol class=toc><li>Q1. Quality, Software Testing, Quality Assurance and software quality factors</li><li>Q2. Errors, types of errors, defects and the Defect Management Process</li><li>Q3. Role of testing in each SDLC phase and the V-Model</li><li>Q4. Software Review, Inspection and Walkthrough; Verification vs Validation</li><li>Q5. Software Testing Metrics, their types and the metrics life cycle</li><li>Q6. Black Box vs White Box testing and their techniques</li><li>Q7. Integration testing approaches: Top-down and Bottom-up</li><li>Q8. System testing, its types, and Alpha and Beta testing</li><li>Q9. Smoke testing and its benefits</li><li>Q10. Cause and effect diagram, Pareto diagram and Scatter diagram</li><li>Q11. Cyclomatic Complexity with an example</li><li>Q12. Quality Costs: types and how to measure them</li><li>Q13. Software reliability: elements, factors and metrics</li><li>Q14. Guidelines for Formal Technical Reviews (FTR)</li><li>Q15. Six Sigma (DMAIC) and ISO 9000 standards</li></ol>
+<h2 class="sec">Q1. Quality, Software Testing, Quality Assurance and software quality factors</h2>
+<h3>Definitions</h3>
+<p><strong>Quality</strong></p>
+<ul>
+<li>IEEE: <em>"the degree to which a system, component or process meets specified requirements, and customer or user needs or expectations."</em></li>
+<li>In simple words, quality means <strong>fitness for use</strong> (Juran) and <strong>conformance to requirements</strong> (Crosby).</li>
+<li>Quality has two sides:<ul>
+<li><strong>Quality of design</strong>: the features the designers put in the product.</li>
+<li><strong>Quality of conformance</strong>: how closely the finished product follows that design.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Software Testing</strong></p>
+<ul>
+<li>Testing is <em>the process of executing a program with the intent of finding errors</em> (Glenford Myers).</li>
+<li>It checks whether the actual results match the expected results, so that the software is as defect-free as possible.</li>
+<li><strong>Goals of testing:</strong> find defects early, check that requirements are met, build confidence in the product, and lower the risk of failure.</li>
+<li>Testing can show that defects are present. It cannot prove that there are none.</li>
+</ul>
+<p><strong>Quality Assurance (QA)</strong></p>
+<ul>
+<li>QA is a <strong>planned and systematic set of activities</strong> that gives confidence that the software <em>process</em> will produce a product of the required quality.</li>
+<li>QA is <strong>process-oriented and preventive</strong>: it sets standards, audits, reviews and process improvement.</li>
+<li>Testing and Quality Control (QC) are <strong>product-oriented and detective</strong>: they find defects in the product.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Quality Assurance (QA)</th>
+<th>Quality Control (QC) / Testing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Focuses on the process</td>
+<td>Focuses on the product</td>
+</tr>
+<tr>
+<td>Prevents defects</td>
+<td>Detects defects</td>
+</tr>
+<tr>
+<td>Proactive</td>
+<td>Reactive</td>
+</tr>
+<tr>
+<td>Done throughout the SDLC</td>
+<td>Done after the product or part of it is built</td>
+</tr>
+<tr>
+<td>Examples: audits, standards, process definition</td>
+<td>Examples: testing, inspections of the product</td>
+</tr>
+</tbody>
+</table>
+<h3>Software quality factors (McCall's model, 1977)</h3>
+<p>McCall groups <strong>11 quality factors</strong> into three views of the product:</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 218" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="250" y="8" width="200" height="34" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="350.0" y="29.0" text-anchor="middle" font-size="13"  font-weight="bold">McCall's Quality Factors</text><line x1="350" y1="42" x2="350" y2="60" stroke="#555" stroke-width="1.5"/><line x1="115" y1="60" x2="585" y2="60" stroke="#555" stroke-width="1.5"/><line x1="115" y1="60" x2="115" y2="78" stroke="#555" stroke-width="1.5"/><rect x="15" y="78" width="200" height="132" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="115" y="98" text-anchor="middle" font-size="13" fill="#222" font-weight="bold">Product Operation</text><text x="115" y="122" text-anchor="middle" font-size="12" fill="#222">Correctness</text><text x="115" y="140" text-anchor="middle" font-size="12" fill="#222">Reliability</text><text x="115" y="158" text-anchor="middle" font-size="12" fill="#222">Efficiency</text><text x="115" y="176" text-anchor="middle" font-size="12" fill="#222">Integrity</text><text x="115" y="194" text-anchor="middle" font-size="12" fill="#222">Usability</text><line x1="350" y1="60" x2="350" y2="78" stroke="#555" stroke-width="1.5"/><rect x="250" y="78" width="200" height="132" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="350" y="98" text-anchor="middle" font-size="13" fill="#222" font-weight="bold">Product Revision</text><text x="350" y="122" text-anchor="middle" font-size="12" fill="#222">Maintainability</text><text x="350" y="140" text-anchor="middle" font-size="12" fill="#222">Flexibility</text><text x="350" y="158" text-anchor="middle" font-size="12" fill="#222">Testability</text><line x1="585" y1="60" x2="585" y2="78" stroke="#555" stroke-width="1.5"/><rect x="485" y="78" width="200" height="132" rx="7" fill="#f1e8fb" stroke="#6a3fb5" stroke-width="1.4"/><text x="585" y="98" text-anchor="middle" font-size="13" fill="#222" font-weight="bold">Product Transition</text><text x="585" y="122" text-anchor="middle" font-size="12" fill="#222">Portability</text><text x="585" y="140" text-anchor="middle" font-size="12" fill="#222">Reusability</text><text x="585" y="158" text-anchor="middle" font-size="12" fill="#222">Interoperability</text></svg><figcaption>Fig 1.1 – McCall's quality factors grouped into three categories</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Factor</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Product Operation</strong> (how it runs)</td>
+<td>Correctness</td>
+<td>Does it do what the specification says?</td>
+</tr>
+<tr>
+<td></td>
+<td>Reliability</td>
+<td>Does it do it accurately every time, without failure?</td>
+</tr>
+<tr>
+<td></td>
+<td>Efficiency</td>
+<td>Does it use CPU, memory and time economically?</td>
+</tr>
+<tr>
+<td></td>
+<td>Integrity</td>
+<td>Is it secure from unauthorised access?</td>
+</tr>
+<tr>
+<td></td>
+<td>Usability</td>
+<td>Is it easy to learn and use?</td>
+</tr>
+<tr>
+<td><strong>Product Revision</strong> (how easily it changes)</td>
+<td>Maintainability</td>
+<td>How easily can bugs be found and fixed?</td>
+</tr>
+<tr>
+<td></td>
+<td>Flexibility</td>
+<td>How easily can it be modified or enhanced?</td>
+</tr>
+<tr>
+<td></td>
+<td>Testability</td>
+<td>How easily can it be tested?</td>
+</tr>
+<tr>
+<td><strong>Product Transition</strong> (how it adapts)</td>
+<td>Portability</td>
+<td>Can it run on another platform?</td>
+</tr>
+<tr>
+<td></td>
+<td>Reusability</td>
+<td>Can parts be reused in other programs?</td>
+</tr>
+<tr>
+<td></td>
+<td>Interoperability</td>
+<td>Can it work together with other systems?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ISO 9126 / ISO 25010</strong> gives a similar list of quality characteristics: Functionality, Reliability, Usability, Efficiency, Maintainability and Portability.</p>
+<h2 class="sec">Q2. Errors, types of errors, defects and the Defect Management Process</h2>
+<h3>What is an error?</h3>
+<ul>
+<li><strong>Error (mistake):</strong> a human action that produces an incorrect result, for example a misread requirement or a typing slip.</li>
+<li><strong>Fault / Defect / Bug:</strong> the result of the error, recorded in the code or in a document.</li>
+<li><strong>Failure:</strong> what happens when the faulty code runs and the system behaves differently from what is expected.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 80" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="15" width="190" height="50" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="105.0" y="36.0" text-anchor="middle" font-size="13" >Error / Mistake</text><text x="105.0" y="52.0" text-anchor="middle" font-size="13" >(human action)</text><line x1="200" y1="40" x2="250" y2="40" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="252" y="15" width="190" height="50" rx="7" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="347.0" y="36.0" text-anchor="middle" font-size="13" >Fault / Defect / Bug</text><text x="347.0" y="52.0" text-anchor="middle" font-size="13" >(in code or document)</text><line x1="442" y1="40" x2="492" y2="40" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="494" y="15" width="190" height="50" rx="7" fill="#fbe0e0" stroke="#8e1b1b" stroke-width="1.4"/><text x="589.0" y="36.0" text-anchor="middle" font-size="13" >Failure</text><text x="589.0" y="52.0" text-anchor="middle" font-size="13" >(wrong behaviour at run time)</text><text x="225" y="32" text-anchor="middle" font-size="10" fill="#555">causes</text><text x="467" y="32" text-anchor="middle" font-size="10" fill="#555">if executed</text></svg><figcaption>Fig 2.1 – Error → Fault (Defect) → Failure</figcaption></figure>
+<h3>Types of errors</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description / example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Requirement errors</strong></td>
+<td>Missing, ambiguous or wrong requirements. These are the most expensive to fix late.</td>
+</tr>
+<tr>
+<td><strong>Design errors</strong></td>
+<td>Wrong algorithm, wrong data structure, poor interface design.</td>
+</tr>
+<tr>
+<td><strong>Syntax errors</strong></td>
+<td>The code breaks the language rules, for example a missing semicolon. The compiler catches these.</td>
+</tr>
+<tr>
+<td><strong>Logical errors</strong></td>
+<td>The program runs but gives wrong output, for example <code>&gt;</code> used instead of <code>&gt;=</code>.</td>
+</tr>
+<tr>
+<td><strong>Calculation errors</strong></td>
+<td>Wrong formula, wrong rounding or a type overflow.</td>
+</tr>
+<tr>
+<td><strong>Runtime errors</strong></td>
+<td>The program crashes while running, for example divide by zero or a null pointer.</td>
+</tr>
+<tr>
+<td><strong>Interface / integration errors</strong></td>
+<td>Modules pass data wrongly, for example a parameter mismatch.</td>
+</tr>
+<tr>
+<td><strong>Boundary-related errors</strong></td>
+<td>Wrong handling at the edges of a range, such as the first or last element of an array.</td>
+</tr>
+<tr>
+<td><strong>Control-flow errors</strong></td>
+<td>Wrong loop or branch, for example an infinite loop.</td>
+</tr>
+<tr>
+<td><strong>Error-handling errors</strong></td>
+<td>Exceptions are not caught, or the error messages are unclear.</td>
+</tr>
+<tr>
+<td><strong>User-interface errors</strong></td>
+<td>Wrong labels, broken navigation, poor usability.</td>
+</tr>
+<tr>
+<td><strong>Documentation errors</strong></td>
+<td>The manual or help does not match the software.</td>
+</tr>
+<tr>
+<td><strong>Load / race-condition errors</strong></td>
+<td>Failures that appear only under heavy load or with concurrent access.</td>
+</tr>
+</tbody>
+</table>
+<h3>Defect</h3>
+<ul>
+<li>A <strong>defect</strong> is a variance between the expected and the actual result. It may be:<ul>
+<li>a <strong>wrong</strong> implementation of a requirement,</li>
+<li>a <strong>missing</strong> requirement, or</li>
+<li>an <strong>extra</strong> feature that was never specified.</li>
+</ul>
+</li>
+<li><strong>Severity</strong> shows how badly the defect affects the system: Critical, Major, Minor or Trivial.</li>
+<li><strong>Priority</strong> shows how soon the defect must be fixed: High, Medium or Low.</li>
+</ul>
+<h3>Defect Management Process (DMP)</h3>
+<p>The aim of the DMP is to <strong>prevent defects, find them early, reduce their impact and improve the process</strong>.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 136" width="100%" style="max-width:690px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="6" y="12" width="120" height="50" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="66.0" y="33.0" text-anchor="middle" font-size="13" >Defect</text><text x="66.0" y="49.0" text-anchor="middle" font-size="13" >Prevention</text><line x1="126" y1="37" x2="145" y2="37" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="66" y1="62" x2="66" y2="95" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/><rect x="145" y="12" width="120" height="50" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="205.0" y="33.0" text-anchor="middle" font-size="13" >Deliverable</text><text x="205.0" y="49.0" text-anchor="middle" font-size="13" >Baseline</text><line x1="265" y1="37" x2="284" y2="37" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="205" y1="62" x2="205" y2="95" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/><rect x="284" y="12" width="120" height="50" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="344.0" y="33.0" text-anchor="middle" font-size="13" >Defect</text><text x="344.0" y="49.0" text-anchor="middle" font-size="13" >Discovery</text><line x1="404" y1="37" x2="423" y2="37" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="344" y1="62" x2="344" y2="95" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/><rect x="423" y="12" width="120" height="50" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="483.0" y="33.0" text-anchor="middle" font-size="13" >Defect</text><text x="483.0" y="49.0" text-anchor="middle" font-size="13" >Resolution</text><line x1="543" y1="37" x2="562" y2="37" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="483" y1="62" x2="483" y2="95" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/><rect x="562" y="12" width="120" height="50" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="622.0" y="33.0" text-anchor="middle" font-size="13" >Process</text><text x="622.0" y="49.0" text-anchor="middle" font-size="13" >Improvement</text><line x1="622" y1="62" x2="622" y2="95" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/><rect x="6" y="95" width="676" height="34" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="344.0" y="116.0" text-anchor="middle" font-size="13" >Management Reporting  (status, trends and metrics at every stage)</text></svg><figcaption>Fig 2.2 – Defect Management Process</figcaption></figure>
+<ol>
+<li><strong>Defect Prevention:</strong> identify critical risks, estimate their impact and reduce them using standards, training and reviews.</li>
+<li><strong>Deliverable Baseline:</strong> a deliverable (document, code, build) is formally frozen. Any defect found after this point is formally tracked.</li>
+<li><strong>Defect Discovery:</strong> find defects through reviews and testing, report them, and get the developer to acknowledge them as valid.</li>
+<li><strong>Defect Resolution:</strong> developers prioritise, fix and verify the defect, and the tester is informed.</li>
+<li><strong>Process Improvement:</strong> analyse why each defect happened and improve the process so that similar defects do not happen again.</li>
+<li><strong>Management Reporting:</strong> throughout the process, defect data is reported to management (counts, trends, ageing) to support decisions.</li>
+</ol>
+<h3>Defect life cycle</h3>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 670 200" width="100%" style="max-width:670px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="8" y="20" width="84" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="50.0" y="42.0" text-anchor="middle" font-size="12" >New</text><line x1="92" y1="38" x2="120" y2="38" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="120" y="20" width="84" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="162.0" y="42.0" text-anchor="middle" font-size="12" >Assigned</text><line x1="204" y1="38" x2="232" y2="38" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="232" y="20" width="84" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="274.0" y="42.0" text-anchor="middle" font-size="12" >Open</text><line x1="316" y1="38" x2="344" y2="38" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="344" y="20" width="84" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="386.0" y="42.0" text-anchor="middle" font-size="12" >Fixed</text><line x1="428" y1="38" x2="456" y2="38" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="456" y="20" width="84" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="498.0" y="42.0" text-anchor="middle" font-size="12" >Retest</text><line x1="540" y1="38" x2="568" y2="38" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="568" y="20" width="84" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="610.0" y="42.0" text-anchor="middle" font-size="12" >Verified</text><rect x="568" y="110" width="84" height="36" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="610.0" y="132.0" text-anchor="middle" font-size="12" >Closed</text><line x1="610" y1="56" x2="610" y2="110" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="344" y="110" width="84" height="36" rx="7" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="386.0" y="132.0" text-anchor="middle" font-size="12" >Reopened</text><line x1="480" y1="56" x2="420" y2="110" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="462" y="92" text-anchor="start" font-size="10" fill="#c62828">fails</text><line x1="360" y1="110" x2="304" y2="56" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="8" y="160" width="84" height="32" rx="7" fill="#f2f2f2" stroke="#777" stroke-width="1.4"/><text x="50.0" y="180.0" text-anchor="middle" font-size="12" >Rejected</text><line x1="250" y1="56" x2="50" y2="160" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="120" y="160" width="84" height="32" rx="7" fill="#f2f2f2" stroke="#777" stroke-width="1.4"/><text x="162.0" y="180.0" text-anchor="middle" font-size="12" >Duplicate</text><line x1="250" y1="56" x2="162" y2="160" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="232" y="160" width="84" height="32" rx="7" fill="#f2f2f2" stroke="#777" stroke-width="1.4"/><text x="274.0" y="180.0" text-anchor="middle" font-size="12" >Deferred</text><line x1="250" y1="56" x2="274" y2="160" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/></svg><figcaption>Fig 2.3 – Defect (bug) life cycle</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>New</strong></td>
+<td>The defect is logged for the first time.</td>
+</tr>
+<tr>
+<td><strong>Assigned</strong></td>
+<td>It is given to a developer.</td>
+</tr>
+<tr>
+<td><strong>Open</strong></td>
+<td>The developer is analysing or fixing it. From here it may also be marked Rejected (not a bug), Duplicate or Deferred (fix in a later release).</td>
+</tr>
+<tr>
+<td><strong>Fixed</strong></td>
+<td>The code change is made.</td>
+</tr>
+<tr>
+<td><strong>Retest</strong></td>
+<td>The tester re-tests the fix.</td>
+</tr>
+<tr>
+<td><strong>Verified</strong></td>
+<td>The fix works.</td>
+</tr>
+<tr>
+<td><strong>Closed</strong></td>
+<td>The defect is finished.</td>
+</tr>
+<tr>
+<td><strong>Reopened</strong></td>
+<td>The fix did not work, so the defect goes back to the developer.</td>
+</tr>
+</tbody>
+</table>
+<h2 class="sec">Q3. Role of testing in each SDLC phase and the V-Model</h2>
+<h3>Testing in each phase of the SDLC</h3>
+<p>Testing is not a single phase at the end. It runs alongside development, because <strong>the cost of fixing a defect grows sharply in later phases</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>SDLC phase</th>
+<th>Testing / QA activity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Requirement analysis</strong></td>
+<td>Review the requirements (SRS) for completeness, ambiguity and testability. Build the requirement traceability matrix (RTM). Write the <strong>acceptance test plan</strong>.</td>
+</tr>
+<tr>
+<td><strong>System design</strong></td>
+<td>Review the design documents. Plan the <strong>system tests</strong> and decide on the test environment and tools.</td>
+</tr>
+<tr>
+<td><strong>Architecture / high-level design</strong></td>
+<td>Check module interfaces and data flow. Write the <strong>integration test plan</strong>.</td>
+</tr>
+<tr>
+<td><strong>Detailed / module design</strong></td>
+<td>Review the logic of each module. Write <strong>unit test cases</strong>.</td>
+</tr>
+<tr>
+<td><strong>Coding</strong></td>
+<td>Do code reviews, walkthroughs and static analysis. Developers run <strong>unit tests</strong>.</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>Run integration, system, regression and performance tests. Log and track defects.</td>
+</tr>
+<tr>
+<td><strong>Deployment</strong></td>
+<td>Do <strong>acceptance testing</strong> (alpha/beta, UAT), installation testing and smoke tests in production.</td>
+</tr>
+<tr>
+<td><strong>Maintenance</strong></td>
+<td>Run <strong>regression tests</strong> after every change, and confirmation tests for fixes.</td>
+</tr>
+</tbody>
+</table>
+<h3>V-Model (Verification and Validation model)</h3>
+<ul>
+<li>The V-Model is an extension of the waterfall model.</li>
+<li><strong>Each development phase on the left arm has a matching testing phase on the right arm.</strong></li>
+<li>Test planning for a level starts as soon as the matching development phase is finished.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 322" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="15" width="170" height="40" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="95.0" y="39.0" text-anchor="middle" font-size="12" >Requirements Analysis</text><rect x="520" y="15" width="170" height="40" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="605.0" y="39.0" text-anchor="middle" font-size="12" >Acceptance Testing</text><line x1="180" y1="35" x2="520" y2="35" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="350.0" y="29" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Acceptance test plan</text><line x1="95" y1="55" x2="135" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="565" y1="80" x2="605" y2="55" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="50" y="80" width="170" height="40" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="135.0" y="104.0" text-anchor="middle" font-size="12" >System Design</text><rect x="480" y="80" width="170" height="40" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="565.0" y="104.0" text-anchor="middle" font-size="12" >System Testing</text><line x1="220" y1="100" x2="480" y2="100" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="350.0" y="94" text-anchor="middle" font-size="10" fill="#555" font-style="italic">System test plan</text><line x1="135" y1="120" x2="175" y2="145" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="525" y1="145" x2="565" y2="120" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="90" y="145" width="170" height="40" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="175.0" y="169.0" text-anchor="middle" font-size="12" >Architecture Design</text><rect x="440" y="145" width="170" height="40" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="525.0" y="169.0" text-anchor="middle" font-size="12" >Integration Testing</text><line x1="260" y1="165" x2="440" y2="165" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="350.0" y="159" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Integration test plan</text><line x1="175" y1="185" x2="215" y2="210" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="485" y1="210" x2="525" y2="185" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="130" y="210" width="170" height="40" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="215.0" y="234.0" text-anchor="middle" font-size="12" >Module Design</text><rect x="400" y="210" width="170" height="40" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="485.0" y="234.0" text-anchor="middle" font-size="12" >Unit Testing</text><line x1="300" y1="230" x2="400" y2="230" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="350.0" y="224" text-anchor="middle" font-size="10" fill="#555" font-style="italic">Unit test plan</text><rect x="270" y="275" width="160" height="40" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="350.0" y="299.0" text-anchor="middle" font-size="13"  font-weight="bold">Coding</text><line x1="215" y1="250" x2="300" y2="275" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="400" y1="275" x2="485" y2="250" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="60" y="300" text-anchor="middle" font-size="12" fill="#1a3f8f" font-weight="bold">← Verification</text><text x="640" y="300" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">Validation →</text></svg><figcaption>Fig 3.1 – V-Model: every development phase has a matching test phase</figcaption></figure>
+<ul>
+<li><strong>Left arm (Verification):</strong> "Are we building the product right?" These are static activities such as reviews of the requirements and designs.</li>
+<li><strong>Bottom (Coding):</strong> the point where the two arms meet.</li>
+<li><strong>Right arm (Validation):</strong> "Are we building the right product?" These are dynamic activities that execute the code.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Development phase</th>
+<th>Matching test phase</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements analysis</td>
+<td>Acceptance testing</td>
+<td>The user's business needs are met</td>
+</tr>
+<tr>
+<td>System design</td>
+<td>System testing</td>
+<td>The whole system against its specification</td>
+</tr>
+<tr>
+<td>Architecture design</td>
+<td>Integration testing</td>
+<td>Interfaces between modules</td>
+</tr>
+<tr>
+<td>Module design</td>
+<td>Unit testing</td>
+<td>Each module on its own</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>Tests are planned early, so defects are found early.</li>
+<li>It is simple and disciplined, and each phase has clear deliverables.</li>
+<li>It works well for small projects with stable requirements.</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>It is rigid and handles changing requirements poorly.</li>
+<li>No working software is produced until late in the project.</li>
+<li>There is no prototype, and risk analysis is limited.</li>
+</ul>
+<h2 class="sec">Q4. Software Review, Inspection and Walkthrough; Verification vs Validation</h2>
+<h3>Software review</h3>
+<ul>
+<li>A <strong>review</strong> is a <em>static testing</em> technique. A work product (requirements, design, code, test plan) is examined by people <strong>without executing it</strong>, in order to find defects early.</li>
+<li>Types of review, from least formal to most formal:<ol>
+<li>Informal review</li>
+<li>Walkthrough</li>
+<li>Technical review</li>
+<li>Inspection</li>
+</ol>
+</li>
+<li><strong>Benefits:</strong><ul>
+<li>defects are found early, when they are cheap to fix,</li>
+<li>productivity goes up,</li>
+<li>testing time and cost go down,</li>
+<li>knowledge is shared across the team.</li>
+</ul>
+</li>
+</ul>
+<h3>Inspection</h3>
+<ul>
+<li>An inspection is the <strong>most formal</strong> type of review. It was introduced by <strong>Michael Fagan</strong> at IBM.</li>
+<li>It is led by a trained <strong>moderator</strong> and uses <strong>checklists, entry/exit criteria and metrics</strong>.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 70" width="100%" style="max-width:690px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="4" y="12" width="100" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="54.0" y="39.0" text-anchor="middle" font-size="12" >Planning</text><line x1="104" y1="35" x2="120" y2="35" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="120" y="12" width="100" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="170.0" y="39.0" text-anchor="middle" font-size="12" >Overview</text><line x1="220" y1="35" x2="236" y2="35" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="236" y="12" width="100" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="286.0" y="39.0" text-anchor="middle" font-size="12" >Preparation</text><line x1="336" y1="35" x2="352" y2="35" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="352" y="12" width="100" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="402.0" y="31.5" text-anchor="middle" font-size="12" >Inspection</text><text x="402.0" y="46.5" text-anchor="middle" font-size="12" >Meeting</text><line x1="452" y1="35" x2="468" y2="35" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="468" y="12" width="100" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="518.0" y="39.0" text-anchor="middle" font-size="12" >Rework</text><line x1="568" y1="35" x2="584" y2="35" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="584" y="12" width="100" height="46" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="634.0" y="39.0" text-anchor="middle" font-size="12" >Follow-up</text></svg><figcaption>Fig 4.1 – Steps of a formal inspection (Fagan inspection)</figcaption></figure>
+<p><strong>Roles in an inspection</strong></p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Moderator</strong></td>
+<td>Leads the inspection and plans the meeting.</td>
+</tr>
+<tr>
+<td><strong>Author</strong></td>
+<td>Wrote the work product and later fixes the defects.</td>
+</tr>
+<tr>
+<td><strong>Reader</strong></td>
+<td>Reads the work product aloud during the meeting.</td>
+</tr>
+<tr>
+<td><strong>Recorder / Scribe</strong></td>
+<td>Writes down the defects that are found.</td>
+</tr>
+<tr>
+<td><strong>Inspectors</strong></td>
+<td>Look for defects, using checklists.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Steps</strong></p>
+<ol>
+<li><strong>Planning:</strong> the moderator selects the team and sets the schedule.</li>
+<li><strong>Overview:</strong> the author explains the work product to the team.</li>
+<li><strong>Preparation:</strong> each inspector studies the material alone.</li>
+<li><strong>Inspection meeting:</strong> the team logs defects. Defects are found here, not solved.</li>
+<li><strong>Rework:</strong> the author fixes the defects.</li>
+<li><strong>Follow-up:</strong> the moderator checks that every defect has been fixed.</li>
+</ol>
+<h3>Walkthrough</h3>
+<ul>
+<li>A walkthrough is a semi-formal review that is <strong>led by the author</strong>.</li>
+<li>The author "walks" the participants through the document or code, often by stepping through scenarios or sample inputs.</li>
+<li><strong>Main aims:</strong> knowledge transfer, getting feedback and building a common understanding.</li>
+<li>Preparation is optional, and formal metrics are usually not collected.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th>Walkthrough</th>
+<th>Inspection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Led by</td>
+<td>Author</td>
+<td>Trained moderator</td>
+</tr>
+<tr>
+<td>Formality</td>
+<td>Semi-formal / informal</td>
+<td>Most formal</td>
+</tr>
+<tr>
+<td>Preparation</td>
+<td>Optional</td>
+<td>Mandatory</td>
+</tr>
+<tr>
+<td>Checklists and metrics</td>
+<td>Rarely</td>
+<td>Always</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Understanding, knowledge sharing</td>
+<td>Finding as many defects as possible</td>
+</tr>
+<tr>
+<td>Recorder</td>
+<td>Optional</td>
+<td>Mandatory</td>
+</tr>
+</tbody>
+</table>
+<h3>Verification vs Validation</h3>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th>Verification</th>
+<th>Validation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Question</td>
+<td><em>"Are we building the product right?"</em></td>
+<td><em>"Are we building the right product?"</em></td>
+</tr>
+<tr>
+<td>Type</td>
+<td>Static, no code is executed</td>
+<td>Dynamic, code is executed</td>
+</tr>
+<tr>
+<td>Methods</td>
+<td>Reviews, walkthroughs, inspections, desk-checking</td>
+<td>Black-box and white-box testing, UAT</td>
+</tr>
+<tr>
+<td>Checks against</td>
+<td>Specifications and design documents</td>
+<td>User needs and requirements</td>
+</tr>
+<tr>
+<td>Done by</td>
+<td>QA team, peers</td>
+<td>Testing team, users</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>Comes first, during every phase</td>
+<td>Comes after verification, on working code</td>
+</tr>
+<tr>
+<td>Finds</td>
+<td>Defects early, which is cheaper</td>
+<td>Failures in the running product</td>
+</tr>
+<tr>
+<td>V-Model side</td>
+<td>Left arm</td>
+<td>Right arm</td>
+</tr>
+</tbody>
+</table>
+<h2 class="sec">Q5. Software Testing Metrics, their types and the metrics life cycle</h2>
+<h3>What is a metric?</h3>
+<ul>
+<li>A <strong>metric</strong> is a quantitative measure of the degree to which a system, component or process has a given attribute.</li>
+<li>Testing metrics are used to:<ul>
+<li>estimate the quality and progress of testing,</li>
+<li>make decisions about the next phase (for example, whether to release),</li>
+<li>improve processes and predict effort.</li>
+</ul>
+</li>
+<li>As the saying goes, <em>"You cannot control what you cannot measure."</em></li>
+</ul>
+<h3>Types / categories</h3>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 145" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="260" y="8" width="180" height="34" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="350.0" y="29.0" text-anchor="middle" font-size="13"  font-weight="bold">Software Metrics</text><line x1="350" y1="42" x2="350" y2="58" stroke="#555" stroke-width="1.5"/><line x1="110" y1="58" x2="590" y2="58" stroke="#555" stroke-width="1.5"/><line x1="110" y1="58" x2="110" y2="72" stroke="#555" stroke-width="1.5"/><rect x="10" y="72" width="200" height="30" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="110.0" y="91.0" text-anchor="middle" font-size="13"  font-weight="bold">Process Metrics</text><text x="110" y="120" text-anchor="middle" font-size="11" fill="#444">efficiency of the process</text><text x="110" y="135" text-anchor="middle" font-size="11" fill="#444">(DRE, test cycle time)</text><line x1="350" y1="58" x2="350" y2="72" stroke="#555" stroke-width="1.5"/><rect x="250" y="72" width="200" height="30" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="350.0" y="91.0" text-anchor="middle" font-size="13"  font-weight="bold">Product Metrics</text><text x="350" y="120" text-anchor="middle" font-size="11" fill="#444">quality of the product</text><text x="350" y="135" text-anchor="middle" font-size="11" fill="#444">(defect density, size)</text><line x1="590" y1="58" x2="590" y2="72" stroke="#555" stroke-width="1.5"/><rect x="490" y="72" width="200" height="30" rx="7" fill="#f1e8fb" stroke="#6a3fb5" stroke-width="1.4"/><text x="590.0" y="91.0" text-anchor="middle" font-size="13"  font-weight="bold">Project Metrics</text><text x="590" y="120" text-anchor="middle" font-size="11" fill="#444">project progress</text><text x="590" y="135" text-anchor="middle" font-size="11" fill="#444">(effort, cost, schedule)</text></svg><figcaption>Fig 5.0 – Categories of software metrics</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Measures</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Process metrics</strong></td>
+<td>How effective and efficient the process is</td>
+<td>Defect Removal Efficiency, test execution productivity, review effectiveness</td>
+</tr>
+<tr>
+<td><strong>Product metrics</strong></td>
+<td>Characteristics of the product</td>
+<td>Size (LOC, function points), complexity, defect density, reliability</td>
+</tr>
+<tr>
+<td><strong>Project metrics</strong></td>
+<td>Project management</td>
+<td>Effort, cost, schedule variance, number of testers</td>
+</tr>
+</tbody>
+</table>
+<p>Metrics are also classified as:</p>
+<ul>
+<li><strong>Manual vs Automation metrics.</strong></li>
+<li><strong>Base (direct) metrics:</strong> raw counts collected directly. Examples: number of test cases written, executed, passed, failed and blocked; number of defects.</li>
+<li><strong>Calculated (derived) metrics:</strong> computed from base metrics. Examples:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Test case execution %</td>
+<td>(No. of test cases executed ÷ Total test cases) × 100</td>
+</tr>
+<tr>
+<td>Test case pass %</td>
+<td>(No. of passed ÷ No. executed) × 100</td>
+</tr>
+<tr>
+<td>Defect density</td>
+<td>No. of defects ÷ Size (KLOC or FP)</td>
+</tr>
+<tr>
+<td>Defect Removal Efficiency (DRE)</td>
+<td>E ÷ (E + D) × 100, where E = defects found before release and D = defects found after release</td>
+</tr>
+<tr>
+<td>Defect leakage %</td>
+<td>(Defects found in UAT/production ÷ Defects found in testing) × 100</td>
+</tr>
+<tr>
+<td>Test effectiveness</td>
+<td>(Defects found by testing ÷ Total defects) × 100</td>
+</tr>
+<tr>
+<td>Defect rejection ratio</td>
+<td>(Rejected defects ÷ Total defects reported) × 100</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Worked example of DRE:</strong> 90 defects were found during testing and 10 were found by customers after release. DRE = 90 ÷ (90 + 10) × 100 = <strong>90 %</strong>.</p>
+<h3>Metrics life cycle</h3>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 240" width="100%" style="max-width:500px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="175" y="10" width="150" height="40" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="250.0" y="34.0" text-anchor="middle" font-size="13"  font-weight="bold">1. Analysis</text><rect x="330" y="100" width="150" height="40" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="405.0" y="124.0" text-anchor="middle" font-size="13"  font-weight="bold">2. Communicate</text><rect x="175" y="190" width="150" height="40" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="250.0" y="214.0" text-anchor="middle" font-size="13"  font-weight="bold">3. Evaluation</text><rect x="20" y="100" width="150" height="40" rx="7" fill="#f1e8fb" stroke="#6a3fb5" stroke-width="1.4"/><text x="95.0" y="124.0" text-anchor="middle" font-size="13"  font-weight="bold">4. Report</text><line x1="325" y1="30" x2="405" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="405" y1="140" x2="325" y2="210" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="175" y1="210" x2="95" y2="140" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="95" y1="100" x2="175" y2="30" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/></svg><figcaption>Fig 5.1 – Software testing metrics life cycle</figcaption></figure>
+<ol>
+<li><strong>Analysis</strong><ul>
+<li>Identify the metrics to collect, guided by the goal.</li>
+<li>Define each metric clearly.</li>
+<li>Decide its parameters and how it will be measured.</li>
+</ul>
+</li>
+<li><strong>Communicate</strong><ul>
+<li>Explain the need for the metric to stakeholders and the testing team.</li>
+<li>Tell the team what data has to be captured and how.</li>
+</ul>
+</li>
+<li><strong>Evaluation</strong><ul>
+<li>Capture and verify the data.</li>
+<li>Calculate the metric values from the data.</li>
+</ul>
+</li>
+<li><strong>Report</strong><ul>
+<li>Write a report with a clear conclusion.</li>
+<li>Share it with stakeholders and get their feedback.</li>
+<li>Use the feedback to improve. The cycle then repeats.</li>
+</ul>
+</li>
+</ol>
+<h2 class="sec">Q6. Black Box vs White Box testing and their techniques</h2>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 710 125" width="100%" style="max-width:710px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><text x="170" y="18" text-anchor="middle" font-size="13" fill="#222" font-weight="bold">Black Box Testing</text><rect x="10" y="45" width="70" height="34" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="45.0" y="66.0" text-anchor="middle" font-size="12" >Input</text><line x1="80" y1="62" x2="120" y2="62" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="120" y="30" width="110" height="64" rx="6" fill="#222"/><text x="175" y="67" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">? ? ?</text><line x1="230" y1="62" x2="270" y2="62" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="270" y="45" width="70" height="34" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="305.0" y="66.0" text-anchor="middle" font-size="12" >Output</text><text x="175" y="115" text-anchor="middle" font-size="11" fill="#444" font-style="italic">tests behaviour against specification</text><text x="530" y="18" text-anchor="middle" font-size="13" fill="#222" font-weight="bold">White Box Testing</text><rect x="370" y="45" width="70" height="34" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="405.0" y="66.0" text-anchor="middle" font-size="12" >Input</text><line x1="440" y1="62" x2="480" y2="62" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="480" y="30" width="110" height="64" rx="6" fill="#fff" stroke="#3b6fd4" stroke-width="1.4"/><circle cx="535" cy="44" r="6" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="535" y="48" text-anchor="middle" font-size="13"></text><circle cx="510" cy="78" r="6" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="510" y="82" text-anchor="middle" font-size="13"></text><circle cx="560" cy="78" r="6" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="560" y="82" text-anchor="middle" font-size="13"></text><line x1="531" y1="49" x2="514" y2="73" stroke="#555" stroke-width="1.5"/><line x1="539" y1="49" x2="556" y2="73" stroke="#555" stroke-width="1.5"/><line x1="516" y1="78" x2="554" y2="78" stroke="#555" stroke-width="1.5"/><line x1="590" y1="62" x2="630" y2="62" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="630" y="45" width="70" height="34" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="665.0" y="66.0" text-anchor="middle" font-size="12" >Output</text><text x="535" y="115" text-anchor="middle" font-size="11" fill="#444" font-style="italic">tests internal code paths & logic</text></svg><figcaption>Fig 6.1 – Black box vs white box view of the program</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th>Black Box Testing</th>
+<th>White Box Testing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Other name</td>
+<td>Behavioural, functional, closed-box</td>
+<td>Structural, glass-box, clear-box</td>
+</tr>
+<tr>
+<td>Knowledge of code</td>
+<td>Not needed</td>
+<td>Needed</td>
+</tr>
+<tr>
+<td>Based on</td>
+<td>Requirements / SRS</td>
+<td>Source code and design</td>
+</tr>
+<tr>
+<td>Done by</td>
+<td>Testers, end users</td>
+<td>Usually developers</td>
+</tr>
+<tr>
+<td>Levels</td>
+<td>System and acceptance testing</td>
+<td>Unit and integration testing</td>
+</tr>
+<tr>
+<td>Finds</td>
+<td>Missing functions, interface errors, behaviour errors</td>
+<td>Logic errors, dead code, untested paths</td>
+</tr>
+<tr>
+<td>Techniques</td>
+<td>BVA, equivalence partitioning, decision table, state transition, use-case</td>
+<td>Statement, branch, condition, basis path, loop, data-flow testing</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>Less time-consuming</td>
+<td>More time-consuming</td>
+</tr>
+</tbody>
+</table>
+<h3>Black box techniques</h3>
+<p><strong>1. Equivalence Partitioning (EP)</strong></p>
+<ul>
+<li>Split the inputs into classes that the program should treat the same way.</li>
+<li>Test <strong>one value from each class</strong>.</li>
+<li>Example: age 18–60 gives three classes: below 18 (invalid), 18 to 60 (valid) and above 60 (invalid).</li>
+</ul>
+<p><strong>2. Boundary Value Analysis (BVA)</strong></p>
+<ul>
+<li>Errors cluster at the <strong>edges</strong> of input ranges.</li>
+<li>Test the values at each edge and just inside and outside it.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 108" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="30" y1="50" x2="670" y2="50" stroke="#555" stroke-width="2"/><rect x="150" y="38" width="400" height="24" fill="#e6f4ea" stroke="#2e7d32"/><text x="350" y="55" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">Valid partition: 18 – 60</text><text x="75" y="32" text-anchor="middle" font-size="11" fill="#c62828">Invalid (< 18)</text><text x="625" y="32" text-anchor="middle" font-size="11" fill="#c62828">Invalid (> 60)</text><circle cx="120" cy="50" r="5" fill="#c62828"/><text x="120" y="82" text-anchor="middle" font-size="12" fill="#c62828" font-weight="bold">17</text><circle cx="150" cy="50" r="5" fill="#2e7d32"/><text x="150" y="82" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">18</text><circle cx="180" cy="50" r="5" fill="#2e7d32"/><text x="180" y="82" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">19</text><circle cx="520" cy="50" r="5" fill="#2e7d32"/><text x="520" y="82" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">59</text><circle cx="550" cy="50" r="5" fill="#2e7d32"/><text x="550" y="82" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">60</text><circle cx="580" cy="50" r="5" fill="#c62828"/><text x="580" y="82" text-anchor="middle" font-size="12" fill="#c62828" font-weight="bold">61</text><text x="350" y="100" text-anchor="middle" font-size="11" fill="#444" font-style="italic">Test values = min−1, min, min+1, max−1, max, max+1</text></svg><figcaption>Fig 6.2 – Boundary Value Analysis for an 'age' field that accepts 18 to 60</figcaption></figure>
+<p>For a range [min, max], test min−1, min, min+1, max−1, max and max+1. For age 18–60 these are <strong>17, 18, 19, 59, 60, 61</strong>.</p>
+<p><strong>3. Decision Table testing</strong></p>
+<ul>
+<li>Make a table of every combination of conditions and the action expected for each one.</li>
+<li>Useful for complex business rules.</li>
+</ul>
+<p><strong>4. State Transition testing</strong></p>
+<ul>
+<li>Used when the output depends on the <strong>current state</strong> as well as the input.</li>
+<li>The system is modelled as states, events (inputs) and transitions.</li>
+<li>Test cases cover every state and every transition, valid and invalid.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 185" width="100%" style="max-width:690px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="25" width="100" height="44" rx="20" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="60" y="43" text-anchor="middle" font-size="12" fill="#222">Card</text><text x="60" y="58" text-anchor="middle" font-size="12" fill="#222">Inserted</text><line x1="110" y1="47" x2="150" y2="47" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="150" y="25" width="100" height="44" rx="20" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="200" y="43" text-anchor="middle" font-size="12" fill="#222">1st PIN</text><text x="200" y="58" text-anchor="middle" font-size="12" fill="#222">attempt</text><line x1="250" y1="47" x2="290" y2="47" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="270.0" y="41.0" text-anchor="middle" font-size="11" fill="#333">wrong</text><rect x="290" y="25" width="100" height="44" rx="20" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="340" y="43" text-anchor="middle" font-size="12" fill="#222">2nd PIN</text><text x="340" y="58" text-anchor="middle" font-size="12" fill="#222">attempt</text><line x1="390" y1="47" x2="430" y2="47" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="410.0" y="41.0" text-anchor="middle" font-size="11" fill="#333">wrong</text><rect x="430" y="25" width="100" height="44" rx="20" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="480" y="43" text-anchor="middle" font-size="12" fill="#222">3rd PIN</text><text x="480" y="58" text-anchor="middle" font-size="12" fill="#222">attempt</text><line x1="530" y1="47" x2="570" y2="47" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="550.0" y="41.0" text-anchor="middle" font-size="11" fill="#333">wrong</text><rect x="570" y="25" width="100" height="44" rx="20" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="620" y="43" text-anchor="middle" font-size="12" fill="#222">Card</text><text x="620" y="58" text-anchor="middle" font-size="12" fill="#222">Blocked</text><rect x="290" y="135" width="120" height="40" rx="20" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="350" y="160" text-anchor="middle" font-size="12" fill="#222">Access Granted</text><line x1="200" y1="69" x2="310" y2="135" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="227.0" y="97.0" text-anchor="middle" font-size="11" fill="#333">correct</text><line x1="340" y1="69" x2="345" y2="135" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="368.5" y="97.0" text-anchor="middle" font-size="11" fill="#333">correct</text><line x1="480" y1="69" x2="390" y2="135" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="465.0" y="97.0" text-anchor="middle" font-size="11" fill="#333">correct</text></svg><figcaption>Fig 6.3 – State transition diagram for an ATM PIN entry</figcaption></figure>
+<p>Example (ATM PIN):</p>
+<table>
+<thead>
+<tr>
+<th>Current state</th>
+<th>Input</th>
+<th>Next state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1st attempt</td>
+<td>Correct PIN</td>
+<td>Access granted</td>
+</tr>
+<tr>
+<td>1st attempt</td>
+<td>Wrong PIN</td>
+<td>2nd attempt</td>
+</tr>
+<tr>
+<td>2nd attempt</td>
+<td>Wrong PIN</td>
+<td>3rd attempt</td>
+</tr>
+<tr>
+<td>3rd attempt</td>
+<td>Wrong PIN</td>
+<td>Card blocked</td>
+</tr>
+</tbody>
+</table>
+<h3>White box techniques</h3>
+<ul>
+<li><strong>Statement coverage:</strong> every statement runs at least once.</li>
+<li><strong>Branch / decision coverage:</strong> every true and false outcome of each decision is taken at least once.</li>
+<li><strong>Condition coverage:</strong> every individual condition is evaluated as both true and false.</li>
+<li><strong>Basis path testing</strong> (McCabe):<ol>
+<li>Draw the control flow graph.</li>
+<li>Compute the <strong>cyclomatic complexity V(G)</strong>.</li>
+<li>Find V(G) <strong>independent paths</strong>.</li>
+<li>Write one test case for each path.
+- This guarantees that every statement and every branch is executed at least once (see Q11 for a full example).</li>
+</ol>
+</li>
+<li><strong>Loop testing:</strong> for each loop, run it 0 times, 1 time, 2 times, a typical number of times, and max−1, max and max+1 times.</li>
+<li><strong>Data-flow testing:</strong> follow each variable from its definition to where it is used.</li>
+</ul>
+<h2 class="sec">Q7. Integration testing approaches: Top-down and Bottom-up</h2>
+<h3>What is integration testing?</h3>
+<ul>
+<li>Unit-tested modules are combined and tested as a group.</li>
+<li>The goal is to find <strong>interface defects</strong>: wrong parameters, data loss between modules, and timing problems.</li>
+</ul>
+<p><strong>Approaches</strong></p>
+<ul>
+<li><strong>Big-bang:</strong> all modules are combined at once.</li>
+<li><strong>Incremental:</strong> modules are added one at a time. There are three kinds:<ul>
+<li>top-down,</li>
+<li>bottom-up,</li>
+<li>sandwich (hybrid).</li>
+</ul>
+</li>
+</ul>
+<p>Two kinds of dummy programs are used:</p>
+<ul>
+<li><strong>Stub:</strong> a dummy <em>called</em> module. It stands in for a lower-level module that is not ready yet, and is used in top-down integration.</li>
+<li><strong>Driver:</strong> a dummy <em>calling</em> module. It stands in for a higher-level module, calls the module under test and passes it data. It is used in bottom-up integration.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 220" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><text x="160" y="18" text-anchor="middle" font-size="13" fill="#222" font-weight="bold">Top-down integration</text><line x1="160" y1="68" x2="60" y2="100" stroke="#555" stroke-width="1.5"/><line x1="160" y1="68" x2="160" y2="100" stroke="#555" stroke-width="1.5"/><line x1="160" y1="68" x2="260" y2="100" stroke="#555" stroke-width="1.5"/><line x1="60" y1="128" x2="34" y2="160" stroke="#555" stroke-width="1.5"/><line x1="60" y1="128" x2="106" y2="160" stroke="#555" stroke-width="1.5"/><line x1="260" y1="128" x2="260" y2="160" stroke="#555" stroke-width="1.5"/><rect x="132" y="40" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="160" y="59" text-anchor="middle" font-size="12" fill="#222">M1</text><rect x="32" y="100" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="119" text-anchor="middle" font-size="12" fill="#222">M2</text><rect x="132" y="100" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="160" y="119" text-anchor="middle" font-size="12" fill="#222">M3</text><rect x="232" y="100" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="260" y="119" text-anchor="middle" font-size="12" fill="#222">M4</text><rect x="6" y="160" width="56" height="28" rx="5" fill="#fff6e0" stroke="#3b6fd4" stroke-width="1.4" stroke-dasharray="4,3"/><text x="34" y="179" text-anchor="middle" font-size="12" fill="#222">M5</text><rect x="78" y="160" width="56" height="28" rx="5" fill="#fff6e0" stroke="#3b6fd4" stroke-width="1.4" stroke-dasharray="4,3"/><text x="106" y="179" text-anchor="middle" font-size="12" fill="#222">M6</text><rect x="232" y="160" width="56" height="28" rx="5" fill="#fff6e0" stroke="#3b6fd4" stroke-width="1.4" stroke-dasharray="4,3"/><text x="260" y="179" text-anchor="middle" font-size="12" fill="#222">M7</text><line x1="318" y1="45" x2="318" y2="185" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="520" y="18" text-anchor="middle" font-size="13" fill="#222" font-weight="bold">Bottom-up integration</text><line x1="520" y1="68" x2="420" y2="100" stroke="#555" stroke-width="1.5"/><line x1="520" y1="68" x2="520" y2="100" stroke="#555" stroke-width="1.5"/><line x1="520" y1="68" x2="620" y2="100" stroke="#555" stroke-width="1.5"/><line x1="420" y1="128" x2="394" y2="160" stroke="#555" stroke-width="1.5"/><line x1="420" y1="128" x2="466" y2="160" stroke="#555" stroke-width="1.5"/><line x1="620" y1="128" x2="620" y2="160" stroke="#555" stroke-width="1.5"/><rect x="492" y="40" width="56" height="28" rx="5" fill="#fff6e0" stroke="#3b6fd4" stroke-width="1.4" stroke-dasharray="4,3"/><text x="520" y="59" text-anchor="middle" font-size="12" fill="#222">M1</text><rect x="392" y="100" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="420" y="119" text-anchor="middle" font-size="12" fill="#222">M2</text><rect x="492" y="100" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="520" y="119" text-anchor="middle" font-size="12" fill="#222">M3</text><rect x="592" y="100" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="620" y="119" text-anchor="middle" font-size="12" fill="#222">M4</text><rect x="366" y="160" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="394" y="179" text-anchor="middle" font-size="12" fill="#222">M5</text><rect x="438" y="160" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="466" y="179" text-anchor="middle" font-size="12" fill="#222">M6</text><rect x="592" y="160" width="56" height="28" rx="5" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="620" y="179" text-anchor="middle" font-size="12" fill="#222">M7</text><line x1="678" y1="185" x2="678" y2="45" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="160" y="210" text-anchor="middle" font-size="11" fill="#b7791f" font-style="italic">dashed lower modules = STUBS (called programs)</text><text x="520" y="210" text-anchor="middle" font-size="11" fill="#b7791f" font-style="italic">dashed top module = DRIVER (calling program)</text></svg><figcaption>Fig 7.1 – Top-down vs bottom-up integration on the same module hierarchy</figcaption></figure>
+<h3>Top-down integration</h3>
+<ol>
+<li>Testing starts at the <strong>main control module (M1)</strong>. Stubs replace all the modules directly below it.</li>
+<li>Stubs are replaced by real modules one at a time, moving downward. The order can be:<ul>
+<li><strong>depth-first:</strong> M1 → M2 → M5 → M6 → M3 → M4 → M7, or</li>
+<li><strong>breadth-first:</strong> M1 → M2 → M3 → M4 → M5 → M6 → M7.</li>
+</ul>
+</li>
+<li>Tests are run after each module is added. <strong>Regression testing</strong> checks that nothing that worked before is now broken.</li>
+</ol>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>Major control and decision points are tested early.</li>
+<li>An early skeleton or prototype of the system is available to show users.</li>
+<li>No drivers are needed.</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>Many stubs are needed, and writing them is hard.</li>
+<li>Lower-level modules are tested late and less thoroughly.</li>
+</ul>
+<h3>Bottom-up integration</h3>
+<ol>
+<li>The lowest-level modules (M5, M6, M7) are combined into <strong>clusters (builds)</strong> that perform a sub-function.</li>
+<li>A <strong>driver</strong> is written for each cluster to control test input and output.</li>
+<li>Each cluster is tested.</li>
+<li>Drivers are removed and clusters are combined moving upward until the main module M1 is reached.</li>
+</ol>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>No stubs are needed.</li>
+<li>Low-level utility modules, which are often critical, are tested thoroughly.</li>
+<li>Test conditions are easier to create.</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>The program as a whole does not exist until the last module is added.</li>
+<li>Top-level design and control flaws are found late.</li>
+<li>Drivers have to be written.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th>Top-down</th>
+<th>Bottom-up</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Starts from</td>
+<td>Main (top) module</td>
+<td>Lowest-level modules</td>
+</tr>
+<tr>
+<td>Dummy module</td>
+<td>Stubs</td>
+<td>Drivers</td>
+</tr>
+<tr>
+<td>Early prototype</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Finds design errors</td>
+<td>Early</td>
+<td>Late</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Systems where top-level control matters most</td>
+<td>Systems built from reusable low-level components</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sandwich (hybrid) integration</strong> combines both: top-down for the upper levels and bottom-up for the lower levels, meeting at a middle layer.</p>
+<h2 class="sec">Q8. System testing, its types, and Alpha and Beta testing</h2>
+<h3>What is system testing?</h3>
+<ul>
+<li>System testing tests the <strong>complete, integrated system</strong> against its <strong>specified requirements</strong> (the SRS), both functional and non-functional.</li>
+<li>It is <strong>black-box</strong> testing.</li>
+<li>It is done by an independent test team, in an environment as close to production as possible.</li>
+<li>It comes <strong>after integration testing and before acceptance testing</strong>.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 170" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="270" y="65" width="160" height="40" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="350.0" y="89.0" text-anchor="middle" font-size="13"  font-weight="bold">System Testing</text><rect x="10" y="5" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="85.0" y="25.0" text-anchor="middle" font-size="12" >Functional</text><line x1="85" y1="37" x2="350" y2="65" stroke="#555" stroke-width="1.5"/><rect x="185" y="5" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="260.0" y="25.0" text-anchor="middle" font-size="12" >Performance</text><line x1="260" y1="37" x2="350" y2="65" stroke="#555" stroke-width="1.5"/><rect x="360" y="5" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="435.0" y="25.0" text-anchor="middle" font-size="12" >Load / Stress</text><line x1="435" y1="37" x2="350" y2="65" stroke="#555" stroke-width="1.5"/><rect x="535" y="5" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="610.0" y="25.0" text-anchor="middle" font-size="12" >Security</text><line x1="610" y1="37" x2="350" y2="65" stroke="#555" stroke-width="1.5"/><rect x="10" y="133" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="85.0" y="153.0" text-anchor="middle" font-size="12" >Recovery</text><line x1="85" y1="133" x2="350" y2="105" stroke="#555" stroke-width="1.5"/><rect x="185" y="133" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="260.0" y="153.0" text-anchor="middle" font-size="12" >Usability</text><line x1="260" y1="133" x2="350" y2="105" stroke="#555" stroke-width="1.5"/><rect x="360" y="133" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="435.0" y="153.0" text-anchor="middle" font-size="12" >Compatibility</text><line x1="435" y1="133" x2="350" y2="105" stroke="#555" stroke-width="1.5"/><rect x="535" y="133" width="150" height="32" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="610.0" y="153.0" text-anchor="middle" font-size="12" >Regression</text><line x1="610" y1="133" x2="350" y2="105" stroke="#555" stroke-width="1.5"/></svg><figcaption>Fig 8.1 – Common types of system testing</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Functional testing</strong></td>
+<td>Every function works as described in the SRS.</td>
+</tr>
+<tr>
+<td><strong>Performance testing</strong></td>
+<td>Response time, throughput and resource use under expected load.</td>
+</tr>
+<tr>
+<td><strong>Load testing</strong></td>
+<td>Behaviour at the expected peak number of users or transactions.</td>
+</tr>
+<tr>
+<td><strong>Stress testing</strong></td>
+<td>Behaviour <strong>beyond</strong> the limits (abnormal load). Finds the breaking point and checks that the system recovers gracefully.</td>
+</tr>
+<tr>
+<td><strong>Security testing</strong></td>
+<td>Protection against unauthorised access. Checks confidentiality, integrity and authentication.</td>
+</tr>
+<tr>
+<td><strong>Recovery testing</strong></td>
+<td>The software is forced to fail (crash, power loss), then the test checks that it recovers properly and data is intact.</td>
+</tr>
+<tr>
+<td><strong>Usability testing</strong></td>
+<td>How easy the system is to learn and use, and how consistent its UI is.</td>
+</tr>
+<tr>
+<td><strong>Compatibility testing</strong></td>
+<td>The system works on different operating systems, browsers, devices and networks.</td>
+</tr>
+<tr>
+<td><strong>Regression testing</strong></td>
+<td>Changes or fixes have not broken features that already worked.</td>
+</tr>
+<tr>
+<td><strong>Installation testing</strong></td>
+<td>Install, upgrade and uninstall work correctly.</td>
+</tr>
+<tr>
+<td><strong>Volume testing</strong></td>
+<td>Behaviour with very large amounts of data.</td>
+</tr>
+</tbody>
+</table>
+<h3>Alpha and Beta testing (types of acceptance testing)</h3>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 68" width="100%" style="max-width:690px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="5" y="10" width="150" height="48" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="80.0" y="30.5" text-anchor="middle" font-size="12" >Development</text><text x="80.0" y="45.5" text-anchor="middle" font-size="12" >& System Test</text><line x1="155" y1="34" x2="180" y2="34" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="180" y="10" width="150" height="48" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="255.0" y="30.5" text-anchor="middle" font-size="12" >Alpha Test</text><text x="255.0" y="45.5" text-anchor="middle" font-size="12" >(in-house, dev site)</text><line x1="330" y1="34" x2="355" y2="34" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="355" y="10" width="150" height="48" rx="7" fill="#f1e8fb" stroke="#6a3fb5" stroke-width="1.4"/><text x="430.0" y="30.5" text-anchor="middle" font-size="12" >Beta Test</text><text x="430.0" y="45.5" text-anchor="middle" font-size="12" >(real users, real env.)</text><line x1="505" y1="34" x2="530" y2="34" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="530" y="10" width="150" height="48" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="605.0" y="30.5" text-anchor="middle" font-size="12" >Release to</text><text x="605.0" y="45.5" text-anchor="middle" font-size="12" >Market</text></svg><figcaption>Fig 8.2 – Where alpha and beta testing fit before release</figcaption></figure>
+<p><strong>Alpha testing</strong></p>
+<ul>
+<li>Done at the <strong>developer's site</strong> by internal staff or potential users, with developers watching.</li>
+<li>It takes place in a controlled lab environment, before the product is released to outside users.</li>
+</ul>
+<p><strong>Beta testing</strong></p>
+<ul>
+<li>Done at the <strong>customer's site</strong> by <strong>real end users</strong>, in their real environment.</li>
+<li>Developers are not present.</li>
+<li>Users report problems back. This is also called <em>field testing</em>, as in "beta versions" of apps.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th>Alpha testing</th>
+<th>Beta testing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location</td>
+<td>Developer's site</td>
+<td>User's / customer's site</td>
+</tr>
+<tr>
+<td>Performed by</td>
+<td>Internal testers, staff, selected users</td>
+<td>Real end users</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>Controlled (lab)</td>
+<td>Uncontrolled (real world)</td>
+</tr>
+<tr>
+<td>Developer present</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Testing type</td>
+<td>White box and black box</td>
+<td>Black box only</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>Long, many cycles</td>
+<td>Short, a few weeks</td>
+</tr>
+<tr>
+<td>Issues found</td>
+<td>Bugs, crashes, missing features</td>
+<td>Usability, compatibility, real-use feedback</td>
+</tr>
+<tr>
+<td>Comes</td>
+<td>First</td>
+<td>After alpha, just before release</td>
+</tr>
+</tbody>
+</table>
+<h2 class="sec">Q9. Smoke testing and its benefits</h2>
+<h3>Definition</h3>
+<ul>
+<li><strong>Smoke testing</strong>, also called <strong>Build Verification Testing (BVT)</strong>, is a quick, shallow set of tests run on every new build.</li>
+<li>It checks that the <strong>most important functions work</strong> and that the build is <strong>stable enough</strong> for detailed testing.</li>
+<li>The name comes from hardware testing: switch the device on, and if it does not catch fire (smoke), carry on testing.</li>
+<li>It answers one question: <em>"Is the build testable at all?"</em></li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 140" width="100%" style="max-width:690px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="45" width="120" height="40" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="70.0" y="61.5" text-anchor="middle" font-size="12" >New Build</text><text x="70.0" y="76.5" text-anchor="middle" font-size="12" >from Dev</text><line x1="130" y1="65" x2="180" y2="65" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><polygon points="260,25 340,65 260,105 180,65" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="260" y="62" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Smoke</text><text x="260" y="77" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Test</text><line x1="340" y1="65" x2="440" y2="65" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="390.0" y="60.0" text-anchor="middle" font-size="11" fill="#333">PASS (stable)</text><rect x="440" y="45" width="240" height="40" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="560.0" y="61.5" text-anchor="middle" font-size="12" >Detailed testing: functional,</text><text x="560.0" y="76.5" text-anchor="middle" font-size="12" >regression, system</text><line x1="260" y1="105" x2="260" y2="130" stroke="#555" stroke-width="1.5"/><line x1="260" y1="130" x2="70" y2="130" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="165.0" y="125.0" text-anchor="middle" font-size="11" fill="#333">FAIL – build rejected</text><line x1="70" y1="130" x2="70" y2="85" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/></svg><figcaption>Fig 9.1 – Smoke test as the gate for every new build</figcaption></figure>
+<h3>Characteristics</h3>
+<ul>
+<li>It covers the main end-to-end flows <strong>broadly but shallowly</strong>. Example for an e-commerce site: launch the app → log in → search → add to cart → check out.</li>
+<li>It is run on <strong>every new build</strong>, usually daily, and is often automated.</li>
+<li>If it fails, the build is <strong>rejected</strong> and returned to the developers. No time is spent on detailed testing.</li>
+<li>It is usually done by testers. Developers can also run it before handing over the build.</li>
+</ul>
+<p>Smoke testing is often confused with sanity testing:</p>
+<table>
+<thead>
+<tr>
+<th>Smoke testing</th>
+<th>Sanity testing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checks the stability of the whole build</td>
+<td>Checks that a specific fix or change works</td>
+</tr>
+<tr>
+<td>Broad and shallow</td>
+<td>Narrow and deep</td>
+</tr>
+<tr>
+<td>Done on early or unstable builds</td>
+<td>Done on relatively stable builds</td>
+</tr>
+<tr>
+<td>Usually scripted or automated</td>
+<td>Usually unscripted</td>
+</tr>
+</tbody>
+</table>
+<h3>Benefits of smoke testing</h3>
+<ol>
+<li><strong>Finds integration and serious defects early</strong>, as soon as a build is made.</li>
+<li><strong>Saves time and effort</strong>, because testers do not waste a full test cycle on a broken build.</li>
+<li><strong>Lowers integration risk.</strong> Daily builds plus a smoke test catch problems while the changes are still small.</li>
+<li><strong>Gives quick feedback</strong> to developers about the health of the build.</li>
+<li><strong>Improves quality and confidence</strong>, because only stable builds move on to further testing.</li>
+<li><strong>Easy to automate</strong> and to run in CI/CD pipelines.</li>
+<li><strong>Makes progress easier to see</strong>, because each day's build is shown to be working.</li>
+</ol>
+<h2 class="sec">Q10. Cause and effect diagram, Pareto diagram and Scatter diagram</h2>
+<p>These are three of the <strong>seven basic quality-control tools</strong>. The others are check sheet, histogram, control chart and stratification or flowchart.</p>
+<h3>1. Cause and effect diagram (Ishikawa / fishbone diagram)</h3>
+<ul>
+<li>The cause and effect diagram was developed by <strong>Kaoru Ishikawa</strong>.</li>
+<li>It shows <strong>all possible causes</strong> of a problem (the effect) in an organised way, so that the <strong>root cause</strong> can be found.</li>
+<li>The effect is written at the "head" of the fish. The main categories of causes form the "bones". Common categories are:<ul>
+<li><strong>6 M's:</strong> Man, Machine, Method, Material, Measurement, Mother-nature (environment).</li>
+<li>For software: People, Process, Tools, Requirements, Environment, Methods.</li>
+</ul>
+</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 255" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="30" y1="130" x2="560" y2="130" stroke="#333" stroke-width="3"/><rect x="560" y="103" width="130" height="54" rx="7" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="625.0" y="126.0" text-anchor="middle" font-size="13"  font-weight="bold">EFFECT:</text><text x="625.0" y="142.0" text-anchor="middle" font-size="13"  font-weight="bold">High defect rate</text><line x1="100" y1="30" x2="170" y2="128" stroke="#1a3f8f" stroke-width="2"/><text x="100" y="22" text-anchor="middle" font-size="13" fill="#1a3f8f" font-weight="bold">People</text><line x1="40.0" y1="65" x2="125.0" y2="65" stroke="#555" stroke-width="1"/><text x="113.0" y="62" text-anchor="end" font-size="10.5" fill="#222">Lack of training</text><line x1="63.571428571428555" y1="98" x2="148.57142857142856" y2="98" stroke="#555" stroke-width="1"/><text x="136.57142857142856" y="95" text-anchor="end" font-size="10.5" fill="#222">Inexperience</text><line x1="260" y1="30" x2="330" y2="128" stroke="#1a3f8f" stroke-width="2"/><text x="260" y="22" text-anchor="middle" font-size="13" fill="#1a3f8f" font-weight="bold">Process</text><line x1="200.0" y1="65" x2="285.0" y2="65" stroke="#555" stroke-width="1"/><text x="273.0" y="62" text-anchor="end" font-size="10.5" fill="#222">No reviews</text><line x1="223.57142857142856" y1="98" x2="308.57142857142856" y2="98" stroke="#555" stroke-width="1"/><text x="296.57142857142856" y="95" text-anchor="end" font-size="10.5" fill="#222">Tight schedule</text><line x1="420" y1="30" x2="490" y2="128" stroke="#1a3f8f" stroke-width="2"/><text x="420" y="22" text-anchor="middle" font-size="13" fill="#1a3f8f" font-weight="bold">Tools</text><line x1="360.0" y1="65" x2="445.0" y2="65" stroke="#555" stroke-width="1"/><text x="433.0" y="62" text-anchor="end" font-size="10.5" fill="#222">No automation</text><line x1="383.57142857142856" y1="98" x2="468.57142857142856" y2="98" stroke="#555" stroke-width="1"/><text x="456.57142857142856" y="95" text-anchor="end" font-size="10.5" fill="#222">Outdated tools</text><line x1="100" y1="230" x2="170" y2="132" stroke="#1a3f8f" stroke-width="2"/><text x="100" y="247" text-anchor="middle" font-size="13" fill="#1a3f8f" font-weight="bold">Requirements</text><line x1="61.428571428571445" y1="165" x2="146.42857142857144" y2="165" stroke="#555" stroke-width="1"/><text x="134.42857142857144" y="162" text-anchor="end" font-size="10.5" fill="#222">Unclear specs</text><line x1="37.85714285714286" y1="198" x2="122.85714285714286" y2="198" stroke="#555" stroke-width="1"/><text x="110.85714285714286" y="195" text-anchor="end" font-size="10.5" fill="#222">Frequent changes</text><line x1="260" y1="230" x2="330" y2="132" stroke="#1a3f8f" stroke-width="2"/><text x="260" y="247" text-anchor="middle" font-size="13" fill="#1a3f8f" font-weight="bold">Environment</text><line x1="221.42857142857144" y1="165" x2="306.42857142857144" y2="165" stroke="#555" stroke-width="1"/><text x="294.42857142857144" y="162" text-anchor="end" font-size="10.5" fill="#222">Unstable test env.</text><line x1="197.85714285714283" y1="198" x2="282.85714285714283" y2="198" stroke="#555" stroke-width="1"/><text x="270.85714285714283" y="195" text-anchor="end" font-size="10.5" fill="#222">Config mismatch</text><line x1="420" y1="230" x2="490" y2="132" stroke="#1a3f8f" stroke-width="2"/><text x="420" y="247" text-anchor="middle" font-size="13" fill="#1a3f8f" font-weight="bold">Methods</text><line x1="381.42857142857144" y1="165" x2="466.42857142857144" y2="165" stroke="#555" stroke-width="1"/><text x="454.42857142857144" y="162" text-anchor="end" font-size="10.5" fill="#222">Poor test design</text><line x1="357.85714285714283" y1="198" x2="442.85714285714283" y2="198" stroke="#555" stroke-width="1"/><text x="430.85714285714283" y="195" text-anchor="end" font-size="10.5" fill="#222">Low coverage</text></svg><figcaption>Fig 10.1 – Cause and effect (Ishikawa / fishbone) diagram</figcaption></figure>
+<p><strong>Steps to draw it</strong></p>
+<ol>
+<li>Write the problem (effect) in a box on the right and draw the main horizontal spine.</li>
+<li>Decide the main cause categories and draw them as bones joined to the spine.</li>
+<li>Brainstorm causes for each category and attach them as smaller branches.</li>
+<li>Keep asking <em>"Why?"</em> to break each cause down into sub-causes.</li>
+<li>Analyse the diagram and pick out the most likely root causes to check.</li>
+</ol>
+<p><strong>Uses:</strong> root-cause analysis, team brainstorming, deciding where to focus improvement.</p>
+<h3>2. Pareto diagram</h3>
+<ul>
+<li>A Pareto diagram is a <strong>bar chart with the bars sorted in descending order</strong> of frequency, plus a <strong>cumulative-percentage line</strong>.</li>
+<li>It is based on the <strong>Pareto principle (80/20 rule)</strong>: about <strong>80 % of problems come from 20 % of the causes</strong>.</li>
+<li>It shows the "vital few" causes to fix first, as opposed to the "trivial many".</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 255" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="60" y1="230" x2="620" y2="230" stroke="#555" stroke-width="1.5"/><line x1="60" y1="30" x2="60" y2="230" stroke="#555" stroke-width="1.5"/><line x1="620" y1="30" x2="620" y2="230" stroke="#555" stroke-width="1.5"/><line x1="55" y1="230" x2="60" y2="230" stroke="#555" stroke-width="1.5"/><text x="50" y="234" text-anchor="end" font-size="10" fill="#222">0</text><line x1="55" y1="190" x2="60" y2="190" stroke="#555" stroke-width="1.5"/><text x="50" y="194" text-anchor="end" font-size="10" fill="#222">10</text><line x1="55" y1="150" x2="60" y2="150" stroke="#555" stroke-width="1.5"/><text x="50" y="154" text-anchor="end" font-size="10" fill="#222">20</text><line x1="55" y1="110" x2="60" y2="110" stroke="#555" stroke-width="1.5"/><text x="50" y="114" text-anchor="end" font-size="10" fill="#222">30</text><line x1="55" y1="70" x2="60" y2="70" stroke="#555" stroke-width="1.5"/><text x="50" y="74" text-anchor="end" font-size="10" fill="#222">40</text><line x1="55" y1="30" x2="60" y2="30" stroke="#555" stroke-width="1.5"/><text x="50" y="34" text-anchor="end" font-size="10" fill="#222">50</text><line x1="620" y1="230" x2="625" y2="230" stroke="#555" stroke-width="1.5"/><text x="630" y="234" text-anchor="start" font-size="10" fill="#222">0%</text><line x1="620" y1="190" x2="625" y2="190" stroke="#555" stroke-width="1.5"/><text x="630" y="194" text-anchor="start" font-size="10" fill="#222">20%</text><line x1="620" y1="150" x2="625" y2="150" stroke="#555" stroke-width="1.5"/><text x="630" y="154" text-anchor="start" font-size="10" fill="#222">40%</text><line x1="620" y1="110" x2="625" y2="110" stroke="#555" stroke-width="1.5"/><text x="630" y="114" text-anchor="start" font-size="10" fill="#222">60%</text><line x1="620" y1="70" x2="625" y2="70" stroke="#555" stroke-width="1.5"/><text x="630" y="74" text-anchor="start" font-size="10" fill="#222">80%</text><line x1="620" y1="30" x2="625" y2="30" stroke="#555" stroke-width="1.5"/><text x="630" y="34" text-anchor="start" font-size="10" fill="#222">100%</text><rect x="76" y="50" width="80" height="180" fill="#7da2e8" stroke="#3b6fd4"/><text x="116" y="46" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">45</text><text x="116" y="246" text-anchor="middle" font-size="11" fill="#222">UI</text><rect x="188" y="110" width="80" height="120" fill="#7da2e8" stroke="#3b6fd4"/><text x="228" y="106" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">30</text><text x="228" y="246" text-anchor="middle" font-size="11" fill="#222">Functional</text><rect x="300" y="182" width="80" height="48" fill="#7da2e8" stroke="#3b6fd4"/><text x="340" y="178" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">12</text><text x="340" y="246" text-anchor="middle" font-size="11" fill="#222">Performance</text><rect x="412" y="198" width="80" height="32" fill="#7da2e8" stroke="#3b6fd4"/><text x="452" y="194" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">8</text><text x="452" y="246" text-anchor="middle" font-size="11" fill="#222">Security</text><rect x="524" y="210" width="80" height="20" fill="#7da2e8" stroke="#3b6fd4"/><text x="564" y="206" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">5</text><text x="564" y="246" text-anchor="middle" font-size="11" fill="#222">Docs</text><line x1="60" y1="70" x2="620" y2="70" stroke="#c62828" stroke-width="1.5" stroke-dasharray="5,3"/><text x="612" y="64" text-anchor="end" font-size="10" fill="#c62828">80% line</text><polyline points="116,140 228,80 340,56 452,40 564,30" fill="none" stroke="#b7791f" stroke-width="2"/><circle cx="116" cy="140" r="4" fill="#b7791f"/><circle cx="228" cy="80" r="4" fill="#b7791f"/><circle cx="340" cy="56" r="4" fill="#b7791f"/><circle cx="452" cy="40" r="4" fill="#b7791f"/><circle cx="564" cy="30" r="4" fill="#b7791f"/><text x="60" y="16" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">Defects</text><text x="625" y="16" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">Cum. %</text></svg><figcaption>Fig 10.2 – Pareto diagram of defects by category (bars) with cumulative % line</figcaption></figure>
+<p><strong>Steps to draw a Pareto diagram</strong></p>
+<ol>
+<li>Decide the problem and the categories of causes to compare, for example defect types.</li>
+<li>Choose the measure (frequency or cost) and the time period.</li>
+<li>Collect the data, for example using a check sheet.</li>
+<li>Sort the categories <strong>from largest to smallest</strong>.</li>
+<li>Calculate the <strong>percentage</strong> of each category and the <strong>cumulative percentage</strong>.</li>
+<li>Draw the left vertical axis (frequency) and the right vertical axis (0–100 %). Draw the horizontal axis with the categories.</li>
+<li>Draw the bars in descending order.</li>
+<li>Plot the cumulative percentages and join them into a line.</li>
+<li>Draw a line at 80 %. The categories to the left of where it meets the curve are the vital few.</li>
+</ol>
+<p>In the example: UI (45 %) and Functional (30 %) defects together make <strong>75 %</strong> of all defects. Fixing these two categories first gives the biggest gain.</p>
+<h3>3. Scatter diagram</h3>
+<ul>
+<li>A scatter diagram plots <strong>pairs of numeric data (X, Y)</strong> as points, to show whether two variables are <strong>related</strong>.</li>
+<li>Example: module size and number of defects.</li>
+<li>Possible patterns:<ul>
+<li>positive correlation (Y rises as X rises),</li>
+<li>negative correlation (Y falls as X rises),</li>
+<li>no correlation (random cloud),</li>
+<li>non-linear relationship.</li>
+</ul>
+</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 690 262" width="100%" style="max-width:690px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="60" y1="220" x2="650" y2="220" stroke="#555" stroke-width="1.5"/><line x1="60" y1="24" x2="60" y2="220" stroke="#555" stroke-width="1.5"/><line x1="60.0" y1="220" x2="60.0" y2="225" stroke="#555" stroke-width="1.5"/><text x="60.0" y="238" text-anchor="middle" font-size="10" fill="#222">0</text><line x1="176.0" y1="220" x2="176.0" y2="225" stroke="#555" stroke-width="1.5"/><text x="176.0" y="238" text-anchor="middle" font-size="10" fill="#222">10</text><line x1="292.0" y1="220" x2="292.0" y2="225" stroke="#555" stroke-width="1.5"/><text x="292.0" y="238" text-anchor="middle" font-size="10" fill="#222">20</text><line x1="408.0" y1="220" x2="408.0" y2="225" stroke="#555" stroke-width="1.5"/><text x="408.0" y="238" text-anchor="middle" font-size="10" fill="#222">30</text><line x1="524.0" y1="220" x2="524.0" y2="225" stroke="#555" stroke-width="1.5"/><text x="524.0" y="238" text-anchor="middle" font-size="10" fill="#222">40</text><line x1="640.0" y1="220" x2="640.0" y2="225" stroke="#555" stroke-width="1.5"/><text x="640.0" y="238" text-anchor="middle" font-size="10" fill="#222">50</text><line x1="55" y1="220" x2="60" y2="220" stroke="#555" stroke-width="1.5"/><text x="50" y="224" text-anchor="end" font-size="10" fill="#222">0</text><line x1="55" y1="180" x2="60" y2="180" stroke="#555" stroke-width="1.5"/><text x="50" y="184" text-anchor="end" font-size="10" fill="#222">20</text><line x1="55" y1="140" x2="60" y2="140" stroke="#555" stroke-width="1.5"/><text x="50" y="144" text-anchor="end" font-size="10" fill="#222">40</text><line x1="55" y1="100" x2="60" y2="100" stroke="#555" stroke-width="1.5"/><text x="50" y="104" text-anchor="end" font-size="10" fill="#222">60</text><line x1="55" y1="60" x2="60" y2="60" stroke="#555" stroke-width="1.5"/><text x="50" y="64" text-anchor="end" font-size="10" fill="#222">80</text><line x1="55" y1="20" x2="60" y2="20" stroke="#555" stroke-width="1.5"/><text x="50" y="24" text-anchor="end" font-size="10" fill="#222">100</text><line x1="60.0" y1="212" x2="640.0" y2="28" stroke="#c62828" stroke-width="1.5" stroke-dasharray="5,3"/><circle cx="118.0" cy="196" r="4.5" fill="#3b6fd4"/><circle cx="152.8" cy="190" r="4.5" fill="#3b6fd4"/><circle cx="176.0" cy="176" r="4.5" fill="#3b6fd4"/><circle cx="199.2" cy="180" r="4.5" fill="#3b6fd4"/><circle cx="234.0" cy="160" r="4.5" fill="#3b6fd4"/><circle cx="268.8" cy="152" r="4.5" fill="#3b6fd4"/><circle cx="292.0" cy="144" r="4.5" fill="#3b6fd4"/><circle cx="315.2" cy="130" r="4.5" fill="#3b6fd4"/><circle cx="350.0" cy="124" r="4.5" fill="#3b6fd4"/><circle cx="384.8" cy="116" r="4.5" fill="#3b6fd4"/><circle cx="408.0" cy="100" r="4.5" fill="#3b6fd4"/><circle cx="442.8" cy="104" r="4.5" fill="#3b6fd4"/><circle cx="466.0" cy="88" r="4.5" fill="#3b6fd4"/><circle cx="500.8" cy="76" r="4.5" fill="#3b6fd4"/><circle cx="524.0" cy="70" r="4.5" fill="#3b6fd4"/><circle cx="558.8" cy="60" r="4.5" fill="#3b6fd4"/><circle cx="582.0" cy="44" r="4.5" fill="#3b6fd4"/><circle cx="616.8" cy="40" r="4.5" fill="#3b6fd4"/><text x="355" y="256" text-anchor="middle" font-size="11" fill="#222" font-weight="bold">Module size (KLOC)</text><text x="66" y="14" text-anchor="start" font-size="11" fill="#222" font-weight="bold">Defects</text><text x="540" y="150" text-anchor="middle" font-size="11" fill="#c62828" font-style="italic">positive correlation</text></svg><figcaption>Fig 10.3 – Scatter diagram: module size vs number of defects</figcaption></figure>
+<p><strong>Steps</strong></p>
+<ol>
+<li>Collect pairs of data for the two variables (at least 20–30 pairs).</li>
+<li>Put the suspected cause on the X-axis and the effect on the Y-axis.</li>
+<li>Plot each pair as a point.</li>
+<li>Look at the pattern, and draw a trend line if needed.</li>
+</ol>
+<p><strong>Note:</strong> correlation does not prove causation.</p>
+<p><strong>Uses:</strong> testing a suspected cause from the fishbone diagram, and estimating effort or defects from size.</p>
+<h2 class="sec">Q11. Cyclomatic Complexity with an example</h2>
+<h3>Definition</h3>
+<ul>
+<li><strong>Cyclomatic complexity V(G)</strong> was proposed by <strong>Thomas McCabe (1976)</strong>.</li>
+<li>It is a software metric that measures the <strong>logical complexity</strong> of a program.</li>
+<li>It equals the <strong>number of linearly independent paths</strong> through the program's control flow graph (CFG).</li>
+<li>This gives:<ul>
+<li>the <strong>minimum number of test cases</strong> needed for basis path testing, which guarantees full statement and branch coverage,</li>
+<li>an indication of how hard the code is to understand, test and maintain.</li>
+</ul>
+</li>
+</ul>
+<h3>Three ways to calculate it</h3>
+<ol>
+<li><strong>V(G) = E − N + 2</strong>, where E = number of edges and N = number of nodes.</li>
+<li><strong>V(G) = P + 1</strong>, where P = number of predicate (decision) nodes.</li>
+<li><strong>V(G) = number of regions</strong> of the flow graph, counting the outside region.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>V(G)</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 – 10</td>
+<td>Simple program, low risk</td>
+</tr>
+<tr>
+<td>11 – 20</td>
+<td>More complex, moderate risk</td>
+</tr>
+<tr>
+<td>21 – 50</td>
+<td>Complex, high risk</td>
+</tr>
+<tr>
+<td>&gt; 50</td>
+<td>Untestable, very high risk</td>
+</tr>
+</tbody>
+</table>
+<h3>Example</h3>
+<pre><code>1  i = 1;
+2  while (i &lt;= n) {
+3      if (i % 2 == 0)
+4          print(&quot;even&quot;);
+       else
+5          print(&quot;odd&quot;);
+6      i = i + 1;
+   }
+7  return;
+</code></pre>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 330" width="100%" style="max-width:340px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="150.0" y1="47.0" x2="150.0" y2="76.0" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="150.0" y1="112.0" x2="150.0" y2="146.0" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="137.97918471982868" y1="177.02081528017132" x2="93.4350288425444" y2="221.5649711574556" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="162.02081528017132" y1="177.02081528017132" x2="206.5649711574556" y2="221.5649711574556" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="92.0208152801713" y1="247.02081528017132" x2="136.5649711574556" y2="291.5649711574556" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="207.97918471982868" y1="247.02081528017132" x2="163.4350288425444" y2="291.5649711574556" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="167.0" y1="95.0" x2="271.0" y2="95.0" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><path d="M134,300 C 0,300 0,100 131,98" fill="none" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><circle cx="150" cy="30" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="150" y="34" text-anchor="middle" font-size="13">1</text><circle cx="150" cy="95" r="17" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="150" y="99" text-anchor="middle" font-size="13">2</text><circle cx="150" cy="165" r="17" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="150" y="169" text-anchor="middle" font-size="13">3</text><circle cx="80" cy="235" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="80" y="239" text-anchor="middle" font-size="13">4</text><circle cx="220" cy="235" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="220" y="239" text-anchor="middle" font-size="13">5</text><circle cx="150" cy="305" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="150" y="309" text-anchor="middle" font-size="13">6</text><circle cx="290" cy="95" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="290" y="99" text-anchor="middle" font-size="13">7</text><text x="150" y="240" text-anchor="middle" font-size="12" fill="#c62828" font-weight="bold">R1</text><text x="85" y="175" text-anchor="middle" font-size="12" fill="#c62828" font-weight="bold">R2</text><text x="300" y="260" text-anchor="middle" font-size="12" fill="#c62828" font-weight="bold">R3</text><text x="215" y="88" text-anchor="middle" font-size="10" fill="#555">false</text><text x="160" y="132" text-anchor="start" font-size="10" fill="#555">true</text></svg><figcaption>Fig 11.1 – Control flow graph (shaded nodes = predicate nodes, R = regions)</figcaption></figure>
+<p><strong>Edges:</strong> 1→2, 2→3, 2→7, 3→4, 3→5, 4→6, 5→6, 6→2. That is <strong>E = 8</strong>.
+<strong>Nodes:</strong> 1 to 7. That is <strong>N = 7</strong>.
+<strong>Predicate nodes:</strong> node 2 (<code>while</code>) and node 3 (<code>if</code>). That is <strong>P = 2</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Calculation</th>
+<th>V(G)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E − N + 2</td>
+<td>8 − 7 + 2</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>P + 1</td>
+<td>2 + 1</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>Regions</td>
+<td>R1, R2, R3</td>
+<td><strong>3</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Independent paths, which give the 3 test cases:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Route</th>
+<th>Test input</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path 1</td>
+<td>1 → 2 → 7</td>
+<td>n = 0 (loop not entered)</td>
+</tr>
+<tr>
+<td>Path 2</td>
+<td>1 → 2 → 3 → 4 → 6 → 2 → 7</td>
+<td>n = 2 (the pass with i = 2 takes the even branch)</td>
+</tr>
+<tr>
+<td>Path 3</td>
+<td>1 → 2 → 3 → 5 → 6 → 2 → 7</td>
+<td>n = 1 (i = 1 is odd)</td>
+</tr>
+</tbody>
+</table>
+<p>So <strong>3 test cases</strong> are enough to execute every statement and every branch at least once.</p>
+<h2 class="sec">Q12. Quality Costs: types and how to measure them</h2>
+<h3>Definition</h3>
+<ul>
+<li><strong>Cost of Quality (CoQ)</strong> is the total cost of everything an organisation spends to <strong>achieve quality</strong>, plus everything it loses because of <strong>poor quality</strong>.</li>
+<li>Philip Crosby: <em>"Quality is free. It's not quality that's expensive, but the lack of it."</em></li>
+<li>In short: <strong>CoQ = Cost of Conformance + Cost of Non-conformance.</strong></li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 230" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="275" y="8" width="150" height="34" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="350.0" y="29.0" text-anchor="middle" font-size="13"  font-weight="bold">Cost of Quality</text><line x1="350" y1="42" x2="350" y2="60" stroke="#555" stroke-width="1.5"/><line x1="180" y1="60" x2="520" y2="60" stroke="#555" stroke-width="1.5"/><line x1="180" y1="60" x2="180" y2="75" stroke="#555" stroke-width="1.5"/><line x1="520" y1="60" x2="520" y2="75" stroke="#555" stroke-width="1.5"/><rect x="70" y="75" width="220" height="42" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="180.0" y="92.5" text-anchor="middle" font-size="12" >Cost of Conformance</text><text x="180.0" y="107.5" text-anchor="middle" font-size="12" >(cost of good quality)</text><rect x="410" y="75" width="220" height="42" rx="7" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="520.0" y="92.5" text-anchor="middle" font-size="12" >Cost of Non-conformance</text><text x="520.0" y="107.5" text-anchor="middle" font-size="12" >(cost of poor quality)</text><line x1="180" y1="117" x2="180" y2="135" stroke="#555" stroke-width="1.5"/><line x1="90" y1="135" x2="270" y2="135" stroke="#555" stroke-width="1.5"/><line x1="520" y1="117" x2="520" y2="135" stroke="#555" stroke-width="1.5"/><line x1="430" y1="135" x2="610" y2="135" stroke="#555" stroke-width="1.5"/><line x1="90" y1="135" x2="90" y2="150" stroke="#555" stroke-width="1.5"/><rect x="15" y="150" width="150" height="30" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="90.0" y="169.0" text-anchor="middle" font-size="12"  font-weight="bold">Prevention</text><text x="90" y="198" text-anchor="middle" font-size="10.5" fill="#444">training, planning,</text><text x="90" y="212" text-anchor="middle" font-size="10.5" fill="#444">standards</text><line x1="270" y1="135" x2="270" y2="150" stroke="#555" stroke-width="1.5"/><rect x="195" y="150" width="150" height="30" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="270.0" y="169.0" text-anchor="middle" font-size="12"  font-weight="bold">Appraisal</text><text x="270" y="198" text-anchor="middle" font-size="10.5" fill="#444">reviews, testing,</text><text x="270" y="212" text-anchor="middle" font-size="10.5" fill="#444">audits</text><line x1="430" y1="135" x2="430" y2="150" stroke="#555" stroke-width="1.5"/><rect x="355" y="150" width="150" height="30" rx="7" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="430.0" y="169.0" text-anchor="middle" font-size="12"  font-weight="bold">Internal Failure</text><text x="430" y="198" text-anchor="middle" font-size="10.5" fill="#444">rework, re-test,</text><text x="430" y="212" text-anchor="middle" font-size="10.5" fill="#444">debugging</text><line x1="610" y1="135" x2="610" y2="150" stroke="#555" stroke-width="1.5"/><rect x="535" y="150" width="150" height="30" rx="7" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="610.0" y="169.0" text-anchor="middle" font-size="12"  font-weight="bold">External Failure</text><text x="610" y="198" text-anchor="middle" font-size="10.5" fill="#444">support, warranty,</text><text x="610" y="212" text-anchor="middle" font-size="10.5" fill="#444">recalls, penalties</text></svg><figcaption>Fig 12.1 – Classification of quality costs</figcaption></figure>
+<h3>Types of quality costs</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Meaning</th>
+<th>Software examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Prevention costs</strong></td>
+<td>Money spent so that defects do not happen</td>
+<td>Training, quality planning, process improvement, standards, formal technical reviews of plans, tool selection</td>
+</tr>
+<tr>
+<td><strong>2. Appraisal costs</strong></td>
+<td>Money spent to find defects by measuring and checking the product</td>
+<td>Reviews and inspections, testing (unit to acceptance), test tools and environment, audits, equipment calibration</td>
+</tr>
+<tr>
+<td><strong>3. Internal failure costs</strong></td>
+<td>Cost of defects found <strong>before</strong> the product reaches the customer</td>
+<td>Rework, re-testing, debugging, scrap, failure analysis, schedule delays</td>
+</tr>
+<tr>
+<td><strong>4. External failure costs</strong></td>
+<td>Cost of defects found <strong>after</strong> release, by the customer</td>
+<td>Help-desk and support, patches, warranty, refunds, penalties and lawsuits, lost customers and reputation</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Prevention and appraisal costs form the <strong>cost of conformance</strong>.</li>
+<li>Internal and external failure costs form the <strong>cost of non-conformance</strong>.</li>
+<li>The cost of fixing a defect <strong>rises steeply</strong> from prevention, to appraisal, to internal failure, to external failure.</li>
+<li>Spending a little more on prevention and appraisal greatly reduces failure costs.</li>
+</ul>
+<h3>How to measure quality costs</h3>
+<ol>
+<li><strong>Identify cost elements.</strong> List the activities under each of the four categories for your organisation.</li>
+<li><strong>Collect the data.</strong> Use time sheets (effort spent on reviews, testing and rework), defect-tracking systems, help-desk logs, warranty and refund records, and finance records.</li>
+<li><strong>Convert to money.</strong> Multiply effort hours by the cost rate, then add tool, licence, equipment and penalty costs.</li>
+<li><strong>Add up each category:</strong><ul>
+<li>Prevention cost = Σ (prevention activities)</li>
+<li>Appraisal cost = Σ (appraisal activities)</li>
+<li>Internal failure cost = Σ (rework, re-test and so on before release)</li>
+<li>External failure cost = Σ (support, fixes, penalties and so on after release)</li>
+<li><strong>Total CoQ</strong> = Prevention + Appraisal + Internal failure + External failure</li>
+</ul>
+</li>
+<li><strong>Normalise and compare.</strong> Express CoQ as a <strong>percentage of sales or of project cost</strong>, or as cost per defect. Track it over time and against benchmarks.</li>
+<li><strong>Analyse.</strong> A Pareto analysis of the failure costs shows where more prevention would pay off most.</li>
+</ol>
+<p><strong>Example:</strong> Prevention ₹1 L, Appraisal ₹3 L, Internal failure ₹4 L, External failure ₹2 L.</p>
+<ul>
+<li>Total CoQ = <strong>₹10 L</strong>.</li>
+<li>Of this, ₹4 L is the cost of good quality and ₹6 L is the cost of poor quality.</li>
+<li>The goal is to shift spending towards prevention.</li>
+</ul>
+<h2 class="sec">Q13. Software reliability: elements, factors and metrics</h2>
+<h3>Definition</h3>
+<ul>
+<li><strong>Software reliability</strong> is <em>the probability that the software will work without failure, in a specified environment, for a specified period of time</em> (IEEE).</li>
+<li>Example: a reliability of 0.96 over 100 hours means that in 96 out of 100 such periods the program runs without failure.</li>
+</ul>
+<h3>Elements of software reliability</h3>
+<ol>
+<li><strong>Fault avoidance (prevention):</strong> stop faults from entering the system, using good requirements, design methods, standards and reviews.</li>
+<li><strong>Fault removal (detection):</strong> find and remove faults, using verification, validation and testing.</li>
+<li><strong>Fault tolerance:</strong> keep the system working even when faults are present, using redundancy, exception handling, checkpoints and recovery.</li>
+<li><strong>Fault forecasting:</strong> estimate how many faults remain and how reliable the system will be in future, using reliability models and failure data.</li>
+</ol>
+<p>Related attributes:</p>
+<ul>
+<li><strong>Availability:</strong> the system is ready when needed.</li>
+<li><strong>Maintainability:</strong> the system is easy to repair.</li>
+<li><strong>Safety</strong> and <strong>security.</strong></li>
+</ul>
+<h3>Factors affecting software reliability</h3>
+<table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Size and complexity</strong> of the code</td>
+<td>More code and higher complexity mean more chances of faults.</td>
+</tr>
+<tr>
+<td><strong>Quality of requirements and design</strong></td>
+<td>Unclear or changing requirements lead to defects.</td>
+</tr>
+<tr>
+<td><strong>Development process maturity</strong></td>
+<td>Use of reviews, standards and configuration management.</td>
+</tr>
+<tr>
+<td><strong>Testing effort and coverage</strong></td>
+<td>More thorough testing removes more faults.</td>
+</tr>
+<tr>
+<td><strong>Skill and experience</strong> of the team</td>
+<td>Human errors are the main source of defects.</td>
+</tr>
+<tr>
+<td><strong>Operational profile / environment</strong></td>
+<td>How users actually use the system, and the hardware and OS it runs on.</td>
+</tr>
+<tr>
+<td><strong>Fault-tolerance mechanisms</strong></td>
+<td>Exception handling, redundancy and recovery.</td>
+</tr>
+<tr>
+<td><strong>Number of changes / maintenance</strong></td>
+<td>Every change can bring in new faults.</td>
+</tr>
+<tr>
+<td><strong>Tools and technology used</strong></td>
+<td>Language, compilers, libraries.</td>
+</tr>
+</tbody>
+</table>
+<h3>Reliability metrics</h3>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 135" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="30" y1="60" x2="670" y2="60" stroke="#999" stroke-width="1.5"/><rect x="40" y="40" width="260" height="20" fill="#7cc48a"/><text x="170" y="54" text-anchor="middle" font-size="11" fill="#222">system working (up)</text><rect x="300" y="40" width="80" height="20" fill="#e57373"/><text x="340" y="54" text-anchor="middle" font-size="11" fill="#fff">repair</text><rect x="380" y="40" width="260" height="20" fill="#7cc48a"/><text x="510" y="54" text-anchor="middle" font-size="11" fill="#222">system working (up)</text><text x="300" y="32" text-anchor="middle" font-size="10" fill="#c62828">failure ↓</text><text x="380" y="32" text-anchor="start" font-size="10" fill="#2e7d32">↓ restored</text><line x1="40" y1="80" x2="300" y2="80" stroke="#555" stroke-width="1.5"/><line x1="40" y1="75" x2="40" y2="85" stroke="#555" stroke-width="1.5"/><line x1="300" y1="75" x2="300" y2="85" stroke="#555" stroke-width="1.5"/><text x="170.0" y="96" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">MTTF</text><line x1="300" y1="80" x2="380" y2="80" stroke="#555" stroke-width="1.5"/><line x1="300" y1="75" x2="300" y2="85" stroke="#555" stroke-width="1.5"/><line x1="380" y1="75" x2="380" y2="85" stroke="#555" stroke-width="1.5"/><text x="340.0" y="96" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">MTTR</text><line x1="40" y1="108" x2="380" y2="108" stroke="#555" stroke-width="1.5"/><line x1="40" y1="103" x2="40" y2="113" stroke="#555" stroke-width="1.5"/><line x1="380" y1="103" x2="380" y2="113" stroke="#555" stroke-width="1.5"/><text x="210.0" y="124" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">MTBF = MTTF + MTTR</text></svg><figcaption>Fig 13.1 – Relationship between MTTF, MTTR and MTBF</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula / meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MTTF</strong> (Mean Time To Failure)</td>
+<td>Average time the system runs between being restored and its next failure</td>
+</tr>
+<tr>
+<td><strong>MTTR</strong> (Mean Time To Repair)</td>
+<td>Average time needed to find and fix a fault after a failure</td>
+</tr>
+<tr>
+<td><strong>MTBF</strong> (Mean Time Between Failures)</td>
+<td>MTBF = MTTF + MTTR. Example: MTTF 200 h + MTTR 4 h = MTBF 204 h.</td>
+</tr>
+<tr>
+<td><strong>ROCOF</strong> (Rate of Occurrence of Failure)</td>
+<td>Number of failures per unit time. Example: 2 failures per 100 operational hours.</td>
+</tr>
+<tr>
+<td><strong>POFOD</strong> (Probability of Failure on Demand)</td>
+<td>Probability that the system fails when a request is made. Example: POFOD 0.001 means 1 failure in 1000 requests. Used for safety systems.</td>
+</tr>
+<tr>
+<td><strong>Availability (AVAIL)</strong></td>
+<td>MTTF ÷ (MTTF + MTTR) × 100 %, the share of time the system is usable. Example: 200 ÷ 204 = 98 %.</td>
+</tr>
+</tbody>
+</table>
+<p>Reliability metrics are also grouped by what they measure:</p>
+<ul>
+<li><strong>Product metrics:</strong> size (KLOC, function points), complexity, test coverage.</li>
+<li><strong>Project management metrics:</strong> good management leads to better products.</li>
+<li><strong>Process metrics:</strong> process quality affects reliability, for example DRE.</li>
+<li><strong>Fault and failure metrics:</strong> number of faults found in testing and failures reported by users, used to calculate MTBF and similar measures.</li>
+</ul>
+<h2 class="sec">Q14. Guidelines for Formal Technical Reviews (FTR)</h2>
+<h3>What is an FTR?</h3>
+<ul>
+<li>A <strong>Formal Technical Review</strong> is a software quality-control activity carried out by software engineers.</li>
+<li>It is a <strong>class of reviews</strong> that includes walkthroughs and inspections.</li>
+</ul>
+<p><strong>Objectives</strong></p>
+<ol>
+<li>Find errors in function, logic or implementation.</li>
+<li>Check that the software meets its requirements.</li>
+<li>Make sure it follows the agreed standards.</li>
+<li>Make development more uniform.</li>
+<li>Make projects easier to manage.</li>
+</ol>
+<p><strong>Review meeting constraints (Pressman)</strong></p>
+<ul>
+<li><strong>3 to 5 people</strong> should take part.</li>
+<li>Each reviewer should prepare in advance, for <strong>no more than 2 hours</strong>.</li>
+<li>The meeting itself should last <strong>less than 2 hours</strong>.</li>
+<li>Because of these limits, review a <strong>small, specific part</strong> of the software, not the whole system at once.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 140" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="4" y="10" width="150" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="79.0" y="29.75" text-anchor="middle" font-size="11.5" >Producer says</text><text x="79.0" y="44.25" text-anchor="middle" font-size="11.5" >product is ready</text><line x1="154" y1="33" x2="176" y2="33" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="176" y="10" width="150" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="251.0" y="29.75" text-anchor="middle" font-size="11.5" >Review leader</text><text x="251.0" y="44.25" text-anchor="middle" font-size="11.5" >checks & distributes</text><line x1="326" y1="33" x2="348" y2="33" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="348" y="10" width="150" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="423.0" y="29.75" text-anchor="middle" font-size="11.5" >Reviewers prepare</text><text x="423.0" y="44.25" text-anchor="middle" font-size="11.5" >(1–2 hrs each)</text><line x1="498" y1="33" x2="520" y2="33" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="520" y="10" width="150" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="595.0" y="29.75" text-anchor="middle" font-size="11.5" >Review meeting</text><text x="595.0" y="44.25" text-anchor="middle" font-size="11.5" >(3–5 people, < 2 hrs)</text><rect x="140" y="100" width="140" height="32" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="210.0" y="120.0" text-anchor="middle" font-size="12" >Accept</text><line x1="595" y1="56" x2="210" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="300" y="100" width="140" height="32" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="370.0" y="120.0" text-anchor="middle" font-size="12" >Accept provisionally</text><line x1="595" y1="56" x2="370" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="460" y="100" width="140" height="32" rx="7" fill="#fdecea" stroke="#c62828" stroke-width="1.4"/><text x="530.0" y="120.0" text-anchor="middle" font-size="12" >Reject</text><line x1="595" y1="56" x2="530" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/></svg><figcaption>Fig 14.1 – Flow of a formal technical review and its three possible decisions</figcaption></figure>
+<h3>Guidelines for conducting an FTR</h3>
+<ol>
+<li><strong>Review the product, not the producer.</strong> Point out errors politely. The meeting should be relaxed and constructive and should never embarrass or blame the author.</li>
+<li><strong>Set an agenda and keep to it.</strong> The review leader must keep the meeting on track and stop it from drifting.</li>
+<li><strong>Limit debate and rebuttal.</strong> If an issue cannot be settled quickly, record it for discussion outside the meeting.</li>
+<li><strong>Point out problem areas, but do not try to solve every problem.</strong> A review finds problems. Solutions are worked out later by the author or a small group.</li>
+<li><strong>Take written notes.</strong> A recorder writes down all issues, preferably where everyone can see them, so that the wording and priority can be agreed.</li>
+<li><strong>Limit the number of participants and insist on advance preparation.</strong> Keep the group small. Every reviewer must study the material before the meeting.</li>
+<li><strong>Develop a checklist for each type of product reviewed.</strong> Checklists for requirements, design, code and test documents help reviewers focus on the important issues.</li>
+<li><strong>Allocate resources and schedule time for FTRs.</strong> Reviews must be a planned task in the project schedule, including time for the rework that follows.</li>
+<li><strong>Train all reviewers.</strong> Training should cover both the technical process and the human side of reviewing.</li>
+<li><strong>Review your early reviews.</strong> Look back at how the first reviews went, so the review process itself can be improved.</li>
+</ol>
+<h3>Outcome of an FTR</h3>
+<p>At the end, all attendees decide to:</p>
+<ul>
+<li><strong>Accept</strong> the product without further changes,</li>
+<li><strong>Reject</strong> it because of severe errors (it is reviewed again after correction), or</li>
+<li><strong>Accept it provisionally</strong>, where minor errors must be fixed but no further review is needed.</li>
+</ul>
+<p>The <strong>review summary report</strong> records:</p>
+<ul>
+<li>what was reviewed,</li>
+<li>who reviewed it,</li>
+<li>the findings and conclusions.</li>
+</ul>
+<p>An <strong>issues list</strong> is also produced and is used to track the corrections.</p>
+<h2 class="sec">Q15. Six Sigma (DMAIC) and ISO 9000 standards</h2>
+<h3>What is Six Sigma?</h3>
+<ul>
+<li><strong>Six Sigma</strong> is a data-driven quality-management method. It was started by <strong>Motorola (1986)</strong> and made popular by <strong>GE</strong>.</li>
+<li>It aims to <strong>reduce variation and defects</strong> in a process until it produces no more than <strong>3.4 defects per million opportunities (DPMO)</strong>. This equals 99.99966 % defect-free output.</li>
+<li><strong>σ (sigma)</strong> is the standard deviation. "Six Sigma" means the specification limits are six standard deviations from the process mean.</li>
+<li>It relies on statistics, a focus on the customer, and trained people:<ul>
+<li><strong>Champions</strong> sponsor the improvement projects.</li>
+<li><strong>Master Black Belts</strong> coach the Black Belts.</li>
+<li><strong>Black Belts</strong> lead the projects.</li>
+<li><strong>Green Belts</strong> work on the projects part-time.</li>
+</ul>
+</li>
+</ul>
+<h3>Basic steps: DMAIC (for improving an existing process)</h3>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 275" width="100%" style="max-width:500px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><path d="M291.8,53.0 A92,92 0 0 1 315.1,69.9" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#a)"/><path d="M340.9,149.4 A92,92 0 0 1 332.0,176.8" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#a)"/><path d="M264.4,225.9 A92,92 0 0 1 235.6,225.9" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#a)"/><path d="M168.0,176.8 A92,92 0 0 1 159.1,149.4" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#a)"/><path d="M184.9,69.9 A92,92 0 0 1 208.2,53.0" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#a)"/><circle cx="250.0" cy="43.0" r="38" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.6"/><text x="250.0" y="41.0" text-anchor="middle" font-size="20" fill="#222" font-weight="bold">D</text><text x="250.0" y="58.0" text-anchor="middle" font-size="11" fill="#222">Define</text><circle cx="337.5" cy="106.6" r="38" fill="#fff6e0" stroke="#b7791f" stroke-width="1.6"/><text x="337.49719949915414" y="104.57043651750485" text-anchor="middle" font-size="20" fill="#222" font-weight="bold">M</text><text x="337.49719949915414" y="121.57043651750485" text-anchor="middle" font-size="11" fill="#222">Measure</text><circle cx="304.1" cy="209.4" r="38" fill="#fdecea" stroke="#c62828" stroke-width="1.6"/><text x="304.07624321090753" y="207.42956348249515" text-anchor="middle" font-size="20" fill="#222" font-weight="bold">A</text><text x="304.07624321090753" y="224.42956348249515" text-anchor="middle" font-size="11" fill="#222">Analyze</text><circle cx="195.9" cy="209.4" r="38" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.6"/><text x="195.92375678909247" y="207.42956348249515" text-anchor="middle" font-size="20" fill="#222" font-weight="bold">I</text><text x="195.92375678909247" y="224.42956348249515" text-anchor="middle" font-size="11" fill="#222">Improve</text><circle cx="162.5" cy="106.6" r="38" fill="#f1e8fb" stroke="#6a3fb5" stroke-width="1.6"/><text x="162.50280050084586" y="104.57043651750485" text-anchor="middle" font-size="20" fill="#222" font-weight="bold">C</text><text x="162.50280050084586" y="121.57043651750485" text-anchor="middle" font-size="11" fill="#222">Control</text><text x="250" y="140" text-anchor="middle" font-size="14" fill="#1a3f8f" font-weight="bold">DMAIC</text></svg><figcaption>Fig 15.1 – The DMAIC improvement cycle of Six Sigma</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What is done</th>
+<th>Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>D – Define</strong></td>
+<td>Define the problem, the project goals and the customer requirements (CTQ: Critical To Quality). Set the scope and the team.</td>
+<td>Project charter, SIPOC, voice of the customer</td>
+</tr>
+<tr>
+<td><strong>M – Measure</strong></td>
+<td>Measure current process performance and collect baseline data, for example the current defect rate.</td>
+<td>Data collection, check sheets, DPMO, sigma level</td>
+</tr>
+<tr>
+<td><strong>A – Analyze</strong></td>
+<td>Analyse the data to find the <strong>root causes</strong> of defects and variation.</td>
+<td>Fishbone diagram, Pareto chart, scatter diagram, 5 Whys, hypothesis tests</td>
+</tr>
+<tr>
+<td><strong>I – Improve</strong></td>
+<td>Develop, test and put in place solutions that remove the root causes.</td>
+<td>Brainstorming, design of experiments, pilot runs</td>
+</tr>
+<tr>
+<td><strong>C – Control</strong></td>
+<td>Keep the gains: monitor the improved process, standardise it and document it.</td>
+<td>Control charts, SOPs, audits</td>
+</tr>
+</tbody>
+</table>
+<p>For <strong>designing new processes or products</strong>, Six Sigma uses <strong>DMADV</strong>: Define, Measure, Analyze, Design, Verify.</p>
+<h3>ISO 9000 standards</h3>
+<ul>
+<li><strong>ISO 9000</strong> is a family of international standards for <strong>Quality Management Systems (QMS)</strong>, published by the International Organization for Standardization.</li>
+<li>ISO 9000 <strong>does not certify a product</strong>. It certifies that the organisation has a <strong>documented, consistently followed quality process</strong>.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 135" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="250" y="8" width="200" height="34" rx="7" fill="#fff6e0" stroke="#b7791f" stroke-width="1.4"/><text x="350.0" y="29.0" text-anchor="middle" font-size="13"  font-weight="bold">ISO 9000 family</text><line x1="350" y1="42" x2="350" y2="58" stroke="#555" stroke-width="1.5"/><line x1="115" y1="58" x2="585" y2="58" stroke="#555" stroke-width="1.5"/><line x1="115" y1="58" x2="115" y2="70" stroke="#555" stroke-width="1.5"/><rect x="15" y="70" width="200" height="56" rx="7" fill="#e6f4ea" stroke="#2e7d32" stroke-width="1.4"/><text x="115.0" y="87.5" text-anchor="middle" font-size="11.5" >ISO 9000</text><text x="115.0" y="102.0" text-anchor="middle" font-size="11.5" >Fundamentals &</text><text x="115.0" y="116.5" text-anchor="middle" font-size="11.5" >vocabulary</text><line x1="350" y1="58" x2="350" y2="70" stroke="#555" stroke-width="1.5"/><rect x="250" y="70" width="200" height="56" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="350.0" y="87.5" text-anchor="middle" font-size="11.5" >ISO 9001</text><text x="350.0" y="102.0" text-anchor="middle" font-size="11.5" >Requirements for a QMS</text><text x="350.0" y="116.5" text-anchor="middle" font-size="11.5" >(the certifiable one)</text><line x1="585" y1="58" x2="585" y2="70" stroke="#555" stroke-width="1.5"/><rect x="485" y="70" width="200" height="56" rx="7" fill="#f1e8fb" stroke="#6a3fb5" stroke-width="1.4"/><text x="585.0" y="87.5" text-anchor="middle" font-size="11.5" >ISO 9004</text><text x="585.0" y="102.0" text-anchor="middle" font-size="11.5" >Guidelines for sustained</text><text x="585.0" y="116.5" text-anchor="middle" font-size="11.5" >success / improvement</text></svg><figcaption>Fig 15.2 – Main standards in the ISO 9000 family</figcaption></figure>
+<ul>
+<li><strong>ISO 9000:</strong> basic concepts and vocabulary.</li>
+<li><strong>ISO 9001:</strong> the requirements an organisation must meet to be <strong>certified</strong>. It applies to software organisations too. <strong>ISO 90003</strong> gives guidelines for applying ISO 9001 to software.</li>
+<li><strong>ISO 9004:</strong> guidance on improving performance and long-term success.</li>
+</ul>
+<p><strong>Quality management principles behind ISO 9000:</strong></p>
+<ol>
+<li>Customer focus</li>
+<li>Leadership</li>
+<li>Engagement of people</li>
+<li>Process approach</li>
+<li>Improvement</li>
+<li>Evidence-based decision making</li>
+<li>Relationship management</li>
+</ol>
+<p><strong>How certification works</strong></p>
+<ol>
+<li>Apply to a registrar.</li>
+<li>The registrar does a pre-assessment.</li>
+<li>The organisation documents its processes (quality manual, procedures).</li>
+<li>The registrar runs a document review and an on-site audit.</li>
+<li>If the audit passes, the certificate is issued.</li>
+<li>Surveillance audits continue after that.</li>
+</ol>
+<h3>Advantages of ISO 9000</h3>
+<ol>
+<li><strong>Better product quality and consistency.</strong> Processes are defined, documented and repeatable.</li>
+<li><strong>More customer confidence and satisfaction.</strong> Certification is recognised worldwide.</li>
+<li><strong>Access to new markets.</strong> Many clients and governments require ISO 9001 certification.</li>
+<li><strong>Lower costs.</strong> Less rework and waste, and fewer failures.</li>
+<li><strong>Clear responsibilities.</strong> Roles, procedures and records are documented.</li>
+<li><strong>Continual improvement.</strong> Internal audits and corrective and preventive actions drive improvement.</li>
+<li><strong>Better staff morale and training.</strong> People understand the processes and their own role.</li>
+<li><strong>Decisions based on data</strong>, from records and audits.</li>
+</ol>
+<p><strong>Limitations of ISO 9000</strong></p>
+<ul>
+<li>It is document-heavy, and certification can be costly.</li>
+<li>It shows the process is followed, not that the product is excellent.</li>
+<li>It can become a "paperwork" exercise if it is not taken seriously.</li>
+</ul>
