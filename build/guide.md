@@ -81,23 +81,16 @@ Search algorithms explore the state space from the initial state looking for a p
 
 Expands the shallowest unexpanded node first, using a FIFO queue.
 
-```text
-function BFS(problem):
-    node <- Node(problem.INITIAL); if goal(node) return node
-    frontier <- FIFO queue containing node
-    explored <- empty set
-    loop:
-        if frontier is empty return failure
-        node <- frontier.pop()            # shallowest node
-        add node.state to explored
-        for each action in problem.ACTIONS(node.state):
-            child <- CHILD(problem, node, action)
-            if child.state not in explored and not in frontier:
-                if goal(child) return SOLUTION(child)
-                frontier.insert(child)
-```
+**Steps:**
 
-Trace on a tree S→(A, B), A→(C, D), B→(E, G): frontier S → A,B → B,C,D → C,D,E,G → goal G found. Visit order: **S, A, B, C, D, E, G**.
+1. Put the start node in a FIFO queue.
+2. Remove the front node; if it is the goal, stop.
+3. Add all its unvisited children to the back of the queue.
+4. Repeat until the goal is found or the queue is empty.
+
+FIG:Q3:0
+
+Trace on the tree in Figure 3a (A→B, C; B→D, E; C→F, G; goal G). Queue: A → B, C → C, D, E → D, E, F, G → goal G reached. Visit order: **A, B, C, D, E, F, G**.
 
 Second example (undirected graph with edges 1–2, 1–3, 1–5, 2–4, 3–4, 3–5): start at 1, visit its neighbours 2, 3, 5, then the remaining vertex 4 → BFS order **1-2-3-5-4**. BFS uses a queue and a visited list; applications are web crawling, social-network analysis, game AI and state-space search.
 
@@ -108,20 +101,16 @@ Second example (undirected graph with edges 1–2, 1–3, 1–5, 2–4, 3–4, 3
 
 Expands the deepest unexpanded node first, using a LIFO stack (or recursion).
 
-```text
-function DFS(problem):
-    frontier <- LIFO stack containing initial node
-    explored <- empty set
-    while frontier not empty:
-        node <- frontier.pop()            # deepest node
-        if goal(node) return SOLUTION(node)
-        add node.state to explored
-        for each child of node not in explored:
-            frontier.push(child)
-    return failure
-```
+**Steps:**
 
-Trace on the same tree: S → A → C → (backtrack) D → (backtrack) B → E → G. Visit order: **S, A, C, D, B, E, G**.
+1. Put the start node on a LIFO stack.
+2. Pop the top node; if it is the goal, stop.
+3. Push its unvisited children onto the stack.
+4. Repeat – the search goes as deep as possible, then backtracks.
+
+FIG:Q3:1
+
+Trace on the same tree (Figure 3b): A → B → D → (backtrack) E → (backtrack to A) C → F → G. Visit order: **A, B, D, E, C, F, G**.
 
 Notes example (tree A → B, C; B → D, E; C → F, G): DFS goes A, B, D, backtracks to B and visits E, then C, F, G → order **A-B-D-E-C-F-G**. Applications: maze generation, puzzle solving, robot pathfinding.
 
@@ -132,26 +121,13 @@ Notes example (tree A → B, C; B → D, E; C → F, G): DFS goes A, B, D, backt
 
 Runs depth-limited DFS repeatedly with limit 0, 1, 2, … combining the small memory of DFS with the completeness and optimality of BFS.
 
-```text
-function ITERATIVE-DEEPENING-SEARCH(problem):
-    for depth = 0 to infinity:
-        result <- DEPTH-LIMITED-SEARCH(problem, depth)
-        if result != cutoff return result
+**Steps:**
 
-function DEPTH-LIMITED-SEARCH(problem, limit):
-    return RECURSIVE-DLS(Node(problem.INITIAL), problem, limit)
+1. Run depth-limited DFS with limit 0 (only the root).
+2. If the goal is not found, increase the limit by 1 and run again from the root.
+3. Repeat with limits 1, 2, 3 … until the goal is found.
 
-function RECURSIVE-DLS(node, problem, limit):
-    if goal(node) return SOLUTION(node)
-    else if limit = 0 return cutoff
-    cutoff_occurred <- false
-    for each action in problem.ACTIONS(node.state):
-        child <- CHILD(problem, node, action)
-        result <- RECURSIVE-DLS(child, problem, limit - 1)
-        if result = cutoff then cutoff_occurred <- true
-        else if result != failure return result
-    return cutoff if cutoff_occurred else failure
-```
+FIG:Q3:3
 
 - Complete: yes. Optimal: yes (unit step cost). Time O(b^d), space O(b·d).
 - Repeated work on upper levels is small because most nodes lie at the bottom level.
@@ -160,18 +136,14 @@ function RECURSIVE-DLS(node, problem, limit):
 
 Expands the node that appears closest to the goal, using only the heuristic: **f(n) = h(n)**. Implemented with a priority queue ordered by h.
 
-```text
-function GREEDY-BEST-FIRST(problem, h):
-    frontier <- priority queue ordered by h(n), containing initial node
-    explored <- empty set
-    loop:
-        if frontier empty return failure
-        node <- frontier.pop()            # smallest h
-        if goal(node) return SOLUTION(node)
-        add node.state to explored
-        for each child of node not in explored or frontier:
-            frontier.insert(child)
-```
+**Steps:**
+
+1. Put the start node in a priority queue ordered by h(n).
+2. Remove the node with the smallest h(n); if it is the goal, stop.
+3. Add its children with their h values.
+4. Repeat.
+
+FIG:Q3:4
 
 - Complete: no (can get stuck in loops without an explored set). Optimal: no.
 - Time and space O(b^m) worst case, but a good heuristic improves this greatly.
@@ -182,22 +154,14 @@ Greedy best-first search expands the node with the lowest heuristic value, prior
 
 Combines the cost so far and the estimated cost to go: **f(n) = g(n) + h(n)**, where g(n) is the path cost from the start and h(n) the heuristic estimate to the goal. Expands the node with the lowest f(n).
 
-```text
-function A-STAR(problem, h):
-    frontier <- priority queue ordered by f = g + h, containing initial node
-    explored <- empty set
-    loop:
-        if frontier empty return failure
-        node <- frontier.pop()            # smallest f
-        if goal(node) return SOLUTION(node)
-        add node.state to explored
-        for each action in problem.ACTIONS(node.state):
-            child <- CHILD(problem, node, action)
-            if child.state not in explored or frontier:
-                frontier.insert(child)
-            else if child is in frontier with higher g:
-                replace that frontier node with child
-```
+**Steps:**
+
+1. Put the start node in a priority queue ordered by f(n) = g(n) + h(n).
+2. Remove the node with the smallest f; if it is the goal, stop.
+3. For each child compute g (cost so far) and f, and add it (keep only the cheaper copy of a repeated state).
+4. Repeat.
+
+FIG:Q3:2
 
 Example: S→A (cost 1, h(A)=3), S→B (cost 4, h(B)=1), A→G (cost 5), B→G (cost 2); h(S)=5. f(A)=1+3=4, f(B)=4+1=5 → expand A: f(G via A)=6; then expand B: f(G via B)=6. Both give cost 6, and A\* returns an optimal path.
 
@@ -222,12 +186,7 @@ An **agent** perceives its environment through sensors and acts on it through ac
 
 Selects actions on the basis of the **current percept only**, ignoring history, using condition–action rules (*if condition then action*).
 
-```text
-function SIMPLE-REFLEX-AGENT(percept):
-    state <- INTERPRET-INPUT(percept)
-    rule  <- RULE-MATCH(state, rules)
-    return rule.ACTION
-```
+**Working:** percept → match an IF–THEN rule → do its action (see Figure 4a).
 
 - Example: a thermostat; "if car-in-front-is-braking then initiate-braking".
 - Works only if the environment is **fully observable**; can loop forever in partially observable worlds (a remedy is randomisation).
@@ -236,13 +195,7 @@ function SIMPLE-REFLEX-AGENT(percept):
 
 Maintains an **internal state** that depends on the percept history, to handle partial observability. It needs a **transition model** (how the world evolves and how its own actions affect it) and a **sensor model** (how the world appears in percepts).
 
-```text
-function MODEL-BASED-REFLEX-AGENT(percept):
-    state  <- UPDATE-STATE(state, last_action, percept, model)
-    rule   <- RULE-MATCH(state, rules)
-    action <- rule.ACTION
-    return action
-```
+**Working:** percept → update internal state using the world model → match a rule → act (see Figure 4b).
 
 - Example: a self-driving car tracking other cars that are currently not visible.
 
@@ -359,14 +312,13 @@ Common activations: step / threshold, sigmoid g(z) = 1 / (1 + e^(−z)), tanh, R
 
 Backpropagation trains a multi-layer network by gradient descent on the error E = ½ Σ (y − ŷ)², propagating the error backwards from the output layer to the hidden layers.
 
-```text
-repeat until convergence:
-    for each training example (x, y):
-        1. FORWARD PASS: compute activations of every layer up to the output ŷ
-        2. Output error:   delta_k = g'(in_k) * (y_k - yhat_k)
-        3. BACKWARD PASS:  delta_j = g'(in_j) * sum_k ( w_jk * delta_k )   for hidden units
-        4. Update weights: w_ij <- w_ij + alpha * a_i * delta_j
-```
+**Steps:**
+
+1. **Forward pass:** feed the input through the network and compute the output ŷ.
+2. **Error at output:** compare ŷ with the target y.
+3. **Backward pass:** send the error back layer by layer to find each weight's share of the error.
+4. **Update weights:** w ← w + α × (error term) × (input to that weight).
+5. Repeat for all examples over many epochs until the error is small.
 
 - The weight update is Δw = −α ∂E/∂w (gradient descent); the chain rule gives the deltas.
 - Problems: local minima, slow convergence, vanishing gradients with sigmoid, overfitting (remedies: early stopping, regularisation, dropout, more data).
@@ -416,20 +368,15 @@ Probability of the state sequence (Rainy, Rainy) with observations (walk, shop) 
 
 ### Forward algorithm
 
-```text
-alpha_1(j) = pi_j * b_j(e_1)
-alpha_t(j) = [ sum_i alpha_{t-1}(i) * a_ij ] * b_j(e_t)
-P(e_1..e_T) = sum_j alpha_T(j)
-```
+1. **Start:** for each state, α₁ = π × probability of the first observation.
+2. **Recurse:** αₜ(state) = (sum over previous states of αₜ₋₁ × transition) × emission of the current observation.
+3. **End:** P(observations) = sum of the final α values.
 
 ### Viterbi algorithm
 
-```text
-delta_1(j) = pi_j * b_j(e_1)
-delta_t(j) = max_i [ delta_{t-1}(i) * a_ij ] * b_j(e_t)
-psi_t(j)   = argmax_i [ delta_{t-1}(i) * a_ij ]      # back-pointer
-backtrack from argmax_j delta_T(j) using psi to read off the best state path
-```
+1. **Start:** δ₁ = π × emission of the first observation.
+2. **Recurse:** δₜ(state) = (max over previous states of δₜ₋₁ × transition) × emission; remember which previous state gave the max.
+3. **End:** pick the state with the largest final δ and follow the remembered pointers backwards to get the best hidden-state sequence.
 
 ### Applications
 
@@ -439,20 +386,12 @@ Speech recognition, part-of-speech tagging, handwriting recognition, bioinformat
 
 A **decision tree** is a supervised model that classifies an example by asking a sequence of questions about its attributes. Each **internal node** tests an attribute, each **branch** is a test outcome, and each **leaf** gives a class (decision). Learning is a greedy, top-down, divide-and-conquer process (ID3 / C4.5 / CART).
 
-```text
-function DECISION-TREE-LEARNING(examples, attributes, parent_examples):
-    if examples is empty: return PLURALITY-VALUE(parent_examples)
-    else if all examples have the same class: return that class
-    else if attributes is empty: return PLURALITY-VALUE(examples)
-    else:
-        A <- attribute with the highest INFORMATION GAIN
-        tree <- new decision tree with root test A
-        for each value v of A:
-            exs <- examples with A = v
-            subtree <- DECISION-TREE-LEARNING(exs, attributes - A, examples)
-            add branch (A = v) with subtree to tree
-        return tree
-```
+**Steps (ID3):**
+
+1. If all examples have the same class, make a leaf with that class.
+2. If no attributes are left, make a leaf with the majority class.
+3. Otherwise choose the attribute with the **highest information gain** as the node.
+4. Make one branch per value of that attribute and repeat on each subset.
 
 ### Entropy and information gain
 
@@ -548,15 +487,13 @@ Lift > 1: positive association; lift = 1: independent; lift < 1: negative associ
 
 **Apriori principle:** every subset of a frequent itemset must also be frequent (equivalently, if an itemset is infrequent, all its supersets are infrequent). This prunes the search space.
 
-```text
-L1 <- frequent 1-itemsets (support >= min_sup)
-for k = 2; L(k-1) not empty; k++:
-    Ck <- join L(k-1) with itself, then prune candidates having an infrequent (k-1)-subset
-    scan database, count support of each candidate in Ck
-    Lk <- candidates in Ck with support >= min_sup
-frequent itemsets = union of all Lk
-generate rules X -> Y from each frequent itemset with confidence >= min_conf
-```
+**Steps:**
+
+1. Count every single item; keep those with support ≥ minimum support (L1).
+2. Join frequent itemsets to make bigger candidates; drop any candidate with an infrequent subset.
+3. Count the candidates; keep the frequent ones (L2, L3 …).
+4. Stop when no new frequent itemsets appear.
+5. Make rules from frequent itemsets and keep those with confidence ≥ minimum confidence.
 
 ### Worked example
 
@@ -612,16 +549,13 @@ Q-learning is a **model-free, off-policy, temporal-difference** method. It learn
 Q(s,a) \leftarrow Q(s,a) + \alpha\left[\, r + \gamma \max_{a'} Q(s',a') - Q(s,a) \,\right]
 ```
 
-```text
-initialise Q(s, a) = 0 for all s, a
-repeat for each episode:
-    s <- start state
-    repeat until s is terminal:
-        choose a from s using epsilon-greedy policy (random with prob. epsilon, else argmax Q)
-        take a, observe reward r and next state s'
-        Q(s,a) <- Q(s,a) + alpha * (r + gamma * max_a' Q(s',a') - Q(s,a))
-        s <- s'
-```
+**Steps:**
+
+1. Set all Q(s, a) = 0.
+2. In state s, choose action a (usually the best Q, sometimes random – ε-greedy).
+3. Do a, get reward r and new state s'.
+4. Update Q(s, a) with the formula above.
+5. Set s ← s' and repeat until the episode ends; run many episodes.
 
 Example: Q(s,a) = 0, α = 0.5, γ = 0.9, r = 10, max Q(s',·) = 20. New Q = 0 + 0.5 (10 + 0.9×20 − 0) = **14**.
 
@@ -740,13 +674,7 @@ Examples of the four approaches: thinking humanly – neural networks inspired b
 
 ### Architecture (Mamdani fuzzy inference system)
 
-```text
-Crisp input --> [1. FUZZIFICATION] --> fuzzy input --> [3. INFERENCE ENGINE] --> fuzzy output --> [4. DEFUZZIFICATION] --> Crisp output
-                                                              ^
-                                                              |
-                                                  [2. KNOWLEDGE BASE]
-                                              (membership functions + rule base)
-```
+See Figure 15a for the block diagram.
 
 ### Components
 
@@ -774,21 +702,12 @@ Crisp input --> [1. FUZZIFICATION] --> fuzzy input --> [3. INFERENCE ENGINE] -->
 
 UCS is an uninformed search that expands the node with the **lowest cumulative path cost g(n)**, using a priority queue. It finds the cheapest path in a weighted graph when all edge costs are non-negative. With equal step costs it behaves like BFS.
 
-```text
-function UNIFORM-COST-SEARCH(problem):
-    node <- Node(problem.INITIAL, cost = 0)
-    frontier <- priority queue ordered by path cost, containing node
-    explored <- empty set
-    loop:
-        if frontier is empty return failure
-        node <- frontier.pop()              # lowest g(n)
-        if goal(node) return SOLUTION(node) # goal test on EXPANSION, not generation
-        add node.state to explored
-        for each action in problem.ACTIONS(node.state):
-            child <- CHILD(problem, node, action)
-            if child.state not in explored or frontier: frontier.insert(child)
-            else if child is in frontier with higher cost: replace it with child
-```
+**Steps:**
+
+1. Put the start node in a priority queue with cost 0.
+2. Remove the node with the lowest path cost; if it is the goal, stop.
+3. For each neighbour, compute total cost; add it (or update it if cheaper).
+4. Repeat.
 
 **Trace.** Edges: A→B 1, A→C 4, B→D 1, B→E 3, C→F 5, D→G 2, E→G 1, F→G 2. Start A, goal G.
 
@@ -815,18 +734,12 @@ Adversarial search is used in competitive environments where agents have conflic
 
 A recursive, depth-first algorithm that gives the optimal move assuming **the opponent also plays optimally**. **MAX** picks the maximum value; **MIN** picks the minimum value. Values start at −∞ for MAX and +∞ for MIN.
 
-```text
-function MINIMAX(node, depth, maximizingPlayer):
-    if depth = 0 or node is terminal: return UTILITY(node)
-    if maximizingPlayer:
-        best <- -infinity
-        for each child: best <- max(best, MINIMAX(child, depth-1, false))
-        return best
-    else:
-        best <- +infinity
-        for each child: best <- min(best, MINIMAX(child, depth-1, true))
-        return best
-```
+**Steps:**
+
+1. Generate the game tree down to the terminal (leaf) nodes.
+2. Apply the utility function to each leaf.
+3. Move upward: a MAX node takes the **largest** child value, a MIN node the **smallest**.
+4. At the root, MAX chooses the move with the best value.
 
 **Worked example.** Tree: A (MAX) → B, C (MIN); B → D, E and C → F, G (MAX); leaves H=−1, I=4, J=2, K=6, L=−3, M=−5, N=0, O=7.
 
@@ -848,24 +761,12 @@ An optimisation of minimax that returns **the same move** but skips branches tha
 - **Prune the remaining children whenever α ≥ β.**
 - MAX nodes update only α; MIN nodes update only β; node values (not α/β) are passed up, while α and β are passed down to children.
 
-```text
-function ALPHA-BETA(node, depth, alpha, beta, maximizingPlayer):
-    if depth = 0 or node is terminal: return UTILITY(node)
-    if maximizingPlayer:
-        value <- -infinity
-        for each child:
-            value <- max(value, ALPHA-BETA(child, depth-1, alpha, beta, false))
-            alpha <- max(alpha, value)
-            if alpha >= beta: break          # beta cut-off
-        return value
-    else:
-        value <- +infinity
-        for each child:
-            value <- min(value, ALPHA-BETA(child, depth-1, alpha, beta, true))
-            beta <- min(beta, value)
-            if alpha >= beta: break          # alpha cut-off
-        return value
-```
+**Steps:**
+
+1. Start at the root with α = −∞ and β = +∞; pass α and β down to children.
+2. At a MAX node update α = max(α, child value); at a MIN node update β = min(β, child value).
+3. Whenever **α ≥ β**, stop looking at the remaining children (prune).
+4. Pass node values (not α, β) back up to the parent.
 
 **Worked example.** A (MAX) → B, C (MIN); B → D, E; C → F, G (all MAX); leaves D: 2, 3; E: 5, 9; F: 0, 1; G: 7, 5.
 

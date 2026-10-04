@@ -42,7 +42,12 @@ def draw_tree(root,dx=64,dy=78,pad=34,top=46):
             left=n.get("px") is not None and n["px"]>n["x"]
             dxv=(28 if sh!="box" else max(44,len(t)*8+18)/2+8)
             nodes+=text(n["x"]+(-dxv if left else dxv),n["y"]-10,str(n["val"]),fs=15,color="#c9302c",bold=True,anchor="end" if left else "start")
-        if n.get("order"): nodes+=text(n["x"],n["y"]-26,f'#{n["order"]}',fs=12,color="#c9302c",bold=True)
+        if n.get("order"):
+            px=n.get("px")
+            if px is None: nodes+=text(n["x"],n["y"]-26,f'#{n["order"]}',fs=12,color="#c9302c",bold=True)
+            else:
+                sd=-1 if px>=n["x"] else 1
+                nodes+=text(n["x"]+sd*22,n["y"]-18,f'#{n["order"]}',fs=12,color="#c9302c",bold=True,anchor="end" if sd<0 else "start")
         if n.get("sub"): nodes+=text(n["x"]+26,n["y"]+5,n["sub"],fs=12,color="#555",anchor="start")
     rec(root)
     return edges+nodes,W,H+10
@@ -211,3 +216,30 @@ b=""
 for y,t in ((30,"x₁"),(80,"x₂"),(130,"x₃")): b+=node(40,y,t)+arrow(58,y,184,80)+text(110,y+(-6 if y<80 else 14 if y>80 else -6),t.replace("x","w"),fs=12,color="#3b6fd4",bold=True)
 b+=node(210,80,"Σ",r=26,fill="#fff3cd")+box(270,58,110,44,"activation\ng(Σ w·x + b)",fill="#ede7f6",stroke="#6a4cc2",fs=12)+arrow(236,80,270,80)+arrow(380,80,440,80)+text(450,85,"ŷ",fs=15,anchor="start",bold=True)
 D["Q7"][1]=fig("Figure 7b. A single neuron (perceptron): weighted sum, then activation",b,470,160)
+
+# ---------- IDDFS: three iterations ----------
+def idtree(limit):
+    order={0:["A"],1:["A","B","C"],2:list("ABDECFG")}[limit]
+    def mk(t,d):
+        on=t in order
+        return N(t,order=(order.index(t)+1) if on else None,fill="#e8f0fe" if on else "#f4f4f4",stroke="#3b6fd4" if on else "#bbb")
+    A=mk("A",0);B=mk("B",1);C=mk("C",1);Dn=mk("D",2);E_=mk("E",2);F=mk("F",2);G=mk("G",2)
+    A["c"]=[("",B),("",C)];B["c"]=[("",Dn),("",E_)];C["c"]=[("",F),("",G)]
+    body,W,H=draw_tree(A,dx=50,dy=70,pad=30)
+    return body,W,H
+parts=[idtree(l) for l in (0,1,2)]
+b="";x=0
+for l,(body,W,H) in enumerate(parts):
+    b+=f'<g transform="translate({x},28)">{body}</g>'+text(x+W/2,18,f"Limit = {l}",bold=True,fs=14,color="#6a4cc2")
+    if l<2: b+=f'<line x1="{x+W+8}" y1="30" x2="{x+W+8}" y2="{H+20}" stroke="#ddd" stroke-width="2"/>'
+    x+=W+16
+idd=fig("Figure 3c. Iterative deepening: DFS is repeated with limit 0, 1, 2 …; blue = visited in that round (numbers = visit order), grey = not reached yet",b,x,parts[0][2]+40)
+# ---------- Greedy best-first tree ----------
+GR="#d8efdf";GS="#2a8a55"
+g=N("G",fill="#fff3cd",stroke="#c99a00",sub="h=0 GOAL",order=4)
+F=N("F",[("",g)],fill=GR,stroke=GS,sub="h=1",order=3);E_=N("E",sub="h=3")
+B=N("B",[("",E_),("",F)],fill=GR,stroke=GS,sub="h=2",order=2);C=N("C",sub="h=3");A=N("A",[("",C)],sub="h=4")
+S=N("S",[("",A),("",B)],fill=GR,stroke=GS,sub="h=6",order=1)
+body,W,H=draw_tree(S,dx=110,dy=80,pad=60)
+greedy=fig("Figure 3d. Greedy best-first: always expand the child with the smallest h → path S → B → F → G (green). Fast, but not guaranteed optimal",body,W+40,H)
+D["Q3"]=[D["Q3"][0],D["Q3"][1],D["Q3"][2].replace("Figure 3c.","Figure 3e."),idd,greedy]

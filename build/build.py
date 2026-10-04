@@ -19,7 +19,12 @@ head,*secs=re.split(r'(?m)^(?=## )',md)
 keys=[f"Q{i}" for i in range(1,16)]+["SA","SB","SC",None]
 out=[]
 for s,k in zip(secs,keys):
-    out.append(s+("\n\n"+"\n\n".join(D.get(k,[]))+"\n\n" if k else "\n\n"))
+    used=set()
+    def put(m):
+        used.add((m.group(1),int(m.group(2)))); return D[m.group(1)][int(m.group(2))]
+    s=re.sub(r'FIG:(\w+):(\d+)',put,s)
+    rest=[f for i,f in enumerate(D.get(k,[])) if (k,i) not in used] if k else []
+    out.append(s+("\n\n"+"\n\n".join(rest)+"\n\n" if rest else "\n\n"))
 body="\n".join(out)
 # protect svg/figure/div blocks from markdown processing
 blocks=[]

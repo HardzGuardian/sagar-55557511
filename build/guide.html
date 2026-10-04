@@ -232,21 +232,15 @@ ol.toc{columns:1;font-size:11pt;line-height:1.7}
 <p>Search algorithms explore the state space from the initial state looking for a path to a goal. <strong>Uninformed</strong> (blind) strategies use only the problem definition; <strong>informed</strong> (heuristic) strategies use a heuristic h(n) that estimates the cost from node n to the goal. Strategies are judged on completeness, optimality, time and space complexity (b = branching factor, d = depth of the shallowest goal, m = maximum depth, l = depth limit).</p>
 <h3>1. Breadth-First Search (BFS)</h3>
 <p>Expands the shallowest unexpanded node first, using a FIFO queue.</p>
-<pre><code class="language-text">function BFS(problem):
-    node &lt;- Node(problem.INITIAL); if goal(node) return node
-    frontier &lt;- FIFO queue containing node
-    explored &lt;- empty set
-    loop:
-        if frontier is empty return failure
-        node &lt;- frontier.pop()            # shallowest node
-        add node.state to explored
-        for each action in problem.ACTIONS(node.state):
-            child &lt;- CHILD(problem, node, action)
-            if child.state not in explored and not in frontier:
-                if goal(child) return SOLUTION(child)
-                frontier.insert(child)
-</code></pre>
-<p>Trace on a tree S→(A, B), A→(C, D), B→(E, G): frontier S → A,B → B,C,D → C,D,E,G → goal G found. Visit order: <strong>S, A, B, C, D, E, G</strong>.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Put the start node in a FIFO queue.</li>
+<li>Remove the front node; if it is the goal, stop.</li>
+<li>Add all its unvisited children to the back of the queue.</li>
+<li>Repeat until the goal is found or the queue is empty.</li>
+</ol>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308 258" width="100%" style="max-width:308px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="154.0" y1="46" x2="74.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="34" y2="202" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="114" y2="202" stroke="#777" stroke-width="1.8"/><line x1="154.0" y1="46" x2="234.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="194" y2="202" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="274" y2="202" stroke="#777" stroke-width="1.8"/><circle cx="34" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="34" y="206" text-anchor="middle" font-size="14">D</text><text x="12" y="184" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#4</text><circle cx="114" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="114" y="206" text-anchor="middle" font-size="14">E</text><text x="136" y="184" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#5</text><circle cx="74.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="74.0" y="128" text-anchor="middle" font-size="14">B</text><text x="52.0" y="106" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#2</text><circle cx="194" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="194" y="206" text-anchor="middle" font-size="14">F</text><text x="172" y="184" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#6</text><circle cx="274" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="274" y="206" text-anchor="middle" font-size="14">G</text><text x="296" y="184" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#7</text><circle cx="234.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="234.0" y="128" text-anchor="middle" font-size="14">C</text><text x="256.0" y="106" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#3</text><circle cx="154.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="154.0" y="50" text-anchor="middle" font-size="14">A</text><text x="154.0" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text></svg><figcaption>Figure 3a. Breadth-First Search – visit level by level (FIFO queue): A B C D E F G</figcaption></figure>
+<p>Trace on the tree in Figure 3a (A→B, C; B→D, E; C→F, G; goal G). Queue: A → B, C → C, D, E → D, E, F, G → goal G reached. Visit order: <strong>A, B, C, D, E, F, G</strong>.</p>
 <p>Second example (undirected graph with edges 1–2, 1–3, 1–5, 2–4, 3–4, 3–5): start at 1, visit its neighbours 2, 3, 5, then the remaining vertex 4 → BFS order <strong>1-2-3-5-4</strong>. BFS uses a queue and a visited list; applications are web crawling, social-network analysis, game AI and state-space search.</p>
 <ul>
 <li>Complete: yes (b finite). Optimal: yes when all step costs are equal.</li>
@@ -254,18 +248,15 @@ ol.toc{columns:1;font-size:11pt;line-height:1.7}
 </ul>
 <h3>2. Depth-First Search (DFS)</h3>
 <p>Expands the deepest unexpanded node first, using a LIFO stack (or recursion).</p>
-<pre><code class="language-text">function DFS(problem):
-    frontier &lt;- LIFO stack containing initial node
-    explored &lt;- empty set
-    while frontier not empty:
-        node &lt;- frontier.pop()            # deepest node
-        if goal(node) return SOLUTION(node)
-        add node.state to explored
-        for each child of node not in explored:
-            frontier.push(child)
-    return failure
-</code></pre>
-<p>Trace on the same tree: S → A → C → (backtrack) D → (backtrack) B → E → G. Visit order: <strong>S, A, C, D, B, E, G</strong>.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Put the start node on a LIFO stack.</li>
+<li>Pop the top node; if it is the goal, stop.</li>
+<li>Push its unvisited children onto the stack.</li>
+<li>Repeat – the search goes as deep as possible, then backtracks.</li>
+</ol>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308 258" width="100%" style="max-width:308px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="154.0" y1="46" x2="74.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="34" y2="202" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="114" y2="202" stroke="#777" stroke-width="1.8"/><line x1="154.0" y1="46" x2="234.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="194" y2="202" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="274" y2="202" stroke="#777" stroke-width="1.8"/><circle cx="34" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="34" y="206" text-anchor="middle" font-size="14">D</text><text x="12" y="184" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#3</text><circle cx="114" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="114" y="206" text-anchor="middle" font-size="14">E</text><text x="136" y="184" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#4</text><circle cx="74.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="74.0" y="128" text-anchor="middle" font-size="14">B</text><text x="52.0" y="106" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#2</text><circle cx="194" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="194" y="206" text-anchor="middle" font-size="14">F</text><text x="172" y="184" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#6</text><circle cx="274" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="274" y="206" text-anchor="middle" font-size="14">G</text><text x="296" y="184" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#7</text><circle cx="234.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="234.0" y="128" text-anchor="middle" font-size="14">C</text><text x="256.0" y="106" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#5</text><circle cx="154.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="154.0" y="50" text-anchor="middle" font-size="14">A</text><text x="154.0" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text></svg><figcaption>Figure 3b. Depth-First Search – go deep, then backtrack (LIFO stack): A B D E C F G</figcaption></figure>
+<p>Trace on the same tree (Figure 3b): A → B → D → (backtrack) E → (backtrack to A) C → F → G. Visit order: <strong>A, B, D, E, C, F, G</strong>.</p>
 <p>Notes example (tree A → B, C; B → D, E; C → F, G): DFS goes A, B, D, backtracks to B and visits E, then C, F, G → order <strong>A-B-D-E-C-F-G</strong>. Applications: maze generation, puzzle solving, robot pathfinding.</p>
 <ul>
 <li>Complete: no in infinite or cyclic spaces (yes in finite spaces with a graph-search explored set). Optimal: no.</li>
@@ -273,42 +264,27 @@ ol.toc{columns:1;font-size:11pt;line-height:1.7}
 </ul>
 <h3>3. Iterative Deepening DFS (IDDFS / IDS)</h3>
 <p>Runs depth-limited DFS repeatedly with limit 0, 1, 2, … combining the small memory of DFS with the completeness and optimality of BFS.</p>
-<pre><code class="language-text">function ITERATIVE-DEEPENING-SEARCH(problem):
-    for depth = 0 to infinity:
-        result &lt;- DEPTH-LIMITED-SEARCH(problem, depth)
-        if result != cutoff return result
-
-function DEPTH-LIMITED-SEARCH(problem, limit):
-    return RECURSIVE-DLS(Node(problem.INITIAL), problem, limit)
-
-function RECURSIVE-DLS(node, problem, limit):
-    if goal(node) return SOLUTION(node)
-    else if limit = 0 return cutoff
-    cutoff_occurred &lt;- false
-    for each action in problem.ACTIONS(node.state):
-        child &lt;- CHILD(problem, node, action)
-        result &lt;- RECURSIVE-DLS(child, problem, limit - 1)
-        if result = cutoff then cutoff_occurred &lt;- true
-        else if result != failure return result
-    return cutoff if cutoff_occurred else failure
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Run depth-limited DFS with limit 0 (only the root).</li>
+<li>If the goal is not found, increase the limit by 1 and run again from the root.</li>
+<li>Repeat with limits 1, 2, 3 … until the goal is found.</li>
+</ol>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 678 282" width="100%" style="max-width:678px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><g transform="translate(0,28)"><line x1="105.0" y1="46" x2="55.0" y2="116" stroke="#777" stroke-width="1.8"/><line x1="55.0" y1="116" x2="30" y2="186" stroke="#777" stroke-width="1.8"/><line x1="55.0" y1="116" x2="80" y2="186" stroke="#777" stroke-width="1.8"/><line x1="105.0" y1="46" x2="155.0" y2="116" stroke="#777" stroke-width="1.8"/><line x1="155.0" y1="116" x2="130" y2="186" stroke="#777" stroke-width="1.8"/><line x1="155.0" y1="116" x2="180" y2="186" stroke="#777" stroke-width="1.8"/><circle cx="30" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="30" y="190" text-anchor="middle" font-size="14">D</text><circle cx="80" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="80" y="190" text-anchor="middle" font-size="14">E</text><circle cx="55.0" cy="116" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="55.0" y="120" text-anchor="middle" font-size="14">B</text><circle cx="130" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="130" y="190" text-anchor="middle" font-size="14">F</text><circle cx="180" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="180" y="190" text-anchor="middle" font-size="14">G</text><circle cx="155.0" cy="116" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="155.0" y="120" text-anchor="middle" font-size="14">C</text><circle cx="105.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="105.0" y="50" text-anchor="middle" font-size="14">A</text><text x="105.0" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text></g><text x="105.0" y="18" text-anchor="middle" font-size="14" fill="#6a4cc2" font-weight="bold">Limit = 0</text><line x1="218" y1="30" x2="218" y2="262" stroke="#ddd" stroke-width="2"/><g transform="translate(226,28)"><line x1="105.0" y1="46" x2="55.0" y2="116" stroke="#777" stroke-width="1.8"/><line x1="55.0" y1="116" x2="30" y2="186" stroke="#777" stroke-width="1.8"/><line x1="55.0" y1="116" x2="80" y2="186" stroke="#777" stroke-width="1.8"/><line x1="105.0" y1="46" x2="155.0" y2="116" stroke="#777" stroke-width="1.8"/><line x1="155.0" y1="116" x2="130" y2="186" stroke="#777" stroke-width="1.8"/><line x1="155.0" y1="116" x2="180" y2="186" stroke="#777" stroke-width="1.8"/><circle cx="30" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="30" y="190" text-anchor="middle" font-size="14">D</text><circle cx="80" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="80" y="190" text-anchor="middle" font-size="14">E</text><circle cx="55.0" cy="116" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="55.0" y="120" text-anchor="middle" font-size="14">B</text><text x="33.0" y="98" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#2</text><circle cx="130" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="130" y="190" text-anchor="middle" font-size="14">F</text><circle cx="180" cy="186" r="19" fill="#f4f4f4" stroke="#bbb" stroke-width="1.4"/><text x="180" y="190" text-anchor="middle" font-size="14">G</text><circle cx="155.0" cy="116" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="155.0" y="120" text-anchor="middle" font-size="14">C</text><text x="177.0" y="98" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#3</text><circle cx="105.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="105.0" y="50" text-anchor="middle" font-size="14">A</text><text x="105.0" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text></g><text x="331.0" y="18" text-anchor="middle" font-size="14" fill="#6a4cc2" font-weight="bold">Limit = 1</text><line x1="444" y1="30" x2="444" y2="262" stroke="#ddd" stroke-width="2"/><g transform="translate(452,28)"><line x1="105.0" y1="46" x2="55.0" y2="116" stroke="#777" stroke-width="1.8"/><line x1="55.0" y1="116" x2="30" y2="186" stroke="#777" stroke-width="1.8"/><line x1="55.0" y1="116" x2="80" y2="186" stroke="#777" stroke-width="1.8"/><line x1="105.0" y1="46" x2="155.0" y2="116" stroke="#777" stroke-width="1.8"/><line x1="155.0" y1="116" x2="130" y2="186" stroke="#777" stroke-width="1.8"/><line x1="155.0" y1="116" x2="180" y2="186" stroke="#777" stroke-width="1.8"/><circle cx="30" cy="186" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="30" y="190" text-anchor="middle" font-size="14">D</text><text x="8" y="168" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#3</text><circle cx="80" cy="186" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="80" y="190" text-anchor="middle" font-size="14">E</text><text x="102" y="168" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#4</text><circle cx="55.0" cy="116" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="55.0" y="120" text-anchor="middle" font-size="14">B</text><text x="33.0" y="98" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#2</text><circle cx="130" cy="186" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="130" y="190" text-anchor="middle" font-size="14">F</text><text x="108" y="168" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#6</text><circle cx="180" cy="186" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="180" y="190" text-anchor="middle" font-size="14">G</text><text x="202" y="168" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#7</text><circle cx="155.0" cy="116" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="155.0" y="120" text-anchor="middle" font-size="14">C</text><text x="177.0" y="98" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#5</text><circle cx="105.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="105.0" y="50" text-anchor="middle" font-size="14">A</text><text x="105.0" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text></g><text x="557.0" y="18" text-anchor="middle" font-size="14" fill="#6a4cc2" font-weight="bold">Limit = 2</text></svg><figcaption>Figure 3c. Iterative deepening: DFS is repeated with limit 0, 1, 2 …; blue = visited in that round (numbers = visit order), grey = not reached yet</figcaption></figure>
 <ul>
 <li>Complete: yes. Optimal: yes (unit step cost). Time O(b^d), space O(b·d).</li>
 <li>Repeated work on upper levels is small because most nodes lie at the bottom level.</li>
 </ul>
 <h3>4. Greedy Best-First Search</h3>
 <p>Expands the node that appears closest to the goal, using only the heuristic: <strong>f(n) = h(n)</strong>. Implemented with a priority queue ordered by h.</p>
-<pre><code class="language-text">function GREEDY-BEST-FIRST(problem, h):
-    frontier &lt;- priority queue ordered by h(n), containing initial node
-    explored &lt;- empty set
-    loop:
-        if frontier empty return failure
-        node &lt;- frontier.pop()            # smallest h
-        if goal(node) return SOLUTION(node)
-        add node.state to explored
-        for each child of node not in explored or frontier:
-            frontier.insert(child)
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Put the start node in a priority queue ordered by h(n).</li>
+<li>Remove the node with the smallest h(n); if it is the goal, stop.</li>
+<li>Add its children with their h values.</li>
+<li>Repeat.</li>
+</ol>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 342" width="100%" style="max-width:380px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="142.5" y1="46" x2="60.0" y2="126" stroke="#777" stroke-width="1.8"/><line x1="60.0" y1="126" x2="60" y2="206" stroke="#777" stroke-width="1.8"/><line x1="142.5" y1="46" x2="225.0" y2="126" stroke="#777" stroke-width="1.8"/><line x1="225.0" y1="126" x2="170" y2="206" stroke="#777" stroke-width="1.8"/><line x1="225.0" y1="126" x2="280.0" y2="206" stroke="#777" stroke-width="1.8"/><line x1="280.0" y1="206" x2="280" y2="286" stroke="#777" stroke-width="1.8"/><circle cx="60" cy="206" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="210" text-anchor="middle" font-size="14">C</text><text x="86" y="211" text-anchor="start" font-size="12" fill="#555">h=3</text><circle cx="60.0" cy="126" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="60.0" y="130" text-anchor="middle" font-size="14">A</text><text x="86.0" y="131" text-anchor="start" font-size="12" fill="#555">h=4</text><circle cx="170" cy="206" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="170" y="210" text-anchor="middle" font-size="14">E</text><text x="196" y="211" text-anchor="start" font-size="12" fill="#555">h=3</text><circle cx="280" cy="286" r="19" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="280" y="290" text-anchor="middle" font-size="14">G</text><text x="258" y="268" text-anchor="end" font-size="12" fill="#c9302c" font-weight="bold">#4</text><text x="306" y="291" text-anchor="start" font-size="12" fill="#555">h=0 GOAL</text><circle cx="280.0" cy="206" r="19" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="280.0" y="210" text-anchor="middle" font-size="14">F</text><text x="302.0" y="188" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#3</text><text x="306.0" y="211" text-anchor="start" font-size="12" fill="#555">h=1</text><circle cx="225.0" cy="126" r="19" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="225.0" y="130" text-anchor="middle" font-size="14">B</text><text x="247.0" y="108" text-anchor="start" font-size="12" fill="#c9302c" font-weight="bold">#2</text><text x="251.0" y="131" text-anchor="start" font-size="12" fill="#555">h=2</text><circle cx="142.5" cy="46" r="19" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="142.5" y="50" text-anchor="middle" font-size="14">S</text><text x="142.5" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text><text x="168.5" y="51" text-anchor="start" font-size="12" fill="#555">h=6</text></svg><figcaption>Figure 3d. Greedy best-first: always expand the child with the smallest h → path S → B → F → G (green). Fast, but not guaranteed optimal</figcaption></figure>
 <ul>
 <li>Complete: no (can get stuck in loops without an explored set). Optimal: no.</li>
 <li>Time and space O(b^m) worst case, but a good heuristic improves this greatly.</li>
@@ -316,21 +292,14 @@ function RECURSIVE-DLS(node, problem, limit):
 <p>Greedy best-first search expands the node with the lowest heuristic value, prioritising fast exploration over guaranteed optimal solutions; it is commonly used in navigation and pathfinding. Uniform-cost search, which orders by path cost g(n) alone, is covered in Supplement A.</p>
 <h3>5. A* Search</h3>
 <p>Combines the cost so far and the estimated cost to go: <strong>f(n) = g(n) + h(n)</strong>, where g(n) is the path cost from the start and h(n) the heuristic estimate to the goal. Expands the node with the lowest f(n).</p>
-<pre><code class="language-text">function A-STAR(problem, h):
-    frontier &lt;- priority queue ordered by f = g + h, containing initial node
-    explored &lt;- empty set
-    loop:
-        if frontier empty return failure
-        node &lt;- frontier.pop()            # smallest f
-        if goal(node) return SOLUTION(node)
-        add node.state to explored
-        for each action in problem.ACTIONS(node.state):
-            child &lt;- CHILD(problem, node, action)
-            if child.state not in explored or frontier:
-                frontier.insert(child)
-            else if child is in frontier with higher g:
-                replace that frontier node with child
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Put the start node in a priority queue ordered by f(n) = g(n) + h(n).</li>
+<li>Remove the node with the smallest f; if it is the goal, stop.</li>
+<li>For each child compute g (cost so far) and f, and add it (keep only the cheaper copy of a repeated state).</li>
+<li>Repeat.</li>
+</ol>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 282" width="100%" style="max-width:430px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="215.0" y1="46" x2="100.0" y2="136" stroke="#777" stroke-width="1.8"/><text x="135.7" y="101.8" text-anchor="end" font-size="12" fill="#333">cost 1</text><line x1="100.0" y1="136" x2="100" y2="226" stroke="#777" stroke-width="1.8"/><text x="108.0" y="191.8" text-anchor="start" font-size="12" fill="#333">cost 5</text><line x1="215.0" y1="46" x2="330.0" y2="136" stroke="#777" stroke-width="1.8"/><text x="294.3" y="101.8" text-anchor="start" font-size="12" fill="#333">cost 4</text><line x1="330.0" y1="136" x2="330" y2="226" stroke="#777" stroke-width="1.8"/><text x="338.0" y="191.8" text-anchor="start" font-size="12" fill="#333">cost 2</text><circle cx="100" cy="226" r="19" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="100" y="230" text-anchor="middle" font-size="14">G</text><text x="126" y="231" text-anchor="start" font-size="12" fill="#555">f=1+5=6</text><circle cx="100.0" cy="136" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="100.0" y="140" text-anchor="middle" font-size="14">A</text><text x="126.0" y="141" text-anchor="start" font-size="12" fill="#555">g=1,h=3,f=4</text><circle cx="330" cy="226" r="19" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="330" y="230" text-anchor="middle" font-size="14">G</text><text x="356" y="231" text-anchor="start" font-size="12" fill="#555">f=4+2=6</text><circle cx="330.0" cy="136" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="330.0" y="140" text-anchor="middle" font-size="14">B</text><text x="356.0" y="141" text-anchor="start" font-size="12" fill="#555">g=4,h=1,f=5</text><circle cx="215.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="215.0" y="50" text-anchor="middle" font-size="14">S</text><text x="241.0" y="51" text-anchor="start" font-size="12" fill="#555">h=5</text></svg><figcaption>Figure 3e. A* (f = g + h) expands A (f=4) before B (f=5); Greedy (f = h) would pick B first (h=1)</figcaption></figure>
 <p>Example: S→A (cost 1, h(A)=3), S→B (cost 4, h(B)=1), A→G (cost 5), B→G (cost 2); h(S)=5. f(A)=1+3=4, f(B)=4+1=5 → expand A: f(G via A)=6; then expand B: f(G via B)=6. Both give cost 6, and A* returns an optimal path.</p>
 <ul>
 <li>Complete: yes. Optimal: yes if h is <strong>admissible</strong> (never overestimates; tree search) and <strong>consistent</strong> (h(n) ≤ c(n,a,n') + h(n'); graph search).</li>
@@ -391,30 +360,18 @@ function RECURSIVE-DLS(node, problem, limit):
 </tr>
 </tbody>
 </table>
-<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308 258" width="100%" style="max-width:308px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="154.0" y1="46" x2="74.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="34" y2="202" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="114" y2="202" stroke="#777" stroke-width="1.8"/><line x1="154.0" y1="46" x2="234.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="194" y2="202" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="274" y2="202" stroke="#777" stroke-width="1.8"/><circle cx="34" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="34" y="206" text-anchor="middle" font-size="14">D</text><text x="34" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#4</text><circle cx="114" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="114" y="206" text-anchor="middle" font-size="14">E</text><text x="114" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#5</text><circle cx="74.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="74.0" y="128" text-anchor="middle" font-size="14">B</text><text x="74.0" y="98" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#2</text><circle cx="194" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="194" y="206" text-anchor="middle" font-size="14">F</text><text x="194" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#6</text><circle cx="274" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="274" y="206" text-anchor="middle" font-size="14">G</text><text x="274" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#7</text><circle cx="234.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="234.0" y="128" text-anchor="middle" font-size="14">C</text><text x="234.0" y="98" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#3</text><circle cx="154.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="154.0" y="50" text-anchor="middle" font-size="14">A</text><text x="154.0" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text></svg><figcaption>Figure 3a. Breadth-First Search – visit level by level (FIFO queue): A B C D E F G</figcaption></figure>
-<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308 258" width="100%" style="max-width:308px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="154.0" y1="46" x2="74.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="34" y2="202" stroke="#777" stroke-width="1.8"/><line x1="74.0" y1="124" x2="114" y2="202" stroke="#777" stroke-width="1.8"/><line x1="154.0" y1="46" x2="234.0" y2="124" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="194" y2="202" stroke="#777" stroke-width="1.8"/><line x1="234.0" y1="124" x2="274" y2="202" stroke="#777" stroke-width="1.8"/><circle cx="34" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="34" y="206" text-anchor="middle" font-size="14">D</text><text x="34" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#3</text><circle cx="114" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="114" y="206" text-anchor="middle" font-size="14">E</text><text x="114" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#4</text><circle cx="74.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="74.0" y="128" text-anchor="middle" font-size="14">B</text><text x="74.0" y="98" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#2</text><circle cx="194" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="194" y="206" text-anchor="middle" font-size="14">F</text><text x="194" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#6</text><circle cx="274" cy="202" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="274" y="206" text-anchor="middle" font-size="14">G</text><text x="274" y="176" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#7</text><circle cx="234.0" cy="124" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="234.0" y="128" text-anchor="middle" font-size="14">C</text><text x="234.0" y="98" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#5</text><circle cx="154.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="154.0" y="50" text-anchor="middle" font-size="14">A</text><text x="154.0" y="20" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">#1</text></svg><figcaption>Figure 3b. Depth-First Search – go deep, then backtrack (LIFO stack): A B D E C F G</figcaption></figure>
-<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 282" width="100%" style="max-width:430px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="215.0" y1="46" x2="100.0" y2="136" stroke="#777" stroke-width="1.8"/><text x="135.7" y="101.8" text-anchor="end" font-size="12" fill="#333">cost 1</text><line x1="100.0" y1="136" x2="100" y2="226" stroke="#777" stroke-width="1.8"/><text x="108.0" y="191.8" text-anchor="start" font-size="12" fill="#333">cost 5</text><line x1="215.0" y1="46" x2="330.0" y2="136" stroke="#777" stroke-width="1.8"/><text x="294.3" y="101.8" text-anchor="start" font-size="12" fill="#333">cost 4</text><line x1="330.0" y1="136" x2="330" y2="226" stroke="#777" stroke-width="1.8"/><text x="338.0" y="191.8" text-anchor="start" font-size="12" fill="#333">cost 2</text><circle cx="100" cy="226" r="19" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="100" y="230" text-anchor="middle" font-size="14">G</text><text x="126" y="231" text-anchor="start" font-size="12" fill="#555">f=1+5=6</text><circle cx="100.0" cy="136" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="100.0" y="140" text-anchor="middle" font-size="14">A</text><text x="126.0" y="141" text-anchor="start" font-size="12" fill="#555">g=1,h=3,f=4</text><circle cx="330" cy="226" r="19" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="330" y="230" text-anchor="middle" font-size="14">G</text><text x="356" y="231" text-anchor="start" font-size="12" fill="#555">f=4+2=6</text><circle cx="330.0" cy="136" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="330.0" y="140" text-anchor="middle" font-size="14">B</text><text x="356.0" y="141" text-anchor="start" font-size="12" fill="#555">g=4,h=1,f=5</text><circle cx="215.0" cy="46" r="19" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="215.0" y="50" text-anchor="middle" font-size="14">S</text><text x="241.0" y="51" text-anchor="start" font-size="12" fill="#555">h=5</text></svg><figcaption>Figure 3c. A* (f = g + h) expands A (f=4) before B (f=5); Greedy (f = h) would pick B first (h=1)</figcaption></figure>
 <h2 class="sec">Q4. Types of agents</h2>
 <p>An <strong>agent</strong> perceives its environment through sensors and acts on it through actuators. The agent function maps percept histories to actions. Five basic types, in increasing generality:</p>
 <h3>1. Simple reflex agent</h3>
 <p>Selects actions on the basis of the <strong>current percept only</strong>, ignoring history, using condition–action rules (<em>if condition then action</em>).</p>
-<pre><code class="language-text">function SIMPLE-REFLEX-AGENT(percept):
-    state &lt;- INTERPRET-INPUT(percept)
-    rule  &lt;- RULE-MATCH(state, rules)
-    return rule.ACTION
-</code></pre>
+<p><strong>Working:</strong> percept → match an IF–THEN rule → do its action (see Figure 4a).</p>
 <ul>
 <li>Example: a thermostat; "if car-in-front-is-braking then initiate-braking".</li>
 <li>Works only if the environment is <strong>fully observable</strong>; can loop forever in partially observable worlds (a remedy is randomisation).</li>
 </ul>
 <h3>2. Model-based reflex agent</h3>
 <p>Maintains an <strong>internal state</strong> that depends on the percept history, to handle partial observability. It needs a <strong>transition model</strong> (how the world evolves and how its own actions affect it) and a <strong>sensor model</strong> (how the world appears in percepts).</p>
-<pre><code class="language-text">function MODEL-BASED-REFLEX-AGENT(percept):
-    state  &lt;- UPDATE-STATE(state, last_action, percept, model)
-    rule   &lt;- RULE-MATCH(state, rules)
-    action &lt;- rule.ACTION
-    return action
-</code></pre>
+<p><strong>Working:</strong> percept → update internal state using the world model → match a rule → act (see Figure 4b).</p>
 <ul>
 <li>Example: a self-driving car tracking other cars that are currently not visible.</li>
 </ul>
@@ -688,13 +645,14 @@ function RECURSIVE-DLS(node, problem, limit):
 </ul>
 <h3>Backpropagation algorithm</h3>
 <p>Backpropagation trains a multi-layer network by gradient descent on the error E = ½ Σ (y − ŷ)², propagating the error backwards from the output layer to the hidden layers.</p>
-<pre><code class="language-text">repeat until convergence:
-    for each training example (x, y):
-        1. FORWARD PASS: compute activations of every layer up to the output ŷ
-        2. Output error:   delta_k = g'(in_k) * (y_k - yhat_k)
-        3. BACKWARD PASS:  delta_j = g'(in_j) * sum_k ( w_jk * delta_k )   for hidden units
-        4. Update weights: w_ij &lt;- w_ij + alpha * a_i * delta_j
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><strong>Forward pass:</strong> feed the input through the network and compute the output ŷ.</li>
+<li><strong>Error at output:</strong> compare ŷ with the target y.</li>
+<li><strong>Backward pass:</strong> send the error back layer by layer to find each weight's share of the error.</li>
+<li><strong>Update weights:</strong> w ← w + α × (error term) × (input to that weight).</li>
+<li>Repeat for all examples over many epochs until the error is small.</li>
+</ol>
 <ul>
 <li>The weight update is Δw = −α ∂E/∂w (gradient descent); the chain rule gives the deltas.</li>
 <li>Problems: local minima, slow convergence, vanishing gradients with sigmoid, overfitting (remedies: early stopping, regularisation, dropout, more data).</li>
@@ -774,34 +732,29 @@ function RECURSIVE-DLS(node, problem, limit):
 </table>
 <p><strong>Temporal inference tasks:</strong> filtering P(X_t | e_{1:t}), prediction, smoothing P(X_k | e_{1:t}) for k &lt; t, and most-likely explanation (Viterbi).</p>
 <h3>Forward algorithm</h3>
-<pre><code class="language-text">alpha_1(j) = pi_j * b_j(e_1)
-alpha_t(j) = [ sum_i alpha_{t-1}(i) * a_ij ] * b_j(e_t)
-P(e_1..e_T) = sum_j alpha_T(j)
-</code></pre>
+<ol>
+<li><strong>Start:</strong> for each state, α₁ = π × probability of the first observation.</li>
+<li><strong>Recurse:</strong> αₜ(state) = (sum over previous states of αₜ₋₁ × transition) × emission of the current observation.</li>
+<li><strong>End:</strong> P(observations) = sum of the final α values.</li>
+</ol>
 <h3>Viterbi algorithm</h3>
-<pre><code class="language-text">delta_1(j) = pi_j * b_j(e_1)
-delta_t(j) = max_i [ delta_{t-1}(i) * a_ij ] * b_j(e_t)
-psi_t(j)   = argmax_i [ delta_{t-1}(i) * a_ij ]      # back-pointer
-backtrack from argmax_j delta_T(j) using psi to read off the best state path
-</code></pre>
+<ol>
+<li><strong>Start:</strong> δ₁ = π × emission of the first observation.</li>
+<li><strong>Recurse:</strong> δₜ(state) = (max over previous states of δₜ₋₁ × transition) × emission; remember which previous state gave the max.</li>
+<li><strong>End:</strong> pick the state with the largest final δ and follow the remembered pointers backwards to get the best hidden-state sequence.</li>
+</ol>
 <h3>Applications</h3>
 <p>Speech recognition, part-of-speech tagging, handwriting recognition, bioinformatics (gene finding), robot localisation, financial regime detection.</p>
 <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 205" width="100%" style="max-width:560px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><circle cx="70" cy="40" r="22" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="70" y="44" text-anchor="middle" font-size="13">X1</text><rect x="48" y="121" width="44" height="38" rx="3" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="70" y="144" text-anchor="middle" font-size="13">E1</text><line x1="70" y1="62" x2="70" y2="118" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="82.0" y="85.0" text-anchor="middle" font-size="11" fill="#333">b</text><line x1="92" y1="40" x2="178" y2="40" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="135.0" y="35.0" text-anchor="middle" font-size="11" fill="#333">a</text><circle cx="200" cy="40" r="22" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="200" y="44" text-anchor="middle" font-size="13">X2</text><rect x="178" y="121" width="44" height="38" rx="3" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="200" y="144" text-anchor="middle" font-size="13">E2</text><line x1="200" y1="62" x2="200" y2="118" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="212.0" y="85.0" text-anchor="middle" font-size="11" fill="#333">b</text><line x1="222" y1="40" x2="308" y2="40" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="265.0" y="35.0" text-anchor="middle" font-size="11" fill="#333">a</text><circle cx="330" cy="40" r="22" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="330" y="44" text-anchor="middle" font-size="13">X3</text><rect x="308" y="121" width="44" height="38" rx="3" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="330" y="144" text-anchor="middle" font-size="13">E3</text><line x1="330" y1="62" x2="330" y2="118" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="342.0" y="85.0" text-anchor="middle" font-size="11" fill="#333">b</text><text x="420" y="45" text-anchor="start" font-size="12" fill="#8a6d00" font-weight="bold">hidden states</text><text x="420" y="145" text-anchor="start" font-size="12" fill="#3b6fd4" font-weight="bold">observations</text><text x="235" y="195" text-anchor="middle" font-size="12" fill="#222" font-style="italic">Transitions A = P(X_t | X_t−1), emissions B = P(E_t | X_t), initial π</text></svg><figcaption>Figure 8. Hidden Markov model: hidden state chain emitting visible observations</figcaption></figure>
 <h2 class="sec">Q9. Decision trees, entropy and pruning</h2>
 <p>A <strong>decision tree</strong> is a supervised model that classifies an example by asking a sequence of questions about its attributes. Each <strong>internal node</strong> tests an attribute, each <strong>branch</strong> is a test outcome, and each <strong>leaf</strong> gives a class (decision). Learning is a greedy, top-down, divide-and-conquer process (ID3 / C4.5 / CART).</p>
-<pre><code class="language-text">function DECISION-TREE-LEARNING(examples, attributes, parent_examples):
-    if examples is empty: return PLURALITY-VALUE(parent_examples)
-    else if all examples have the same class: return that class
-    else if attributes is empty: return PLURALITY-VALUE(examples)
-    else:
-        A &lt;- attribute with the highest INFORMATION GAIN
-        tree &lt;- new decision tree with root test A
-        for each value v of A:
-            exs &lt;- examples with A = v
-            subtree &lt;- DECISION-TREE-LEARNING(exs, attributes - A, examples)
-            add branch (A = v) with subtree to tree
-        return tree
-</code></pre>
+<p><strong>Steps (ID3):</strong></p>
+<ol>
+<li>If all examples have the same class, make a leaf with that class.</li>
+<li>If no attributes are left, make a leaf with the majority class.</li>
+<li>Otherwise choose the attribute with the <strong>highest information gain</strong> as the node.</li>
+<li>Make one branch per value of that attribute and repeat on each subset.</li>
+</ol>
 <h3>Entropy and information gain</h3>
 <p>Entropy measures the impurity (uncertainty) of a set S with class proportions pᵢ:</p>
 <div class="formula">H(S) = − Σ_i p_i log₂ p_i          B(q) = −( q log₂ q + (1−q) log₂(1−q) )</div>
@@ -920,14 +873,14 @@ Confidence(X→Y) = Support(X ∪ Y) / Support(X)
 Lift(X→Y) = Confidence(X→Y) / Support(Y)</div>
 <p>Lift &gt; 1: positive association; lift = 1: independent; lift &lt; 1: negative association.</p>
 <p><strong>Apriori principle:</strong> every subset of a frequent itemset must also be frequent (equivalently, if an itemset is infrequent, all its supersets are infrequent). This prunes the search space.</p>
-<pre><code class="language-text">L1 &lt;- frequent 1-itemsets (support &gt;= min_sup)
-for k = 2; L(k-1) not empty; k++:
-    Ck &lt;- join L(k-1) with itself, then prune candidates having an infrequent (k-1)-subset
-    scan database, count support of each candidate in Ck
-    Lk &lt;- candidates in Ck with support &gt;= min_sup
-frequent itemsets = union of all Lk
-generate rules X -&gt; Y from each frequent itemset with confidence &gt;= min_conf
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Count every single item; keep those with support ≥ minimum support (L1).</li>
+<li>Join frequent itemsets to make bigger candidates; drop any candidate with an infrequent subset.</li>
+<li>Count the candidates; keep the frequent ones (L2, L3 …).</li>
+<li>Stop when no new frequent itemsets appear.</li>
+<li>Make rules from frequent itemsets and keep those with confidence ≥ minimum confidence.</li>
+</ol>
 <h3>Worked example</h3>
 <p>Transactions (N = 5), minimum support = 60% (count ≥ 3), minimum confidence = 70%.</p>
 <table>
@@ -1055,15 +1008,14 @@ generate rules X -&gt; Y from each frequent itemset with confidence &gt;= min_co
 <h3>Q-learning</h3>
 <p>Q-learning is a <strong>model-free, off-policy, temporal-difference</strong> method. It learns the action-value function Q(s, a) = expected return of taking a in s and acting optimally afterwards, without knowing P or R in advance.</p>
 <div class="formula">Q(s,a) ← Q(s,a) + α [ r + γ · max_a&#x27; Q(s&#x27;,a&#x27;) − Q(s,a) ]</div>
-<pre><code class="language-text">initialise Q(s, a) = 0 for all s, a
-repeat for each episode:
-    s &lt;- start state
-    repeat until s is terminal:
-        choose a from s using epsilon-greedy policy (random with prob. epsilon, else argmax Q)
-        take a, observe reward r and next state s'
-        Q(s,a) &lt;- Q(s,a) + alpha * (r + gamma * max_a' Q(s',a') - Q(s,a))
-        s &lt;- s'
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Set all Q(s, a) = 0.</li>
+<li>In state s, choose action a (usually the best Q, sometimes random – ε-greedy).</li>
+<li>Do a, get reward r and new state s'.</li>
+<li>Update Q(s, a) with the formula above.</li>
+<li>Set s ← s' and repeat until the episode ends; run many episodes.</li>
+</ol>
 <p>Example: Q(s,a) = 0, α = 0.5, γ = 0.9, r = 10, max Q(s',·) = 20. New Q = 0 + 0.5 (10 + 0.9×20 − 0) = <strong>14</strong>.</p>
 <ul>
 <li>Converges to the optimal Q* if every state–action pair is visited infinitely often and α decays appropriately.</li>
@@ -1298,12 +1250,7 @@ repeat for each episode:
 <h2 class="sec">Q15. Architecture and components of a Fuzzy Logic System</h2>
 <p><strong>Fuzzy logic</strong> (Lotfi Zadeh, 1965) handles imprecise, vague information by allowing <strong>degrees of truth</strong> between 0 and 1 instead of only true/false. A fuzzy set A is described by a <strong>membership function μ_A(x) ∈ [0, 1]</strong>; e.g. a temperature of 28 °C may be "warm" with μ = 0.7 and "hot" with μ = 0.2. Standard operations: AND = min(μ_A, μ_B), OR = max(μ_A, μ_B), NOT = 1 − μ_A.</p>
 <h3>Architecture (Mamdani fuzzy inference system)</h3>
-<pre><code class="language-text">Crisp input --&gt; [1. FUZZIFICATION] --&gt; fuzzy input --&gt; [3. INFERENCE ENGINE] --&gt; fuzzy output --&gt; [4. DEFUZZIFICATION] --&gt; Crisp output
-                                                              ^
-                                                              |
-                                                  [2. KNOWLEDGE BASE]
-                                              (membership functions + rule base)
-</code></pre>
+<p>See Figure 15a for the block diagram.</p>
 <h3>Components</h3>
 <ol>
 <li><strong>Fuzzification module</strong> – converts crisp sensor inputs (e.g. temperature = 28 °C) into fuzzy sets / membership degrees using the membership functions (triangular, trapezoidal, Gaussian).</li>
@@ -1329,20 +1276,13 @@ repeat for each episode:
 <h2 class="sec">Supplement A. Uniform Cost Search (UCS)</h2>
 <p><em>The sections from here on come from the extra notes you attached; they sit outside the 15 questions but are useful for the same exam.</em></p>
 <p>UCS is an uninformed search that expands the node with the <strong>lowest cumulative path cost g(n)</strong>, using a priority queue. It finds the cheapest path in a weighted graph when all edge costs are non-negative. With equal step costs it behaves like BFS.</p>
-<pre><code class="language-text">function UNIFORM-COST-SEARCH(problem):
-    node &lt;- Node(problem.INITIAL, cost = 0)
-    frontier &lt;- priority queue ordered by path cost, containing node
-    explored &lt;- empty set
-    loop:
-        if frontier is empty return failure
-        node &lt;- frontier.pop()              # lowest g(n)
-        if goal(node) return SOLUTION(node) # goal test on EXPANSION, not generation
-        add node.state to explored
-        for each action in problem.ACTIONS(node.state):
-            child &lt;- CHILD(problem, node, action)
-            if child.state not in explored or frontier: frontier.insert(child)
-            else if child is in frontier with higher cost: replace it with child
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Put the start node in a priority queue with cost 0.</li>
+<li>Remove the node with the lowest path cost; if it is the goal, stop.</li>
+<li>For each neighbour, compute total cost; add it (or update it if cheaper).</li>
+<li>Repeat.</li>
+</ol>
 <p><strong>Trace.</strong> Edges: A→B 1, A→C 4, B→D 1, B→E 3, C→F 5, D→G 2, E→G 1, F→G 2. Start A, goal G.</p>
 <table>
 <thead>
@@ -1396,17 +1336,13 @@ repeat for each episode:
 <p>Adversarial search is used in competitive environments where agents have conflicting goals, typically <strong>two-player zero-sum games</strong> (what is good for one player is bad for the other; no win-win outcome) such as chess, checkers, Go and tic-tac-toe. Single-agent searches (BFS, DFS, A*) do not model an opponent, so Minimax and Alpha-Beta are used instead.</p>
 <h3>Minimax algorithm</h3>
 <p>A recursive, depth-first algorithm that gives the optimal move assuming <strong>the opponent also plays optimally</strong>. <strong>MAX</strong> picks the maximum value; <strong>MIN</strong> picks the minimum value. Values start at −∞ for MAX and +∞ for MIN.</p>
-<pre><code class="language-text">function MINIMAX(node, depth, maximizingPlayer):
-    if depth = 0 or node is terminal: return UTILITY(node)
-    if maximizingPlayer:
-        best &lt;- -infinity
-        for each child: best &lt;- max(best, MINIMAX(child, depth-1, false))
-        return best
-    else:
-        best &lt;- +infinity
-        for each child: best &lt;- min(best, MINIMAX(child, depth-1, true))
-        return best
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Generate the game tree down to the terminal (leaf) nodes.</li>
+<li>Apply the utility function to each leaf.</li>
+<li>Move upward: a MAX node takes the <strong>largest</strong> child value, a MIN node the <strong>smallest</strong>.</li>
+<li>At the root, MAX chooses the move with the best value.</li>
+</ol>
 <p><strong>Worked example.</strong> Tree: A (MAX) → B, C (MIN); B → D, E and C → F, G (MAX); leaves H=−1, I=4, J=2, K=6, L=−3, M=−5, N=0, O=7.</p>
 <table>
 <thead>
@@ -1442,23 +1378,13 @@ repeat for each episode:
 <li><strong>Prune the remaining children whenever α ≥ β.</strong></li>
 <li>MAX nodes update only α; MIN nodes update only β; node values (not α/β) are passed up, while α and β are passed down to children.</li>
 </ul>
-<pre><code class="language-text">function ALPHA-BETA(node, depth, alpha, beta, maximizingPlayer):
-    if depth = 0 or node is terminal: return UTILITY(node)
-    if maximizingPlayer:
-        value &lt;- -infinity
-        for each child:
-            value &lt;- max(value, ALPHA-BETA(child, depth-1, alpha, beta, false))
-            alpha &lt;- max(alpha, value)
-            if alpha &gt;= beta: break          # beta cut-off
-        return value
-    else:
-        value &lt;- +infinity
-        for each child:
-            value &lt;- min(value, ALPHA-BETA(child, depth-1, alpha, beta, true))
-            beta &lt;- min(beta, value)
-            if alpha &gt;= beta: break          # alpha cut-off
-        return value
-</code></pre>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Start at the root with α = −∞ and β = +∞; pass α and β down to children.</li>
+<li>At a MAX node update α = max(α, child value); at a MIN node update β = min(β, child value).</li>
+<li>Whenever <strong>α ≥ β</strong>, stop looking at the remaining children (prune).</li>
+<li>Pass node values (not α, β) back up to the parent.</li>
+</ol>
 <p><strong>Worked example.</strong> A (MAX) → B, C (MIN); B → D, E; C → F, G (all MAX); leaves D: 2, 3; E: 5, 9; F: 0, 1; G: 7, 5.</p>
 <ol>
 <li>A, B and D start with α = −∞, β = +∞. D = max(2, 3) = <strong>3</strong>.</li>
