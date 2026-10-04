@@ -130,118 +130,128 @@ FIG:Q2:1
 
 ## Q3. Search algorithms
 
-Search algorithms explore the state space from the initial state looking for a path to a goal. **Uninformed** (blind) strategies use only the problem definition; **informed** (heuristic) strategies use a heuristic h(n) that estimates the cost from node n to the goal. Strategies are judged on completeness, optimality, time and space complexity (b = branching factor, d = depth of the shallowest goal, m = maximum depth, l = depth limit).
+A search algorithm finds a path from the **start state** to the **goal state**. There are two types:
+
+- **Uninformed (blind) search** – uses only the start state, the actions and the goal test; no extra knowledge. Examples: BFS, DFS, IDS, UCS.
+- **Informed (heuristic) search** – uses a **heuristic h(n)**, an estimate of how far node n is from the goal, so it finds the goal faster. Examples: Greedy best-first, A\*.
 
 ### 1. Breadth-First Search (BFS)
 
-Expands the shallowest unexpanded node first, using a FIFO queue.
+BFS explores the tree **level by level**: it visits all nodes at one depth before going deeper. It uses a **queue (FIFO – first in, first out)**.
 
-**Steps:**
+**Working:**
 
-1. Put the start node in a FIFO queue.
-2. Remove the front node; if it is the goal, stop.
-3. Add all its unvisited children to the back of the queue.
+1. Put the start node in the queue and mark it visited.
+2. Take the front node out of the queue.
+3. Add all its unvisited neighbours to the back of the queue.
 4. Repeat until the goal is found or the queue is empty.
 
 FIG:Q3:0
 
-Trace on the tree in Figure 3a (A→B, C; B→D, E; C→F, G; goal G). Queue: A → B, C → C, D, E → D, E, F, G → goal G reached. Visit order: **A, B, C, D, E, F, G**.
+**Example:** in the tree above, BFS visits **A → B → C → D → E → F → G**.
 
-Second example (undirected graph with edges 1–2, 1–3, 1–5, 2–4, 3–4, 3–5): start at 1, visit its neighbours 2, 3, 5, then the remaining vertex 4 → BFS order **1-2-3-5-4**. BFS uses a queue and a visited list; applications are web crawling, social-network analysis, game AI and state-space search.
-
-- Complete: yes (b finite). Optimal: yes when all step costs are equal.
-- Time O(b^d), space O(b^d) – its major drawback is memory.
+- **Advantages:** always finds the shortest path (when every step costs the same); never misses a solution.
+- **Disadvantages:** needs a lot of memory because it stores every node of a level.
+- **Applications:** web crawling, social networks (friends of friends), GPS shortest route.
 
 ### 2. Depth-First Search (DFS)
 
-Expands the deepest unexpanded node first, using a LIFO stack (or recursion).
+DFS goes **as deep as possible** along one branch, then **backtracks** and tries the next branch. It uses a **stack (LIFO – last in, first out)**.
 
-**Steps:**
+**Working:**
 
-1. Put the start node on a LIFO stack.
-2. Pop the top node; if it is the goal, stop.
-3. Push its unvisited children onto the stack.
-4. Repeat – the search goes as deep as possible, then backtracks.
+1. Start at the root node.
+2. Go to the first unvisited child, and keep going deeper.
+3. When a node has no unvisited child (dead end), backtrack to the previous node.
+4. Repeat until the goal is found or all nodes are visited.
 
 FIG:Q3:1
 
-Trace on the same tree (Figure 3b): A → B → D → (backtrack) E → (backtrack to A) C → F → G. Visit order: **A, B, D, E, C, F, G**.
+**Example:** in the same tree, DFS visits **A → B → D → E → C → F → G**.
 
-Notes example (tree A → B, C; B → D, E; C → F, G): DFS goes A, B, D, backtracks to B and visits E, then C, F, G → order **A-B-D-E-C-F-G**. Applications: maze generation, puzzle solving, robot pathfinding.
+- **Advantages:** uses very little memory.
+- **Disadvantages:** may go down a very deep or endless path; does not guarantee the shortest path.
+- **Applications:** maze generation, puzzle solving, robot path-finding.
 
-- Complete: no in infinite or cyclic spaces (yes in finite spaces with a graph-search explored set). Optimal: no.
-- Time O(b^m), space only O(b·m) – its major advantage.
+### 3. Iterative Deepening Search (IDS / IDDFS)
 
-### 3. Iterative Deepening DFS (IDDFS / IDS)
+IDS runs **DFS again and again with a depth limit** that grows by one each time (limit 0, then 1, then 2 …). It combines the **low memory of DFS** with the **shortest-path guarantee of BFS**.
 
-Runs depth-limited DFS repeatedly with limit 0, 1, 2, … combining the small memory of DFS with the completeness and optimality of BFS.
+**Working:**
 
-**Steps:**
-
-1. Run depth-limited DFS with limit 0 (only the root).
-2. If the goal is not found, increase the limit by 1 and run again from the root.
-3. Repeat with limits 1, 2, 3 … until the goal is found.
+1. Run DFS only up to depth 0 (just the root).
+2. If the goal is not found, increase the limit to 1 and start again.
+3. Keep increasing the limit until the goal is found.
 
 FIG:Q3:3
 
-- Complete: yes. Optimal: yes (unit step cost). Time O(b^d), space O(b·d).
-- Repeated work on upper levels is small because most nodes lie at the bottom level.
+- **Advantages:** low memory and still finds the shallowest goal.
+- **Disadvantages:** upper levels are visited many times (small extra work).
 
 ### 4. Greedy Best-First Search
 
-Expands the node that appears closest to the goal, using only the heuristic: **f(n) = h(n)**. Implemented with a priority queue ordered by h.
+Greedy search always moves to the node that **looks closest to the goal**, using only the heuristic: **f(n) = h(n)**.
 
-**Steps:**
+**Working:**
 
-1. Put the start node in a priority queue ordered by h(n).
-2. Remove the node with the smallest h(n); if it is the goal, stop.
-3. Add its children with their h values.
-4. Repeat.
+1. Start at the initial node.
+2. Look at the neighbouring nodes and their h values.
+3. Move to the node with the **lowest h(n)**.
+4. Repeat until the goal is reached.
 
 FIG:Q3:4
 
-- Complete: no (can get stuck in loops without an explored set). Optimal: no.
-- Time and space O(b^m) worst case, but a good heuristic improves this greatly.
-
-Greedy best-first search expands the node with the lowest heuristic value, prioritising fast exploration over guaranteed optimal solutions; it is commonly used in navigation and pathfinding. Uniform-cost search, which orders by path cost g(n) alone, is covered in Supplement A.
+- **Advantages:** fast; explores fewer nodes.
+- **Disadvantages:** not always the shortest path; can get stuck.
+- **Applications:** navigation systems, path-finding in games.
 
 ### 5. A\* Search
 
-Combines the cost so far and the estimated cost to go: **f(n) = g(n) + h(n)**, where g(n) is the path cost from the start and h(n) the heuristic estimate to the goal. Expands the node with the lowest f(n).
+A\* uses both the **cost so far** and the **estimated cost to the goal**:
 
-**Steps:**
+**f(n) = g(n) + h(n)**
 
-1. Put the start node in a priority queue ordered by f(n) = g(n) + h(n).
-2. Remove the node with the smallest f; if it is the goal, stop.
-3. For each child compute g (cost so far) and f, and add it (keep only the cheaper copy of a repeated state).
-4. Repeat.
+- g(n) = actual cost from the start to node n
+- h(n) = estimated cost from n to the goal
 
-**Worked example (from class notes).** Edges: S→A 1, S→G 10, A→B 2, A→C 1, B→D 5, C→D 3, C→G 4. Heuristic: h(S)=5, h(A)=3, h(B)=4, h(C)=2, h(D)=6, h(G)=0.
+At every step A\* moves to the node with the **smallest f(n)**.
+
+**Example (from class notes):**
 
 FIG:Q3:2
 
-| Step | At node | Choices | f(n) = g(n) + h(n) | Move to |
+**Step 1 – From S** we can go to A or G:
+
+- f(A) = g(A) + h(A) = 1 + 3 = **4**
+- f(G) = g(G) + h(G) = 10 + 0 = 10
+- f(A) is smaller, so we move to **A**.
+
+**Step 2 – From A** we can go to B or C:
+
+- f(B) = g(B) + h(B) = (1 + 2) + 4 = 7
+- f(C) = g(C) + h(C) = (1 + 1) + 2 = **4**
+- f(C) is smaller, so we move to **C**.
+
+**Step 3 – From C** we can go to D or G:
+
+- f(D) = g(D) + h(D) = (1 + 1 + 3) + 6 = 11
+- f(G) = g(G) + h(G) = (1 + 1 + 4) + 0 = **6**
+- f(G) is smaller, so we move to **G**.
+
+G is the goal node, so we have reached our goal. **Path: S → A → C → G, total cost = 6.**
+
+- **Advantages:** finds the best (optimal) path if h(n) never over-estimates; faster than blind search.
+- **Disadvantages:** stores many nodes, so it needs a lot of memory.
+
+### Quick comparison
+
+| Algorithm | Type | Uses | Shortest path? | Memory |
 | --- | --- | --- | --- | --- |
-| 1 | S | A, G | f(A) = 1 + 3 = **4**; f(G) = 10 + 0 = 10 | A |
-| 2 | A | B, C | f(B) = (1+2) + 4 = 7; f(C) = (1+1) + 2 = **4** | C |
-| 3 | C | D, G | f(D) = (1+1+3) + 6 = 11; f(G) = (1+1+4) + 0 = **6** | G |
-
-G is the goal node, so we have reached our goal. **Optimal path: S → A → C → G, cost 6.**
-
-FIG:Q3:5
-
-- Complete: yes. Optimal: yes if h is **admissible** (never overestimates; tree search) and **consistent** (h(n) ≤ c(n,a,n') + h(n'); graph search).
-- Time and space are exponential in the worst case; memory is the practical limit.
-
-### Comparison
-
-| Algorithm | Complete | Optimal | Time | Space | Uses heuristic |
-| --- | --- | --- | --- | --- | --- |
-| BFS | Yes | Yes (equal costs) | O(b^d) | O(b^d) | No |
-| DFS | No | No | O(b^m) | O(b·m) | No |
-| IDDFS | Yes | Yes (equal costs) | O(b^d) | O(b·d) | No |
-| Greedy BFS | No | No | O(b^m) | O(b^m) | Yes, f = h |
-| A\* | Yes | Yes (admissible h) | O(b^d) | O(b^d) | Yes, f = g + h |
+| BFS | Uninformed | Queue | Yes (equal costs) | High |
+| DFS | Uninformed | Stack | No | Low |
+| IDS | Uninformed | Stack + depth limit | Yes (equal costs) | Low |
+| Greedy | Informed | h(n) | No | Medium |
+| A\* | Informed | g(n) + h(n) | Yes | High |
 
 ## Q4. Types of agents
 

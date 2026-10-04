@@ -222,7 +222,7 @@ def idtree(limit):
     order={0:["A"],1:["A","B","C"],2:list("ABDECFG")}[limit]
     def mk(t,d):
         on=t in order
-        return N(t,order=(order.index(t)+1) if on else None,fill="#e8f0fe" if on else "#f4f4f4",stroke="#3b6fd4" if on else "#bbb")
+        return N(t,fill="#e8f0fe" if on else "#f4f4f4",stroke="#3b6fd4" if on else "#bbb")
     A=mk("A",0);B=mk("B",1);C=mk("C",1);Dn=mk("D",2);E_=mk("E",2);F=mk("F",2);G=mk("G",2)
     A["c"]=[("",B),("",C)];B["c"]=[("",Dn),("",E_)];C["c"]=[("",F),("",G)]
     body,W,H=draw_tree(A,dx=50,dy=70,pad=30)
@@ -319,3 +319,8 @@ body,W,H=draw_tree(S_n,dx=130,dy=85,pad=70)
 astar_tree=fig("Figure 3f. A* search tree: at each step expand the node with the smallest f; green path S → A → C → G (f = 6)",body,W+60,H)
 D["Q3"][2]=astar_graph
 D["Q3"].append(astar_tree)
+D["Q3"]=[D["Q3"][0].replace("Figure 3a. Breadth-First Search – visit level by level (FIFO queue): A B C D E F G","Figure 3a. BFS – level by level: A, B, C, D, E, F, G (numbers = visit order)"),
+         D["Q3"][1].replace("Figure 3b. Depth-First Search – go deep, then backtrack (LIFO stack): A B D E C F G","Figure 3b. DFS – go deep, then backtrack: A, B, D, E, C, F, G (numbers = visit order)"),
+         D["Q3"][2].replace("Figure 3e. A* example graph (S = start, G = goal)","Figure 3e. A* example graph: numbers on lines = cost, h = heuristic, green = path found").replace(">Edge numbers = step cost g; purple = heuristic h; green = path found by A* (cost 6)<","><"),
+         D["Q3"][3].replace("Figure 3c. Iterative deepening: DFS is repeated with limit 0, 1, 2 …; blue = visited in that round (numbers = visit order), grey = not reached yet","Figure 3c. IDS – DFS with limit 0, then 1, then 2 (blue = visited, grey = not yet)"),
+         D["Q3"][4].replace("Figure 3d. Greedy best-first: always expand the child with the smallest h → path S → B → F → G (green). Fast, but not guaranteed optimal","Figure 3d. Greedy – always go to the smallest h: S → B → F → G")]
