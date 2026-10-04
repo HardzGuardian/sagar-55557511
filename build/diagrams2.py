@@ -24,9 +24,13 @@ def draw_tree(root,dx=64,dy=78,pad=34,top=46):
     def rec(n):
         nonlocal edges,nodes
         for e,ch in n["c"]:
+            ch["px"]=n["x"]
             cut=ch.get("cut")
             edges+=line(n["x"],n["y"],ch["x"],ch["y"],color="#c9302c" if cut else "#777",w=1.8,dash=bool(cut))
-            if e: edges+=text((n["x"]+ch["x"])/2+(-10 if ch["x"]<n["x"] else 10 if ch["x"]>n["x"] else 12),(n["y"]+ch["y"])/2,e,fs=12,color="#333",anchor="middle")
+            if e:
+                lx=n["x"]+0.62*(ch["x"]-n["x"]); ly=n["y"]+0.62*(ch["y"]-n["y"])
+                off=-8 if ch["x"]<n["x"] else 8 if ch["x"]>n["x"] else 8
+                edges+=text(lx+off,ly,e,fs=12,color="#333",anchor="end" if off<0 else "start")
             rec(ch)
         t=n["t"]; fill=n.get("fill","#e8f0fe"); st=n.get("stroke","#3b6fd4"); sh=n.get("shape","c")
         if sh=="box":
@@ -34,7 +38,10 @@ def draw_tree(root,dx=64,dy=78,pad=34,top=46):
             nodes+=f'<rect x="{n["x"]-w/2}" y="{n["y"]-16}" width="{w}" height="32" rx="8" fill="{fill}" stroke="{st}" stroke-width="1.6"/>'+text(n["x"],n["y"]+5,t,fs=14,bold=n.get("bold",False))
         else:
             nodes+=node(n["x"],n["y"],t,r=19,fill=fill,stroke=st,fs=14,shape=sh)
-        if n.get("val") is not None: nodes+=text(n["x"]+(24 if sh!="box" else max(44,len(t)*8+18)/2+8),n["y"]-14,str(n["val"]),fs=14,color="#c9302c",bold=True,anchor="start")
+        if n.get("val") is not None:
+            left=n.get("px") is not None and n["px"]>n["x"]
+            dxv=(28 if sh!="box" else max(44,len(t)*8+18)/2+8)
+            nodes+=text(n["x"]+(-dxv if left else dxv),n["y"]-10,str(n["val"]),fs=15,color="#c9302c",bold=True,anchor="end" if left else "start")
         if n.get("order"): nodes+=text(n["x"],n["y"]-26,f'#{n["order"]}',fs=12,color="#c9302c",bold=True)
         if n.get("sub"): nodes+=text(n["x"]+26,n["y"]+5,n["sub"],fs=12,color="#555",anchor="start")
     rec(root)
@@ -126,13 +133,81 @@ def mm():
     def mn(t,val,ch): return N(t,[("",c) for c in ch],shape="tri_dn",fill="#dbe6fb",stroke="#3b6fd4",val=val)
     d=mx("D",4,[leaf(-1),leaf(4)]);e=mx("E",6,[leaf(2),leaf(6)]);f=mx("F",-3,[leaf(-3),leaf(-5)]);g=mx("G",7,[leaf(0),leaf(7)])
     return mx("A",4,[mn("B",4,[d,e]),mn("C",-3,[f,g])])
-D["SB"]=[tree_fig("Figure B1. Minimax: ▲ = MAX picks the larger value, ▼ = MIN picks the smaller; red numbers are backed-up values; root = 4",mm(),dx=70,dy=82,pad=50)]
+D["SB"]=[tree_fig("Figure B1. Minimax: ▲ = MAX picks the larger value, ▼ = MIN picks the smaller; red numbers are backed-up values; root = 4",mm(),dx=70,dy=82,pad=70)]
 def ab():
     def leaf(v,cut=False): return N(str(v),shape="s",fill="#fff" if cut else "#f1f1f1",stroke="#c9302c" if cut else "#888",cut=cut)
     def mx(t,val,ch,**k): return N(t,[("",c) for c in ch],shape="tri_up",fill="#fde9e0",stroke="#c9602a",val=val,**k)
     def mn(t,val,ch,**k): return N(t,[("",c) for c in ch],shape="tri_dn",fill="#dbe6fb",stroke="#3b6fd4",val=val,**k)
-    d=mx("D",3,[leaf(2),leaf(3)]);e=mx("E",5,[leaf(5),leaf(9,True)],sub="α=5≥β=3: prune 9")
-    f=mx("F",1,[leaf(0),leaf(1)]);g=mx("G","✂ pruned",[leaf(7,True),leaf(5,True)],cut=True)
-    return mx("A",3,[mn("B",3,[d,e]),mn("C",1,[f,g],sub="α=3≥β=1: prune G")])
-D["SB"].append(tree_fig("Figure B2. Alpha-beta pruning: dashed red branches are never examined; the answer (3) is the same as minimax",ab(),dx=70,dy=82,pad=50))
+    d=mx("D",3,[leaf(2),leaf(3)]);e=mx("E",5,[leaf(5),leaf(9,True)],sub="α=5 ≥ β=3")
+    f=mx("F",1,[leaf(0),leaf(1)]);g=mx("G","pruned",[leaf(7,True),leaf(5,True)],cut=True)
+    return mx("A",3,[mn("B",3,[d,e]),mn("C",1,[f,g],sub="α=3 ≥ β=1")])
+D["SB"].append(tree_fig("Figure B2. Alpha-beta pruning: dashed red branches are never examined; the answer (3) is the same as minimax",ab(),dx=70,dy=82,pad=70))
 D["Q8"]=D["Q8"][:1]
+
+# ---------- fixes ----------
+b=box(120,10,440,50,"ENVIRONMENT",fill="#f1f1f1",stroke="#888",fs=16,bold=True)
+b+=box(20,140,170,56,"SENSORS",fill="#e0f4e8",stroke="#2a8a55",fs=15,bold=True)+box(255,140,170,56,"AGENT\n(decides)",fill="#ede7f6",stroke="#6a4cc2",fs=15,bold=True)+box(490,140,170,56,"ACTUATORS",fill="#fde9e0",stroke="#c9602a",fs=15,bold=True)
+b+=arrow(160,60,105,140,"percepts in",lx=-40)+arrow(190,168,255,168,"percept",ly=-8)+arrow(425,168,490,168,"action",ly=-8)+arrow(575,140,520,60,"changes it",lx=40)
+D["Q1"]=[fig("Figure 1. Agent–environment loop (sense → decide → act → repeat)",b,680,215)]
+
+b=box(40,20,130,48,"Environment",fill="#f1f1f1",stroke="#888")+box(240,20,140,48,"Performance\nelement",fill="#ede7f6",stroke="#6a4cc2")+box(450,20,130,48,"Actuators",fill="#e0f4e8",stroke="#2a8a55")
+b+=box(40,140,130,48,"Problem\ngenerator",fill="#fde9e0",stroke="#c9602a")+box(240,140,140,48,"Learning\nelement",fill="#e4f3d6",stroke="#5a9a2a")+box(450,140,130,48,"Critic",fill="#fff3cd",stroke="#c99a00")+box(450,240,130,48,"Performance\nstandard",fill="#f1f1f1",stroke="#888")
+b+=arrow(170,44,240,44,"percept",ly=-8)+arrow(380,44,450,44,"action",ly=-8)+arrow(515,68,515,140,"outcome",lx=34)+arrow(515,240,515,188,"compare",lx=34)
+b+=arrow(450,164,380,164,"feedback",ly=-8)+arrow(310,140,310,68,"improves",lx=36)+arrow(240,164,170,164,"goals",ly=-8)+arrow(105,140,105,68,"experiments",lx=-46,dash=True)
+D["Q4"][4]=fig("Figure 4e. Learning agent: the critic compares outcomes with a standard; the learning element improves the performance element",b,640,300)
+
+steps=[("Step 1  C1 → L1","Counts: Bread 4, Milk 4, Diaper 4, Beer 3, Coke 2 ✗, Eggs 1 ✗\nL1 = {Bread, Milk, Diaper, Beer}"),
+("Step 2  C2 → L2","Pairs: B,M = 3   B,D = 3   M,D = 3   D,Beer = 3   B,Beer = 2 ✗   M,Beer = 2 ✗\nL2 = {B,M}, {B,D}, {M,D}, {D,Beer}"),
+("Step 3  C3 → L3","Only candidate {B, M, D}: count 2 < 3  →  L3 empty, STOP"),
+("Step 4  Rules","Beer → Diaper: confidence 1.00, lift 1.25\nDiaper → Beer: confidence 0.75, lift 1.25")]
+b=""
+for i,(h,t) in enumerate(steps):
+    y=10+i*78
+    b+=box(10,y,150,52,h,fill="#ede7f6",stroke="#6a4cc2",fs=14,bold=True)+box(175,y,615,52,t,fill="#d8efdf" if i==3 else "#e8f0fe",stroke="#2a8a55" if i==3 else "#3b6fd4",fs=13)
+    if i<3: b+=arrow(85,y+52,85,y+78)
+D["Q11"]=[fig("Figure 11. Apriori steps for the worked example (min support = 3 of 5; B = Bread, M = Milk, D = Diaper)",b,800,330)]
+
+b='<rect x="20" y="10" width="320" height="220" fill="#fafafa" stroke="#ccc"/>'
+b+=line(70,230,290,10,color="#222",w=2.4)+line(28,230,248,10,color="#888",dash=True)+line(112,230,332,10,color="#888",dash=True)
+for x,y in ((60,100),(90,60),(140,40),(50,170),(80,140)): b+=f'<circle cx="{x}" cy="{y}" r="7" fill="#3b6fd4"/>'
+for x,y in ((130,128),(190,68)): b+=f'<circle cx="{x}" cy="{y}" r="7" fill="#3b6fd4"/><circle cx="{x}" cy="{y}" r="12" fill="none" stroke="#2a7a3a" stroke-width="2.2"/>'
+for x,y in ((260,180),(300,120),(220,210),(310,200),(290,60)): b+=f'<rect x="{x-7}" y="{y-7}" width="14" height="14" fill="#c9602a"/>'
+for x,y in ((170,172),(230,112)): b+=f'<rect x="{x-7}" y="{y-7}" width="14" height="14" fill="#c9602a"/><circle cx="{x}" cy="{y}" r="13" fill="none" stroke="#2a7a3a" stroke-width="2.2"/>'
+b+=f'<line x1="150" y1="108" x2="180" y2="138" stroke="#2a7a3a" stroke-width="1.6" marker-end="url(#a)"/><line x1="180" y1="138" x2="150" y2="108" stroke="#2a7a3a" stroke-width="1.6" marker-end="url(#a)"/>'
+b+=text(360,40,"● Class +1",anchor="start",color="#3b6fd4",bold=True,fs=13)+text(360,62,"■ Class −1",anchor="start",color="#c9602a",bold=True,fs=13)
+b+=text(360,96,"—— hyperplane w·x + b = 0",anchor="start",fs=12)+text(360,118,"- - - margins w·x + b = ±1",anchor="start",fs=12)+text(360,140,"◯ support vectors",anchor="start",fs=12,color="#2a7a3a")+text(360,162,"↔ margin width = 2 / ‖w‖",anchor="start",fs=12,color="#2a7a3a")
+D["Q13"]=[fig("Figure 13. SVM: the widest 'street' between the two classes; only the support vectors fix its position",b,560,240)]
+
+DB='<defs><marker id="s" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto"><path d="M8,0 L0,4 L8,8 z" fill="#444"/></marker></defs>'
+def both(x1,y1,x2,y2,l): return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#444" stroke-width="1.6" marker-start="url(#s)" marker-end="url(#a)"/>'+text(x1+0.3*(x2-x1),y1+0.3*(y2-y1)-8,l,fs=12)
+b=DB+box(20,62,150,56,"Interrogator\n(human judge)",fill="#fff3cd",stroke="#c99a00",fs=14)+box(400,10,140,48,"Human",fill="#e0f4e8",stroke="#2a8a55",fs=14)+box(400,122,140,48,"Computer",fill="#fde9e0",stroke="#c9602a",fs=14)
+b+=f'<line x1="310" y1="0" x2="310" y2="180" stroke="#999" stroke-width="3" stroke-dasharray="8,5"/>'+text(310,198,"hidden from judge",fs=12,color="#777")
+b+=both(170,80,400,34,"typed chat")+both(170,100,400,146,"typed chat")
+b+=text(280,222,"The machine passes if the judge cannot tell which one is the computer",fs=13,italic=True)
+D["Q14"][1]=fig("Figure 14b. The Turing Test",b,560,232)
+
+b=box(10,40,100,50,"Crisp\ninput",fill="#f1f1f1",stroke="#888",fs=14)+box(160,40,130,50,"1. Fuzzi-\nfication",fill="#e8f0fe",fs=14)+box(340,40,130,50,"3. Inference\nengine",fill="#ede7f6",stroke="#6a4cc2",fs=14)+box(520,40,130,50,"4. Defuzzi-\nfication",fill="#e8f0fe",fs=14)+box(700,40,100,50,"Crisp\noutput",fill="#f1f1f1",stroke="#888",fs=14)
+b+=arrow(110,65,160,65)+arrow(290,65,340,65)+arrow(470,65,520,65)+arrow(650,65,700,65)
+b+=text(315,30,"fuzzy",fs=11)+text(495,30,"fuzzy",fs=11)
+b+=box(275,140,260,56,"2. Knowledge base\nmembership functions + IF–THEN rules",fill="#fff3cd",stroke="#c99a00",fs=13)+arrow(405,140,405,90)
+b+=text(135,30,"e.g. 28 °C",fs=11,color="#555")+text(675,30,"e.g. fan 55 %",fs=11,color="#555")
+D["Q15"][0]=fig("Figure 15a. Fuzzy logic system: fuzzify → apply rules → defuzzify",b,810,210)
+
+b='<rect x="40" y="10" width="420" height="130" fill="#fafafa" stroke="#ccc"/>'
+X=lambda v:40+v*420/45
+Y=lambda m:140-m*120
+def poly(pts,c,n,lx):
+    return f'<polygon points="{" ".join(f"{X(a):.1f},{Y(m):.1f}" for a,m in pts)}" fill="{c}" fill-opacity=".22" stroke="{c}" stroke-width="2.2"/>'+text(X(lx),Y(1)-0+(-4),n,bold=True,color=c,fs=13)
+b+=poly([(0,0),(0,1),(10,1),(20,0)],"#3b6fd4","Cold",5)+poly([(12,0),(22,1),(42,0)],"#c99a00","Warm",22)+poly([(25.5,0),(38,1),(45,1),(45,0)],"#c9302c","Hot",41.5)
+x=28
+b+=f'<line x1="{X(x)}" y1="10" x2="{X(x)}" y2="140" stroke="#222" stroke-dasharray="4,3"/>'
+for m,c in ((0.7,"#c99a00"),(0.03,"#c9302c")): pass
+b+=f'<circle cx="{X(x)}" cy="{Y(0.7)}" r="4" fill="#c99a00"/>'+text(X(x)-6,Y(0.7)-4,"Warm 0.7",fs=12,anchor="end",bold=True,color="#8a6d00")+f'<circle cx="{X(x)}" cy="{Y(0.2)}" r="4" fill="#c9302c"/>'+text(X(x)+6,Y(0.2)+4,"Hot 0.2",fs=12,anchor="start",bold=True,color="#c9302c")
+for v in (0,10,20,30,40): b+=text(X(v),156,f"{v}",fs=11,color="#555")
+b+=text(250,174,"temperature (°C)",fs=12)+text(32,20,"1",fs=11,anchor="end")+text(32,140,"0",fs=11,anchor="end")+text(18,80,"μ",fs=13,anchor="end")
+D["Q15"][1]=fig("Figure 15b. Membership functions: 28 °C is Warm to degree 0.7 and Hot to degree 0.2",b,480,182)
+
+b=""
+for y,t in ((30,"x₁"),(80,"x₂"),(130,"x₃")): b+=node(40,y,t)+arrow(58,y,184,80)+text(110,y+(-6 if y<80 else 14 if y>80 else -6),t.replace("x","w"),fs=12,color="#3b6fd4",bold=True)
+b+=node(210,80,"Σ",r=26,fill="#fff3cd")+box(270,58,110,44,"activation\ng(Σ w·x + b)",fill="#ede7f6",stroke="#6a4cc2",fs=12)+arrow(236,80,270,80)+arrow(380,80,440,80)+text(450,85,"ŷ",fs=15,anchor="start",bold=True)
+D["Q7"][1]=fig("Figure 7b. A single neuron (perceptron): weighted sum, then activation",b,470,160)
