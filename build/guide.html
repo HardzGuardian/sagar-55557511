@@ -1,0 +1,1638 @@
+<!doctype html><meta charset=utf-8><title>Artificial Intelligence – Exam Answer Guide</title><style>
+@page{size:A4;margin:16mm 14mm}
+body{font-family:Helvetica,Arial,sans-serif;font-size:10.5pt;line-height:1.45;color:#1b1b1b}
+h1{font-size:26pt;margin:0 0 4px} h2.sec{font-size:15pt;color:#1a3f8f;border-bottom:2px solid #1a3f8f;padding-bottom:3px;margin-top:26px;page-break-before:always}
+h3{font-size:12pt;color:#2b2b6b;margin:16px 0 6px}
+table{border-collapse:collapse;width:100%;margin:8px 0 12px;font-size:9.5pt;page-break-inside:auto}
+tr{page-break-inside:avoid} th{background:#1a3f8f;color:#fff;text-align:left} th,td{border:1px solid #9aa7c7;padding:4px 6px;vertical-align:top} tr:nth-child(even) td{background:#f3f6fd}
+pre{background:#f6f8fa;border:1px solid #d5dbe5;padding:8px;font-size:8.6pt;white-space:pre-wrap;page-break-inside:avoid;border-radius:4px}
+code{font-family:Menlo,Consolas,monospace;font-size:9pt}
+.formula{background:#fffbea;border-left:4px solid #e0a800;padding:8px 12px;margin:8px 0;font-family:Cambria,Georgia,serif;font-size:11pt;white-space:pre-wrap;page-break-inside:avoid}
+figure{margin:12px auto;text-align:center;page-break-inside:avoid;border:1px solid #dde3ef;border-radius:6px;padding:8px;background:#fcfdff}
+figcaption{font-size:9pt;color:#444;font-style:italic;margin-top:4px}
+.cover{text-align:center;padding:90px 0 30px} .cover p{color:#555}
+ol.toc{columns:1;font-size:11pt;line-height:1.7}
+</style>
+<div class=cover><h1>Artificial Intelligence</h1><h2 style="border:0;color:#1a3f8f">Exam Answer Guide</h2><p>15 questions with diagrams, tables and worked examples<br>plus supplements from the class notes</p></div>
+<h3>Contents</h3><ol class=toc><li>Q1. What is PEAS? PEAS descriptions of various systems</li><li>Q2. Problem formulation</li><li>Q3. Search algorithms</li><li>Q4. Types of agents</li><li>Q5. Properties of task environments</li><li>Q6. Supervised vs. unsupervised vs. reinforcement learning</li><li>Q7. Artificial Neural Networks, feed-forward networks and backpropagation</li><li>Q8. Hidden Markov Model (HMM)</li><li>Q9. Decision trees, entropy and pruning</li><li>Q10. Linear / polynomial regression, overfitting and underfitting</li><li>Q11. Support, confidence and lift using Apriori</li><li>Q12. Reinforcement learning (Q-learning, active vs. passive)</li><li>Q13. Naïve Bayes models and Support Vector Machines</li><li>Q14. Foundations of AI, Turing Test, and the four approaches</li><li>Q15. Architecture and components of a Fuzzy Logic System</li><li>Supplement A. Uniform Cost Search (UCS)</li><li>Supplement B. Adversarial search: Minimax and Alpha-Beta pruning</li><li>Supplement C. Reasoning under uncertainty</li><li>Supplement D. Machine learning basics and Responsible AI</li></ol>
+<h2 class="sec">Q1. What is PEAS? PEAS descriptions of various systems</h2>
+<p><strong>PEAS</strong> is the framework used to specify the <em>task environment</em> of a rational agent before designing it. It stands for <strong>P</strong>erformance measure, <strong>E</strong>nvironment, <strong>A</strong>ctuators and <strong>S</strong>ensors.</p>
+<ul>
+<li><strong>Performance measure</strong> – the criterion that defines how successful the agent is.</li>
+<li><strong>Environment</strong> – the world in which the agent operates.</li>
+<li><strong>Actuators</strong> – the means by which the agent acts on the environment.</li>
+<li><strong>Sensors</strong> – the means by which the agent perceives the environment.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Performance measure</th>
+<th>Environment</th>
+<th>Actuators</th>
+<th>Sensors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vacuum cleaner</td>
+<td>Amount of dirt cleaned, time taken, electricity used, noise, battery life</td>
+<td>Rooms, floor, carpet, furniture, obstacles, stairs</td>
+<td>Wheels, brushes, suction unit, dust bin</td>
+<td>Dirt sensor, bump sensor, cliff sensor, location / camera sensor</td>
+</tr>
+<tr>
+<td>Part-picking robot</td>
+<td>Percentage of parts placed in the correct bin, speed, no damage to parts</td>
+<td>Conveyor belt carrying parts, bins</td>
+<td>Jointed arm and hand (gripper)</td>
+<td>Camera, joint-angle sensors, touch / pressure sensor</td>
+</tr>
+<tr>
+<td>Medical diagnosis system</td>
+<td>Healthy patient, correct diagnosis, minimised cost and lawsuits</td>
+<td>Patient, hospital, doctors, staff</td>
+<td>Screen display of questions, tests, diagnoses, treatments, referrals</td>
+<td>Keyboard entry of symptoms, findings, patient's answers, lab reports</td>
+</tr>
+<tr>
+<td>Soccer match (robot player)</td>
+<td>Goals scored, wins, team coordination, fewer fouls</td>
+<td>Field, ball, teammates, opponents, referee</td>
+<td>Legs (kick, run, turn), head, communication device</td>
+<td>Camera, ball-position sensor, speed / direction sensor, communication receiver</td>
+</tr>
+<tr>
+<td>Taxi driver (extra example)</td>
+<td>Safe, fast, legal, comfortable trip, maximum profit</td>
+<td>Roads, traffic, pedestrians, customers</td>
+<td>Steering, accelerator, brake, signal, horn, display</td>
+<td>Cameras, GPS, speedometer, odometer, sonar, keyboard</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why PEAS matters:</strong> the first step in designing any agent is to specify its task environment as fully as possible; a vague PEAS description leads to a badly designed agent.</p>
+<p><strong>More PEAS examples (from your notes):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Performance measure</th>
+<th>Environment</th>
+<th>Actuators</th>
+<th>Sensors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Self-driving car</td>
+<td>Safe arrival, speed, fuel efficiency</td>
+<td>Roads, traffic, pedestrians</td>
+<td>Steering, brakes, accelerator, signals</td>
+<td>Cameras, GPS, LiDAR, radar</td>
+</tr>
+<tr>
+<td>Chess-playing program</td>
+<td>Wins games</td>
+<td>Chessboard, opponent</td>
+<td>Move selector on board</td>
+<td>Board state (current positions)</td>
+</tr>
+<tr>
+<td>Internet shopping agent</td>
+<td>Price, quality, delivery</td>
+<td>Online stores, suppliers</td>
+<td>Order placement system</td>
+<td>HTML / web scraper</td>
+</tr>
+<tr>
+<td>Spam email filter</td>
+<td>Block spam, allow genuine mails</td>
+<td>Email inbox</td>
+<td>Delete / label / move email</td>
+<td>Email headers, content, sender info</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Agent–environment loop:</strong> the environment generates signals → sensors convert them to percepts → the agent stores the percept sequence → the agent function f: P* → A maps it to an action → actuators execute the action and change the environment → the cycle repeats.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 670 200" width="100%" style="max-width:670px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="250" y="40" width="170" height="60" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="335.0" y="66.0" text-anchor="middle" font-size="13"  font-weight="bold">AGENT</text><text x="335.0" y="82.0" text-anchor="middle" font-size="13"  font-weight="bold">agent function f: P* → A</text><rect x="30" y="50" width="120" height="40" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="90.0" y="74.0" text-anchor="middle" font-size="13" >Sensors</text><rect x="520" y="50" width="120" height="40" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="580.0" y="74.0" text-anchor="middle" font-size="13" >Actuators</text><line x1="150" y1="70" x2="250" y2="70" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="200.0" y="65.0" text-anchor="middle" font-size="11" fill="#333">percepts</text><line x1="420" y1="70" x2="520" y2="70" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="470.0" y="65.0" text-anchor="middle" font-size="11" fill="#333">actions</text><rect x="10" y="20" width="650" height="170" rx="12" fill="none" stroke="#888" stroke-dasharray="6,4"/><text x="335" y="38" text-anchor="middle" font-size="12" fill="#555" font-weight="bold">ENVIRONMENT</text><line x1="90" y1="170" x2="90" y2="90" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="64.0" y="125.0" text-anchor="middle" font-size="11" fill="#333">signals</text><line x1="580" y1="90" x2="580" y2="170" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="510.0" y="160.0" text-anchor="middle" font-size="11" fill="#333">effects on environment</text><line x1="90" y1="170" x2="580" y2="170" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3"/><text x="335" y="160" text-anchor="middle" font-size="12" fill="#555" font-style="italic">cycle repeats</text></svg><figcaption>Figure 1. Agent–environment interaction loop</figcaption></figure>
+<h2 class="sec">Q2. Problem formulation</h2>
+<p>A problem is formally defined by five components: <strong>Initial state</strong>, <strong>Actions</strong>, <strong>Transition model</strong> (RESULT(s, a)), <strong>Goal test</strong>, and <strong>Path cost</strong> (sum of step costs). The <strong>state space</strong> is the set of all states reachable from the initial state.</p>
+<h3>8-Queens problem (incremental formulation)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>States</td>
+<td>Any arrangement of 0 to 8 queens on the board (the better version: arrangements of <em>n</em> queens, one per column in the leftmost <em>n</em> columns, with no queen attacking another)</td>
+</tr>
+<tr>
+<td>Initial state</td>
+<td>Empty board – no queens</td>
+</tr>
+<tr>
+<td>Actions</td>
+<td>Add a queen to any empty square (better: add a queen to the leftmost empty column so that it is not attacked)</td>
+</tr>
+<tr>
+<td>Transition model</td>
+<td>Returns the board with the queen added to the specified square</td>
+</tr>
+<tr>
+<td>Goal test</td>
+<td>8 queens are on the board and none is attacked</td>
+</tr>
+<tr>
+<td>Path cost</td>
+<td>Not relevant – only the final configuration matters (cost 1 per step if needed)</td>
+</tr>
+</tbody>
+</table>
+<p>State-space size: about 1.8 × 10^14 for the naive version versus only 2,057 for the improved one.</p>
+<h3>Vacuum world (2 locations)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>States</td>
+<td>Agent location (A or B) × dirt status of each square → 2 × 2² = <strong>8 states</strong></td>
+</tr>
+<tr>
+<td>Initial state</td>
+<td>Any state can be the initial state</td>
+</tr>
+<tr>
+<td>Actions</td>
+<td>Left, Right, Suck</td>
+</tr>
+<tr>
+<td>Transition model</td>
+<td>Left/Right move the agent (no effect at the edge); Suck removes dirt from the current square</td>
+</tr>
+<tr>
+<td>Goal test</td>
+<td>All squares are clean</td>
+</tr>
+<tr>
+<td>Path cost</td>
+<td>Each step costs 1, so path cost = number of steps</td>
+</tr>
+</tbody>
+</table>
+<p>State notation used in class: <strong>(Room A, Room B, Vacuum position)</strong>, e.g. (D, D, A) = both rooms dirty, vacuum in A; (C, D, A) = A clean, B dirty; goal states (C, C, A) and (C, C, B). Sample transitions: from (D, D, A), Suck → (C, D, A) and Right → (D, D, B); from (C, D, B), Suck → (C, C, B) = goal.</p>
+<h3>8-Puzzle (3 × 3 sliding tiles)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>States</td>
+<td>Location of each of the eight tiles and the blank – 9!/2 = <strong>181,440</strong> reachable states</td>
+</tr>
+<tr>
+<td>Initial state</td>
+<td>Any state (a given scrambled arrangement)</td>
+</tr>
+<tr>
+<td>Actions</td>
+<td>Move the blank Left, Right, Up or Down (subset applicable depending on blank position)</td>
+</tr>
+<tr>
+<td>Transition model</td>
+<td>Returns the state resulting from the action (blank and neighbouring tile swap)</td>
+</tr>
+<tr>
+<td>Goal test</td>
+<td>Tiles are in the goal order, e.g. 1 2 3 / 4 5 6 / 7 8 blank</td>
+</tr>
+<tr>
+<td>Path cost</td>
+<td>Each step costs 1; path cost = number of moves</td>
+</tr>
+</tbody>
+</table>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 275" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="150" y="25" width="120" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="210.0" y="45.0" text-anchor="middle" font-size="11" >(D,D,A)</text><text x="210.0" y="59.0" text-anchor="middle" font-size="11" >both dirty, vac in A</text><rect x="430" y="25" width="120" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="490.0" y="45.0" text-anchor="middle" font-size="11" >(D,D,B)</text><text x="490.0" y="59.0" text-anchor="middle" font-size="11" >both dirty, vac in B</text><rect x="20" y="120" width="120" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="80.0" y="140.0" text-anchor="middle" font-size="11" >(C,D,A)</text><text x="80.0" y="154.0" text-anchor="middle" font-size="11" >A clean, B dirty, vac A</text><rect x="210" y="120" width="120" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="270.0" y="140.0" text-anchor="middle" font-size="11" >(C,D,B)</text><text x="270.0" y="154.0" text-anchor="middle" font-size="11" >A clean, B dirty, vac B</text><rect x="370" y="120" width="120" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="430.0" y="140.0" text-anchor="middle" font-size="11" >(D,C,A)</text><text x="430.0" y="154.0" text-anchor="middle" font-size="11" >A dirty, B clean, vac A</text><rect x="560" y="120" width="120" height="46" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="620.0" y="140.0" text-anchor="middle" font-size="11" >(D,C,B)</text><text x="620.0" y="154.0" text-anchor="middle" font-size="11" >A dirty, B clean, vac B</text><rect x="150" y="215" width="120" height="46" rx="7" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="210.0" y="235.0" text-anchor="middle" font-size="11" >(C,C,A)</text><text x="210.0" y="249.0" text-anchor="middle" font-size="11" >GOAL – both clean</text><rect x="430" y="215" width="120" height="46" rx="7" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="490.0" y="235.0" text-anchor="middle" font-size="11" >(C,C,B)</text><text x="490.0" y="249.0" text-anchor="middle" font-size="11" >GOAL – both clean</text><line x1="270" y1="39" x2="430" y2="39" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="350.0" y="35.0" text-anchor="middle" font-size="11" fill="#333">R</text><line x1="430" y1="57" x2="270" y2="57" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="350.0" y="69.0" text-anchor="middle" font-size="11" fill="#333">L</text><line x1="140" y1="134" x2="210" y2="134" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="175.0" y="130.0" text-anchor="middle" font-size="11" fill="#333">R</text><line x1="210" y1="152" x2="140" y2="152" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="175.0" y="164.0" text-anchor="middle" font-size="11" fill="#333">L</text><line x1="490" y1="134" x2="560" y2="134" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="525.0" y="130.0" text-anchor="middle" font-size="11" fill="#333">R</text><line x1="560" y1="152" x2="490" y2="152" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="525.0" y="164.0" text-anchor="middle" font-size="11" fill="#333">L</text><line x1="270" y1="229" x2="430" y2="229" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="350.0" y="225.0" text-anchor="middle" font-size="11" fill="#333">R</text><line x1="430" y1="247" x2="270" y2="247" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="350.0" y="259.0" text-anchor="middle" font-size="11" fill="#333">L</text><line x1="180" y1="71" x2="110" y2="120" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="129.0" y="90.5" text-anchor="middle" font-size="11" fill="#333">Suck</text><line x1="490" y1="71" x2="600" y2="120" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="561.0" y="90.5" text-anchor="middle" font-size="11" fill="#333">Suck</text><line x1="290" y1="166" x2="450" y2="215" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="340.0" y="188.5" text-anchor="middle" font-size="11" fill="#333">Suck</text><line x1="410" y1="166" x2="250" y2="215" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="360.0" y="188.5" text-anchor="middle" font-size="11" fill="#333">Suck</text></svg><figcaption>Figure 2. Vacuum-world state space: 8 states; actions Left (L), Right (R), Suck; self-loops omitted</figcaption></figure>
+<h2 class="sec">Q3. Search algorithms</h2>
+<p>Search algorithms explore the state space from the initial state looking for a path to a goal. <strong>Uninformed</strong> (blind) strategies use only the problem definition; <strong>informed</strong> (heuristic) strategies use a heuristic h(n) that estimates the cost from node n to the goal. Strategies are judged on completeness, optimality, time and space complexity (b = branching factor, d = depth of the shallowest goal, m = maximum depth, l = depth limit).</p>
+<h3>1. Breadth-First Search (BFS)</h3>
+<p>Expands the shallowest unexpanded node first, using a FIFO queue.</p>
+<pre><code class="language-text">function BFS(problem):
+    node &lt;- Node(problem.INITIAL); if goal(node) return node
+    frontier &lt;- FIFO queue containing node
+    explored &lt;- empty set
+    loop:
+        if frontier is empty return failure
+        node &lt;- frontier.pop()            # shallowest node
+        add node.state to explored
+        for each action in problem.ACTIONS(node.state):
+            child &lt;- CHILD(problem, node, action)
+            if child.state not in explored and not in frontier:
+                if goal(child) return SOLUTION(child)
+                frontier.insert(child)
+</code></pre>
+<p>Trace on a tree S→(A, B), A→(C, D), B→(E, G): frontier S → A,B → B,C,D → C,D,E,G → goal G found. Visit order: <strong>S, A, B, C, D, E, G</strong>.</p>
+<p>Second example (undirected graph with edges 1–2, 1–3, 1–5, 2–4, 3–4, 3–5): start at 1, visit its neighbours 2, 3, 5, then the remaining vertex 4 → BFS order <strong>1-2-3-5-4</strong>. BFS uses a queue and a visited list; applications are web crawling, social-network analysis, game AI and state-space search.</p>
+<ul>
+<li>Complete: yes (b finite). Optimal: yes when all step costs are equal.</li>
+<li>Time O(b^d), space O(b^d) – its major drawback is memory.</li>
+</ul>
+<h3>2. Depth-First Search (DFS)</h3>
+<p>Expands the deepest unexpanded node first, using a LIFO stack (or recursion).</p>
+<pre><code class="language-text">function DFS(problem):
+    frontier &lt;- LIFO stack containing initial node
+    explored &lt;- empty set
+    while frontier not empty:
+        node &lt;- frontier.pop()            # deepest node
+        if goal(node) return SOLUTION(node)
+        add node.state to explored
+        for each child of node not in explored:
+            frontier.push(child)
+    return failure
+</code></pre>
+<p>Trace on the same tree: S → A → C → (backtrack) D → (backtrack) B → E → G. Visit order: <strong>S, A, C, D, B, E, G</strong>.</p>
+<p>Notes example (tree A → B, C; B → D, E; C → F, G): DFS goes A, B, D, backtracks to B and visits E, then C, F, G → order <strong>A-B-D-E-C-F-G</strong>. Applications: maze generation, puzzle solving, robot pathfinding.</p>
+<ul>
+<li>Complete: no in infinite or cyclic spaces (yes in finite spaces with a graph-search explored set). Optimal: no.</li>
+<li>Time O(b^m), space only O(b·m) – its major advantage.</li>
+</ul>
+<h3>3. Iterative Deepening DFS (IDDFS / IDS)</h3>
+<p>Runs depth-limited DFS repeatedly with limit 0, 1, 2, … combining the small memory of DFS with the completeness and optimality of BFS.</p>
+<pre><code class="language-text">function ITERATIVE-DEEPENING-SEARCH(problem):
+    for depth = 0 to infinity:
+        result &lt;- DEPTH-LIMITED-SEARCH(problem, depth)
+        if result != cutoff return result
+
+function DEPTH-LIMITED-SEARCH(problem, limit):
+    return RECURSIVE-DLS(Node(problem.INITIAL), problem, limit)
+
+function RECURSIVE-DLS(node, problem, limit):
+    if goal(node) return SOLUTION(node)
+    else if limit = 0 return cutoff
+    cutoff_occurred &lt;- false
+    for each action in problem.ACTIONS(node.state):
+        child &lt;- CHILD(problem, node, action)
+        result &lt;- RECURSIVE-DLS(child, problem, limit - 1)
+        if result = cutoff then cutoff_occurred &lt;- true
+        else if result != failure return result
+    return cutoff if cutoff_occurred else failure
+</code></pre>
+<ul>
+<li>Complete: yes. Optimal: yes (unit step cost). Time O(b^d), space O(b·d).</li>
+<li>Repeated work on upper levels is small because most nodes lie at the bottom level.</li>
+</ul>
+<h3>4. Greedy Best-First Search</h3>
+<p>Expands the node that appears closest to the goal, using only the heuristic: <strong>f(n) = h(n)</strong>. Implemented with a priority queue ordered by h.</p>
+<pre><code class="language-text">function GREEDY-BEST-FIRST(problem, h):
+    frontier &lt;- priority queue ordered by h(n), containing initial node
+    explored &lt;- empty set
+    loop:
+        if frontier empty return failure
+        node &lt;- frontier.pop()            # smallest h
+        if goal(node) return SOLUTION(node)
+        add node.state to explored
+        for each child of node not in explored or frontier:
+            frontier.insert(child)
+</code></pre>
+<ul>
+<li>Complete: no (can get stuck in loops without an explored set). Optimal: no.</li>
+<li>Time and space O(b^m) worst case, but a good heuristic improves this greatly.</li>
+</ul>
+<p>Greedy best-first search expands the node with the lowest heuristic value, prioritising fast exploration over guaranteed optimal solutions; it is commonly used in navigation and pathfinding. Uniform-cost search, which orders by path cost g(n) alone, is covered in Supplement A.</p>
+<h3>5. A* Search</h3>
+<p>Combines the cost so far and the estimated cost to go: <strong>f(n) = g(n) + h(n)</strong>, where g(n) is the path cost from the start and h(n) the heuristic estimate to the goal. Expands the node with the lowest f(n).</p>
+<pre><code class="language-text">function A-STAR(problem, h):
+    frontier &lt;- priority queue ordered by f = g + h, containing initial node
+    explored &lt;- empty set
+    loop:
+        if frontier empty return failure
+        node &lt;- frontier.pop()            # smallest f
+        if goal(node) return SOLUTION(node)
+        add node.state to explored
+        for each action in problem.ACTIONS(node.state):
+            child &lt;- CHILD(problem, node, action)
+            if child.state not in explored or frontier:
+                frontier.insert(child)
+            else if child is in frontier with higher g:
+                replace that frontier node with child
+</code></pre>
+<p>Example: S→A (cost 1, h(A)=3), S→B (cost 4, h(B)=1), A→G (cost 5), B→G (cost 2); h(S)=5. f(A)=1+3=4, f(B)=4+1=5 → expand A: f(G via A)=6; then expand B: f(G via B)=6. Both give cost 6, and A* returns an optimal path.</p>
+<ul>
+<li>Complete: yes. Optimal: yes if h is <strong>admissible</strong> (never overestimates; tree search) and <strong>consistent</strong> (h(n) ≤ c(n,a,n') + h(n'); graph search).</li>
+<li>Time and space are exponential in the worst case; memory is the practical limit.</li>
+</ul>
+<h3>Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>Complete</th>
+<th>Optimal</th>
+<th>Time</th>
+<th>Space</th>
+<th>Uses heuristic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BFS</td>
+<td>Yes</td>
+<td>Yes (equal costs)</td>
+<td>O(b^d)</td>
+<td>O(b^d)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>DFS</td>
+<td>No</td>
+<td>No</td>
+<td>O(b^m)</td>
+<td>O(b·m)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>IDDFS</td>
+<td>Yes</td>
+<td>Yes (equal costs)</td>
+<td>O(b^d)</td>
+<td>O(b·d)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Greedy BFS</td>
+<td>No</td>
+<td>No</td>
+<td>O(b^m)</td>
+<td>O(b^m)</td>
+<td>Yes, f = h</td>
+</tr>
+<tr>
+<td>A*</td>
+<td>Yes</td>
+<td>Yes (admissible h)</td>
+<td>O(b^d)</td>
+<td>O(b^d)</td>
+<td>Yes, f = g + h</td>
+</tr>
+</tbody>
+</table>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 230" width="100%" style="max-width:420px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="210" y1="30" x2="110" y2="100" stroke="#555" stroke-width="1.5"/><line x1="210" y1="30" x2="310" y2="100" stroke="#555" stroke-width="1.5"/><line x1="110" y1="100" x2="60" y2="170" stroke="#555" stroke-width="1.5"/><line x1="110" y1="100" x2="160" y2="170" stroke="#555" stroke-width="1.5"/><line x1="310" y1="100" x2="260" y2="170" stroke="#555" stroke-width="1.5"/><line x1="310" y1="100" x2="360" y2="170" stroke="#555" stroke-width="1.5"/><circle cx="210" cy="30" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="210" y="34" text-anchor="middle" font-size="13">A</text><text x="232" y="18" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">1</text><circle cx="110" cy="100" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="110" y="104" text-anchor="middle" font-size="13">B</text><text x="132" y="88" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">2</text><circle cx="310" cy="100" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="310" y="104" text-anchor="middle" font-size="13">C</text><text x="332" y="88" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">3</text><circle cx="60" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="174" text-anchor="middle" font-size="13">D</text><text x="82" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">4</text><circle cx="160" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="160" y="174" text-anchor="middle" font-size="13">E</text><text x="182" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">5</text><circle cx="260" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="260" y="174" text-anchor="middle" font-size="13">F</text><text x="282" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">6</text><circle cx="360" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="360" y="174" text-anchor="middle" font-size="13">G</text><text x="382" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">7</text><text x="210" y="215" text-anchor="middle" font-size="12" fill="#222" font-style="italic">Level 1 → Level 2 → Level 3</text></svg><figcaption>Figure 3a. BFS expands level by level (FIFO queue): A, B, C, D, E, F, G</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 230" width="100%" style="max-width:420px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="210" y1="30" x2="110" y2="100" stroke="#555" stroke-width="1.5"/><line x1="210" y1="30" x2="310" y2="100" stroke="#555" stroke-width="1.5"/><line x1="110" y1="100" x2="60" y2="170" stroke="#555" stroke-width="1.5"/><line x1="110" y1="100" x2="160" y2="170" stroke="#555" stroke-width="1.5"/><line x1="310" y1="100" x2="260" y2="170" stroke="#555" stroke-width="1.5"/><line x1="310" y1="100" x2="360" y2="170" stroke="#555" stroke-width="1.5"/><circle cx="210" cy="30" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="210" y="34" text-anchor="middle" font-size="13">A</text><text x="232" y="18" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">1</text><circle cx="110" cy="100" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="110" y="104" text-anchor="middle" font-size="13">B</text><text x="132" y="88" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">2</text><circle cx="310" cy="100" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="310" y="104" text-anchor="middle" font-size="13">C</text><text x="332" y="88" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">5</text><circle cx="60" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="174" text-anchor="middle" font-size="13">D</text><text x="82" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">3</text><circle cx="160" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="160" y="174" text-anchor="middle" font-size="13">E</text><text x="182" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">4</text><circle cx="260" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="260" y="174" text-anchor="middle" font-size="13">F</text><text x="282" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">6</text><circle cx="360" cy="170" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="360" y="174" text-anchor="middle" font-size="13">G</text><text x="382" y="158" text-anchor="middle" font-size="11" fill="#c9302c" font-weight="bold">7</text><text x="210" y="215" text-anchor="middle" font-size="12" fill="#222" font-style="italic">numbers = order of visit</text></svg><figcaption>Figure 3b. DFS goes deep first and backtracks (LIFO stack): A, B, D, E, C, F, G</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 215" width="100%" style="max-width:430px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="60" y1="100" x2="190" y2="40" stroke="#555" stroke-width="1.5"/><text x="117.0" y="66.0" text-anchor="middle" font-size="11" fill="#444">cost 1</text><line x1="60" y1="100" x2="190" y2="160" stroke="#555" stroke-width="1.5"/><text x="133.0" y="126.0" text-anchor="middle" font-size="11" fill="#444">cost 4</text><line x1="190" y1="40" x2="340" y2="100" stroke="#555" stroke-width="1.5"/><text x="273.0" y="66.0" text-anchor="middle" font-size="11" fill="#444">cost 5</text><line x1="190" y1="160" x2="340" y2="100" stroke="#555" stroke-width="1.5"/><text x="273.0" y="126.0" text-anchor="middle" font-size="11" fill="#444">cost 2</text><circle cx="60" cy="100" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="104" text-anchor="middle" font-size="13">S</text><circle cx="190" cy="40" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="190" y="44" text-anchor="middle" font-size="13">A</text><circle cx="190" cy="160" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="190" y="164" text-anchor="middle" font-size="13">B</text><circle cx="340" cy="100" r="17" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="340" y="104" text-anchor="middle" font-size="13">G</text><text x="60" y="76" text-anchor="middle" font-size="11" fill="#2a7a3a" font-weight="bold">h=5</text><text x="190" y="16" text-anchor="middle" font-size="11" fill="#2a7a3a" font-weight="bold">h=3</text><text x="190" y="196" text-anchor="middle" font-size="11" fill="#2a7a3a" font-weight="bold">h=1</text><text x="340" y="76" text-anchor="middle" font-size="11" fill="#2a7a3a" font-weight="bold">h=0</text><text x="210" y="205" text-anchor="middle" font-size="11" fill="#222" font-style="italic">A*: f(A)=1+3=4, f(B)=4+1=5 → expand A, then B; optimal cost 6</text></svg><figcaption>Figure 3c. Example graph for A* (f = g + h) and greedy search (f = h)</figcaption></figure>
+<h2 class="sec">Q4. Types of agents</h2>
+<p>An <strong>agent</strong> perceives its environment through sensors and acts on it through actuators. The agent function maps percept histories to actions. Five basic types, in increasing generality:</p>
+<h3>1. Simple reflex agent</h3>
+<p>Selects actions on the basis of the <strong>current percept only</strong>, ignoring history, using condition–action rules (<em>if condition then action</em>).</p>
+<pre><code class="language-text">function SIMPLE-REFLEX-AGENT(percept):
+    state &lt;- INTERPRET-INPUT(percept)
+    rule  &lt;- RULE-MATCH(state, rules)
+    return rule.ACTION
+</code></pre>
+<ul>
+<li>Example: a thermostat; "if car-in-front-is-braking then initiate-braking".</li>
+<li>Works only if the environment is <strong>fully observable</strong>; can loop forever in partially observable worlds (a remedy is randomisation).</li>
+</ul>
+<h3>2. Model-based reflex agent</h3>
+<p>Maintains an <strong>internal state</strong> that depends on the percept history, to handle partial observability. It needs a <strong>transition model</strong> (how the world evolves and how its own actions affect it) and a <strong>sensor model</strong> (how the world appears in percepts).</p>
+<pre><code class="language-text">function MODEL-BASED-REFLEX-AGENT(percept):
+    state  &lt;- UPDATE-STATE(state, last_action, percept, model)
+    rule   &lt;- RULE-MATCH(state, rules)
+    action &lt;- rule.ACTION
+    return action
+</code></pre>
+<ul>
+<li>Example: a self-driving car tracking other cars that are currently not visible.</li>
+</ul>
+<h3>3. Goal-based agent</h3>
+<p>Keeps track of the world state <strong>and a set of goals</strong>. It chooses actions that achieve the goal, using <strong>search and planning</strong> to consider the future ("what will happen if I do A?").</p>
+<ul>
+<li>More flexible than reflex agents: changing the goal does not require rewriting rules (e.g. a taxi with a different destination).</li>
+<li>Less efficient but adaptable. Cannot distinguish between a good and a better way of reaching the goal – only goal achieved / not achieved.</li>
+</ul>
+<h3>4. Utility-based agent</h3>
+<p>Uses a <strong>utility function</strong> that maps a state (or sequence of states) to a real number measuring the agent's "happiness". It picks the action with <strong>maximum expected utility</strong>, thus handling conflicting goals, trade-offs (speed vs. safety) and uncertainty.</p>
+<ul>
+<li>Example: a taxi choosing the route that is safer, quicker <em>and</em> cheaper rather than just any route reaching the destination.</li>
+</ul>
+<h3>5. Learning agent</h3>
+<p>Can improve its performance with experience. Four conceptual components:</p>
+<ul>
+<li><strong>Learning element</strong> – makes improvements by changing the performance element.</li>
+<li><strong>Performance element</strong> – selects external actions (the agent types above).</li>
+<li><strong>Critic</strong> – gives feedback on how well the agent is doing relative to a fixed performance standard.</li>
+<li><strong>Problem generator</strong> – suggests exploratory actions leading to new, informative experiences.</li>
+</ul>
+<h3>Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Agent type</th>
+<th>Uses</th>
+<th>Handles</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple reflex</td>
+<td>Condition–action rules, current percept</td>
+<td>Fully observable, simple tasks</td>
+<td>No memory, no foresight</td>
+</tr>
+<tr>
+<td>Model-based</td>
+<td>Internal state + world model</td>
+<td>Partial observability</td>
+<td>Still rule-driven</td>
+</tr>
+<tr>
+<td>Goal-based</td>
+<td>Goals + search/planning</td>
+<td>Flexible goals</td>
+<td>Only binary success/failure</td>
+</tr>
+<tr>
+<td>Utility-based</td>
+<td>Utility function, expected utility</td>
+<td>Trade-offs, uncertainty</td>
+<td>Needs good utility function and model</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>Critic + learning element + problem generator</td>
+<td>Unknown environments, improves over time</td>
+<td>More complex to build</td>
+</tr>
+</tbody>
+</table>
+<p>Examples from your notes: simple reflex – thermostat, smoke alarm, basic Roomba (IF dirt THEN suck); model-based – robot vacuum keeping a room map, ABS braking; goal-based – GPS navigation, chess engine, delivery robot; utility-based – ride-booking app (cost vs. time vs. comfort), medical AI; learning – AlphaGo, Netflix recommendations, self-improving robots.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 115" width="100%" style="max-width:560px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="20" width="120" height="44" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="70.0" y="38.0" text-anchor="middle" font-size="13" >Environment</text><text x="70.0" y="54.0" text-anchor="middle" font-size="13" >sends percept</text><rect x="190" y="15" width="170" height="54" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="275.0" y="38.0" text-anchor="middle" font-size="13" >Condition–action rules</text><text x="275.0" y="54.0" text-anchor="middle" font-size="13" >IF dirt THEN suck</text><rect x="420" y="20" width="110" height="44" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="475.0" y="46.0" text-anchor="middle" font-size="13" >Actuators</text><line x1="130" y1="42" x2="190" y2="42" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="160.0" y="36.0" text-anchor="middle" font-size="11" fill="#333">percept</text><line x1="360" y1="42" x2="420" y2="42" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="390.0" y="36.0" text-anchor="middle" font-size="11" fill="#333">action</text><text x="270" y="100" text-anchor="middle" font-size="11" fill="#222" font-style="italic">No internal state – reacts only to the current percept (thermostat, smoke alarm)</text></svg><figcaption>Figure 4a. Simple reflex agent</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 670 115" width="100%" style="max-width:670px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="20" width="110" height="44" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="65.0" y="38.0" text-anchor="middle" font-size="13" >Environment</text><text x="65.0" y="54.0" text-anchor="middle" font-size="13" >(partial view)</text><rect x="170" y="10" width="150" height="66" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="245.0" y="31.0" text-anchor="middle" font-size="13" >Internal state</text><text x="245.0" y="47.0" text-anchor="middle" font-size="13" >world model:</text><text x="245.0" y="63.0" text-anchor="middle" font-size="13" >how world evolves</text><rect x="370" y="20" width="130" height="44" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="435.0" y="38.0" text-anchor="middle" font-size="13" >Condition–</text><text x="435.0" y="54.0" text-anchor="middle" font-size="13" >action rules</text><rect x="550" y="20" width="100" height="44" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="600.0" y="46.0" text-anchor="middle" font-size="13" >Actuators</text><line x1="120" y1="42" x2="170" y2="42" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="145.0" y="36.0" text-anchor="middle" font-size="11" fill="#333">percept</text><line x1="320" y1="42" x2="370" y2="42" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="345.0" y="36.0" text-anchor="middle" font-size="11" fill="#333">state</text><line x1="500" y1="42" x2="550" y2="42" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="525.0" y="36.0" text-anchor="middle" font-size="11" fill="#333">action</text><path d="M600,64 L600,100 L245,100 L245,76" fill="none" stroke="#2a8a55" stroke-dasharray="5,3" stroke-width="1.5" marker-end="url(#a)"/><text x="420" y="95" text-anchor="middle" font-size="11" fill="#2a8a55">action updates internal state</text></svg><figcaption>Figure 4b. Model-based reflex agent</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 125" width="100%" style="max-width:660px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="230" y="5" width="110" height="34" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="285.0" y="26.0" text-anchor="middle" font-size="13" >Goal</text><rect x="10" y="60" width="110" height="44" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="65.0" y="86.0" text-anchor="middle" font-size="13" >Environment</text><rect x="160" y="60" width="120" height="44" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="220.0" y="78.0" text-anchor="middle" font-size="13" >Internal state</text><text x="220.0" y="94.0" text-anchor="middle" font-size="13" >(world model)</text><rect x="330" y="52" width="150" height="60" rx="7" fill="#e4f3d6" stroke="#5a9a2a" stroke-width="1.4"/><text x="405.0" y="70.0" text-anchor="middle" font-size="13" >Search & planning</text><text x="405.0" y="86.0" text-anchor="middle" font-size="13" >what sequence</text><text x="405.0" y="102.0" text-anchor="middle" font-size="13" >reaches the goal?</text><rect x="530" y="60" width="110" height="44" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="585.0" y="86.0" text-anchor="middle" font-size="13" >Actuators</text><line x1="120" y1="82" x2="160" y2="82" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="280" y1="82" x2="330" y2="82" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="480" y1="82" x2="530" y2="82" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="505.0" y="76.0" text-anchor="middle" font-size="11" fill="#333">action</text><line x1="335" y1="39" x2="380" y2="52" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="317.5" y="43.5" text-anchor="middle" font-size="11" fill="#333">desired state</text></svg><figcaption>Figure 4c. Goal-based agent</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 140" width="100%" style="max-width:660px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="160" y="5" width="140" height="40" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="230.0" y="21.0" text-anchor="middle" font-size="13" >Utility function</text><text x="230.0" y="37.0" text-anchor="middle" font-size="13" >scores each outcome</text><rect x="10" y="75" width="110" height="44" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="65.0" y="101.0" text-anchor="middle" font-size="13" >Environment</text><rect x="150" y="75" width="120" height="44" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="210.0" y="101.0" text-anchor="middle" font-size="13" >Internal state</text><rect x="320" y="65" width="170" height="64" rx="7" fill="#e4f3d6" stroke="#5a9a2a" stroke-width="1.4"/><text x="405.0" y="85.0" text-anchor="middle" font-size="13" >Search & planning</text><text x="405.0" y="101.0" text-anchor="middle" font-size="13" >evaluates options</text><text x="405.0" y="117.0" text-anchor="middle" font-size="13" >via utility (max EU)</text><rect x="540" y="75" width="110" height="44" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="595.0" y="101.0" text-anchor="middle" font-size="13" >Actuators</text><line x1="120" y1="97" x2="150" y2="97" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="270" y1="97" x2="320" y2="97" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="490" y1="97" x2="540" y2="97" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="515.0" y="91.0" text-anchor="middle" font-size="11" fill="#333">best action</text><line x1="280" y1="45" x2="380" y2="65" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="305.0" y="50.0" text-anchor="middle" font-size="11" fill="#333">max utility</text></svg><figcaption>Figure 4d. Utility-based agent</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 205" width="100%" style="max-width:640px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="470" y="5" width="150" height="32" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="545.0" y="25.0" text-anchor="middle" font-size="13" >Performance standard</text><rect x="10" y="70" width="110" height="44" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="65.0" y="96.0" text-anchor="middle" font-size="13" >Environment</text><rect x="160" y="70" width="140" height="44" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="230.0" y="88.0" text-anchor="middle" font-size="13" >Performance</text><text x="230.0" y="104.0" text-anchor="middle" font-size="13" >element</text><rect x="350" y="70" width="110" height="44" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="405.0" y="96.0" text-anchor="middle" font-size="13" >Actuators</text><rect x="160" y="150" width="140" height="44" rx="7" fill="#e4f3d6" stroke="#5a9a2a" stroke-width="1.4"/><text x="230.0" y="176.0" text-anchor="middle" font-size="13" >Learning element</text><rect x="480" y="150" width="130" height="44" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="545.0" y="176.0" text-anchor="middle" font-size="13" >Critic</text><rect x="10" y="150" width="110" height="44" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="65.0" y="168.0" text-anchor="middle" font-size="13" >Problem</text><text x="65.0" y="184.0" text-anchor="middle" font-size="13" >generator</text><line x1="120" y1="92" x2="160" y2="92" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="300" y1="92" x2="350" y2="92" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="545" y1="37" x2="545" y2="150" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="575.0" y="88.5" text-anchor="middle" font-size="11" fill="#333">standard</text><line x1="480" y1="172" x2="300" y2="172" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="390.0" y="166.0" text-anchor="middle" font-size="11" fill="#333">feedback</text><line x1="230" y1="150" x2="230" y2="114" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="258.0" y="127.0" text-anchor="middle" font-size="11" fill="#333">changes</text><line x1="120" y1="172" x2="160" y2="172" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="65" y1="150" x2="65" y2="114" stroke="#444" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/><text x="37.0" y="127.0" text-anchor="middle" font-size="11" fill="#333">explore</text></svg><figcaption>Figure 4e. Learning agent (performance element, critic, learning element, problem generator)</figcaption></figure>
+<h2 class="sec">Q5. Properties of task environments</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Meaning</th>
+<th>Easy case</th>
+<th>Hard case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fully vs. partially observable</strong></td>
+<td>Fully: sensors give access to the complete relevant state at each time. Partially: noisy, inaccurate sensors or missing information.</td>
+<td>Fully – Chess, crossword, 8-puzzle</td>
+<td>Partially – Poker, taxi driving, vacuum with only local dirt sensor</td>
+</tr>
+<tr>
+<td><strong>Deterministic vs. stochastic</strong></td>
+<td>Deterministic: next state is completely determined by current state and action. Stochastic: randomness / uncertainty in outcomes (if only other agents' actions are unpredictable it is <em>strategic</em>).</td>
+<td>Deterministic – Chess, 8-puzzle</td>
+<td>Stochastic – Taxi driving, poker, backgammon (dice)</td>
+</tr>
+<tr>
+<td><strong>Episodic vs. sequential</strong></td>
+<td>Episodic: experience is divided into atomic episodes; each decision is independent of previous ones. Sequential: current decision affects future decisions.</td>
+<td>Episodic – spotting defective parts on an assembly line, image classification</td>
+<td>Sequential – Chess, taxi driving, any planning task</td>
+</tr>
+<tr>
+<td><strong>Single vs. multiagent</strong></td>
+<td>Single: only one agent operates in the environment. Multiagent: other agents whose behaviour affects the performance measure (competitive or cooperative).</td>
+<td>Single – crossword puzzle, solitaire</td>
+<td>Multiagent – Chess (competitive), taxi driving (partly cooperative), soccer</td>
+</tr>
+</tbody>
+</table>
+<h3>Other properties</h3>
+<ul>
+<li><strong>Static vs. dynamic</strong> – the environment does not change while the agent is deliberating (static) vs. does (dynamic); <em>semi-dynamic</em> if only the score changes with time (chess with a clock).</li>
+<li><strong>Discrete vs. continuous</strong> – finite number of states/percepts/actions (chess) vs. continuous values (taxi speed and position).</li>
+<li><strong>Known vs. unknown</strong> – whether the agent knows the "laws" (outcomes of actions) of the environment.</li>
+</ul>
+<h3>Classification of examples</h3>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Observable</th>
+<th>Deterministic</th>
+<th>Episodic</th>
+<th>Static</th>
+<th>Discrete</th>
+<th>Agents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Crossword puzzle</td>
+<td>Fully</td>
+<td>Deterministic</td>
+<td>Sequential</td>
+<td>Static</td>
+<td>Discrete</td>
+<td>Single</td>
+</tr>
+<tr>
+<td>Chess with a clock</td>
+<td>Fully</td>
+<td>Strategic</td>
+<td>Sequential</td>
+<td>Semi</td>
+<td>Discrete</td>
+<td>Multi</td>
+</tr>
+<tr>
+<td>Poker</td>
+<td>Partially</td>
+<td>Stochastic</td>
+<td>Sequential</td>
+<td>Static</td>
+<td>Discrete</td>
+<td>Multi</td>
+</tr>
+<tr>
+<td>Taxi driving</td>
+<td>Partially</td>
+<td>Stochastic</td>
+<td>Sequential</td>
+<td>Dynamic</td>
+<td>Continuous</td>
+<td>Multi</td>
+</tr>
+<tr>
+<td>Medical diagnosis</td>
+<td>Partially</td>
+<td>Stochastic</td>
+<td>Sequential</td>
+<td>Dynamic</td>
+<td>Continuous</td>
+<td>Single</td>
+</tr>
+<tr>
+<td>Part-picking robot</td>
+<td>Partially</td>
+<td>Stochastic</td>
+<td>Episodic</td>
+<td>Dynamic</td>
+<td>Continuous</td>
+<td>Single</td>
+</tr>
+</tbody>
+</table>
+<p>The hardest case is <strong>partially observable, stochastic, sequential, dynamic, continuous and multiagent</strong> – e.g. taxi driving.</p>
+<p>Notes examples: a chess game is fully observable, poker partially; tic-tac-toe is deterministic, rolling dice and stock trading are stochastic; an environment that is deterministic but has other agents is called <strong>strategic</strong>; a spam filter classifies each mail independently (episodic) while chess moves affect the whole future (sequential); Sudoku is single-agent, chess is adversarial multiagent, a team of delivery drones is cooperative multiagent.</p>
+<h2 class="sec">Q6. Supervised vs. unsupervised vs. reinforcement learning</h2>
+<p><strong>Machine learning</strong> is the ability of a program to improve its performance on a task with experience. The type of learning depends on the feedback available.</p>
+<table>
+<thead>
+<tr>
+<th>Basis</th>
+<th>Supervised</th>
+<th>Unsupervised</th>
+<th>Reinforcement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data</td>
+<td>Labelled input–output pairs (x, y)</td>
+<td>Unlabelled inputs only</td>
+<td>No fixed dataset; data generated by interacting with an environment</td>
+</tr>
+<tr>
+<td>Feedback</td>
+<td>Direct, correct answer for each example</td>
+<td>None</td>
+<td>Delayed reward / punishment signal</td>
+</tr>
+<tr>
+<td>Goal</td>
+<td>Learn mapping f: X → Y to predict outputs for new inputs</td>
+<td>Discover hidden structure, patterns, groups</td>
+<td>Learn a policy that maximises cumulative reward</td>
+</tr>
+<tr>
+<td>Tasks</td>
+<td>Classification, regression</td>
+<td>Clustering, dimensionality reduction, association rules, anomaly detection</td>
+<td>Control, game playing, robotics, resource allocation</td>
+</tr>
+<tr>
+<td>Algorithms</td>
+<td>Decision trees, Naive Bayes, SVM, linear regression, neural networks, k-NN</td>
+<td>k-means, hierarchical clustering, PCA, Apriori</td>
+<td>Q-learning, SARSA, policy gradients, Deep Q-Networks</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>Accuracy, precision/recall, MSE on test set</td>
+<td>Cluster quality (silhouette), reconstruction error</td>
+<td>Total reward obtained</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>Spam detection, house-price prediction, medical diagnosis</td>
+<td>Customer segmentation, market-basket analysis</td>
+<td>Self-driving, AlphaGo, robot walking</td>
+</tr>
+<tr>
+<td>Key issue</td>
+<td>Needs costly labelled data</td>
+<td>Hard to validate results</td>
+<td>Exploration vs. exploitation, credit assignment</td>
+</tr>
+</tbody>
+</table>
+<p>A fourth category, <strong>semi-supervised learning</strong>, uses a small amount of labelled data with a large amount of unlabelled data.</p>
+<p><strong>Sub-types (from your notes):</strong> supervised = classification (logistic regression, decision tree, random forest, KNN, Naive Bayes, SVM) and regression (linear, polynomial, ridge, lasso); unsupervised = clustering (K-means, DBSCAN, mean-shift), dimensionality reduction (PCA, ICA) and association rule learning (Apriori, FP-growth, Eclat); reinforcement = Q-learning, SARSA, Deep Q-learning, with positive reinforcement (reward desired behaviour) and negative reinforcement (remove an unpleasant outcome after the right action). Reinforcement learning applies to gaming, robotics, autonomous vehicles, finance and recommendation.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 225" width="100%" style="max-width:560px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="190" y="10" width="180" height="36" rx="7" fill="#2a8a55" stroke="#1c6b40" stroke-width="1.4"/><text fill="#fff" x="280.0" y="32.0" text-anchor="middle" font-size="13"  font-weight="bold">Machine Learning</text><rect x="20" y="85" width="140" height="44" rx="7" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="90.0" y="103.0" text-anchor="middle" font-size="13"  font-weight="bold">Supervised</text><text x="90.0" y="119.0" text-anchor="middle" font-size="13"  font-weight="bold">Learning</text><line x1="280" y1="46" x2="90" y2="85" stroke="#555" stroke-width="1.5"/><rect x="210" y="85" width="140" height="44" rx="7" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="280.0" y="103.0" text-anchor="middle" font-size="13"  font-weight="bold">Unsupervised</text><text x="280.0" y="119.0" text-anchor="middle" font-size="13"  font-weight="bold">Learning</text><line x1="280" y1="46" x2="280" y2="85" stroke="#555" stroke-width="1.5"/><rect x="400" y="85" width="140" height="44" rx="7" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="470.0" y="103.0" text-anchor="middle" font-size="13"  font-weight="bold">Reinforcement</text><text x="470.0" y="119.0" text-anchor="middle" font-size="13"  font-weight="bold">Learning</text><line x1="280" y1="46" x2="470" y2="85" stroke="#555" stroke-width="1.5"/><text x="30" y="155" text-anchor="start" font-size="12" fill="#222">→ Classification</text><text x="30" y="173" text-anchor="start" font-size="12" fill="#222">→ Regression</text><text x="220" y="155" text-anchor="start" font-size="12" fill="#222">→ Clustering</text><text x="220" y="173" text-anchor="start" font-size="12" fill="#222">→ Dimension reduction</text><text x="220" y="191" text-anchor="start" font-size="12" fill="#222">→ Association rules</text><text x="410" y="155" text-anchor="start" font-size="12" fill="#222">→ Q-learning</text><text x="410" y="173" text-anchor="start" font-size="12" fill="#222">→ SARSA</text><text x="410" y="191" text-anchor="start" font-size="12" fill="#222">→ Deep Q-learning</text><text x="280" y="215" text-anchor="middle" font-size="11" fill="#555" font-style="italic">Semi-supervised and self-supervised learning combine labelled and unlabelled data</text></svg><figcaption>Figure 6a. Types of machine learning</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 200" width="100%" style="max-width:560px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="230" y="10" width="100" height="40" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="280.0" y="34.0" text-anchor="middle" font-size="13"  font-weight="bold">Agent</text><rect x="440" y="85" width="100" height="40" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="490.0" y="109.0" text-anchor="middle" font-size="13" >Action</text><rect x="230" y="150" width="100" height="40" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="280.0" y="174.0" text-anchor="middle" font-size="13" >Environment</text><rect x="20" y="85" width="100" height="40" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="70.0" y="101.0" text-anchor="middle" font-size="13" >Reward</text><text x="70.0" y="117.0" text-anchor="middle" font-size="13" >+ state</text><line x1="330" y1="30" x2="490" y2="85" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="490" y1="125" x2="330" y2="170" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="230" y1="170" x2="70" y2="125" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="70" y1="85" x2="230" y2="30" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/></svg><figcaption>Figure 6b. Reinforcement-learning loop: action → environment → reward and new state → agent</figcaption></figure>
+<h2 class="sec">Q7. Artificial Neural Networks, feed-forward networks and backpropagation</h2>
+<p>An <strong>Artificial Neural Network (ANN)</strong> is a computing model inspired by the brain: a network of simple processing units (<strong>neurons</strong>) joined by weighted links. Knowledge is stored in the weights, which are learned from data.</p>
+<h3>The artificial neuron</h3>
+<p>A unit computes a weighted sum of its inputs plus a bias and passes it through an <strong>activation function</strong> g:</p>
+<div class="formula">a_j = g( Σ_i w_ij · x_i + b_j )</div>
+<p>Common activations: step / threshold, sigmoid g(z) = 1 / (1 + e^(−z)), tanh, ReLU g(z) = max(0, z).</p>
+<h3>Single-layer feed-forward network (perceptron)</h3>
+<ul>
+<li>Inputs connect <strong>directly to the output units</strong>; no hidden layer. Information flows one way (no cycles).</li>
+<li>Perceptron learning rule: w_i ← w_i + α (y − ŷ) x_i, where α is the learning rate.</li>
+<li>Can represent only <strong>linearly separable</strong> functions (AND, OR) – it cannot learn XOR (Minsky and Papert).</li>
+</ul>
+<h3>Multi-layer feed-forward network (MLP)</h3>
+<ul>
+<li>Has one or more <strong>hidden layers</strong> between the input and output layers; each layer feeds only the next one (acyclic).</li>
+<li>A network with one hidden layer can approximate any continuous function (universal approximation); two layers solve XOR and other non-linear problems.</li>
+<li>Weights are learned by <strong>backpropagation</strong>.</li>
+</ul>
+<h3>Backpropagation algorithm</h3>
+<p>Backpropagation trains a multi-layer network by gradient descent on the error E = ½ Σ (y − ŷ)², propagating the error backwards from the output layer to the hidden layers.</p>
+<pre><code class="language-text">repeat until convergence:
+    for each training example (x, y):
+        1. FORWARD PASS: compute activations of every layer up to the output ŷ
+        2. Output error:   delta_k = g'(in_k) * (y_k - yhat_k)
+        3. BACKWARD PASS:  delta_j = g'(in_j) * sum_k ( w_jk * delta_k )   for hidden units
+        4. Update weights: w_ij &lt;- w_ij + alpha * a_i * delta_j
+</code></pre>
+<ul>
+<li>The weight update is Δw = −α ∂E/∂w (gradient descent); the chain rule gives the deltas.</li>
+<li>Problems: local minima, slow convergence, vanishing gradients with sigmoid, overfitting (remedies: early stopping, regularisation, dropout, more data).</li>
+</ul>
+<h3>Applications</h3>
+<p>Image and speech recognition, handwriting recognition, language translation, forecasting, medical diagnosis, control systems.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 255" width="100%" style="max-width:560px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="60" y1="60" x2="220" y2="40" stroke="#bbb" stroke-width="1"/><line x1="60" y1="60" x2="220" y2="100" stroke="#bbb" stroke-width="1"/><line x1="60" y1="60" x2="220" y2="140" stroke="#bbb" stroke-width="1"/><line x1="60" y1="60" x2="220" y2="200" stroke="#bbb" stroke-width="1"/><line x1="60" y1="120" x2="220" y2="40" stroke="#bbb" stroke-width="1"/><line x1="60" y1="120" x2="220" y2="100" stroke="#bbb" stroke-width="1"/><line x1="60" y1="120" x2="220" y2="140" stroke="#bbb" stroke-width="1"/><line x1="60" y1="120" x2="220" y2="200" stroke="#bbb" stroke-width="1"/><line x1="60" y1="180" x2="220" y2="40" stroke="#bbb" stroke-width="1"/><line x1="60" y1="180" x2="220" y2="100" stroke="#bbb" stroke-width="1"/><line x1="60" y1="180" x2="220" y2="140" stroke="#bbb" stroke-width="1"/><line x1="60" y1="180" x2="220" y2="200" stroke="#bbb" stroke-width="1"/><line x1="220" y1="40" x2="380" y2="80" stroke="#bbb" stroke-width="1"/><line x1="220" y1="40" x2="380" y2="160" stroke="#bbb" stroke-width="1"/><line x1="220" y1="100" x2="380" y2="80" stroke="#bbb" stroke-width="1"/><line x1="220" y1="100" x2="380" y2="160" stroke="#bbb" stroke-width="1"/><line x1="220" y1="140" x2="380" y2="80" stroke="#bbb" stroke-width="1"/><line x1="220" y1="140" x2="380" y2="160" stroke="#bbb" stroke-width="1"/><line x1="220" y1="200" x2="380" y2="80" stroke="#bbb" stroke-width="1"/><line x1="220" y1="200" x2="380" y2="160" stroke="#bbb" stroke-width="1"/><circle cx="60" cy="60" r="14" fill="#e0f4e8" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="64" text-anchor="middle" font-size="13"></text><circle cx="60" cy="120" r="14" fill="#e0f4e8" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="124" text-anchor="middle" font-size="13"></text><circle cx="60" cy="180" r="14" fill="#e0f4e8" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="184" text-anchor="middle" font-size="13"></text><circle cx="220" cy="40" r="14" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="220" y="44" text-anchor="middle" font-size="13"></text><circle cx="220" cy="100" r="14" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="220" y="104" text-anchor="middle" font-size="13"></text><circle cx="220" cy="140" r="14" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="220" y="144" text-anchor="middle" font-size="13"></text><circle cx="220" cy="200" r="14" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="220" y="204" text-anchor="middle" font-size="13"></text><circle cx="380" cy="80" r="14" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="380" y="84" text-anchor="middle" font-size="13"></text><circle cx="380" cy="160" r="14" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="380" y="164" text-anchor="middle" font-size="13"></text><text x="60" y="64" text-anchor="middle" font-size="12" fill="#222">x₁</text><text x="60" y="124" text-anchor="middle" font-size="12" fill="#222">x₂</text><text x="60" y="184" text-anchor="middle" font-size="12" fill="#222">x₃</text><text x="380" y="84" text-anchor="middle" font-size="12" fill="#222">ŷ₁</text><text x="380" y="164" text-anchor="middle" font-size="12" fill="#222">ŷ₂</text><text x="60" y="240" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Input layer</text><text x="220" y="240" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Hidden layer</text><text x="380" y="240" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Output layer</text><line x1="430" y1="120" x2="540" y2="120" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="485.0" y="112.0" text-anchor="middle" font-size="11" fill="#333">forward pass →</text><line x1="540" y1="150" x2="430" y2="150" stroke="#c9302c" stroke-width="1.5" marker-end="url(#a)"/><text x="485.0" y="164.0" text-anchor="middle" font-size="11" fill="#333">← error back-propagated</text></svg><figcaption>Figure 7. Multi-layer feed-forward network trained by back-propagation</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 160" width="100%" style="max-width:470px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><circle cx="40" cy="30" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="40" y="34" text-anchor="middle" font-size="13">x₁</text><line x1="58" y1="30" x2="185" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="121.5" y="53.0" text-anchor="middle" font-size="11" fill="#333">w₁</text><circle cx="40" cy="80" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="40" y="84" text-anchor="middle" font-size="13">x₂</text><line x1="58" y1="80" x2="185" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="121.5" y="78.0" text-anchor="middle" font-size="11" fill="#333">w₂</text><circle cx="40" cy="130" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="40" y="134" text-anchor="middle" font-size="13">x₃</text><line x1="58" y1="130" x2="185" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="121.5" y="103.0" text-anchor="middle" font-size="11" fill="#333">w₃</text><circle cx="210" cy="80" r="26" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="210" y="84" text-anchor="middle" font-size="13">Σ</text><rect x="270" y="60" width="90" height="40" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="315.0" y="77.0" text-anchor="middle" font-size="11" >g(Σ w·x + b)</text><text x="315.0" y="91.0" text-anchor="middle" font-size="11" >activation</text><line x1="236" y1="80" x2="270" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="360" y1="80" x2="420" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="390.0" y="75.0" text-anchor="middle" font-size="11" fill="#333">ŷ</text></svg><figcaption>Figure 7b. A single neuron / perceptron: weighted sum, then activation function</figcaption></figure>
+<h2 class="sec">Q8. Hidden Markov Model (HMM)</h2>
+<p>An <strong>HMM</strong> is a statistical model of a system that moves through a sequence of <strong>hidden (unobservable) states</strong>, each emitting an <strong>observation</strong> we can see. It is a temporal probabilistic model that rests on two assumptions:</p>
+<ul>
+<li><strong>Markov assumption</strong> – the next state depends only on the current state: P(X_t | X_1 … X_{t−1}) = P(X_t | X_{t−1}).</li>
+<li><strong>Output independence (sensor) assumption</strong> – an observation depends only on the current hidden state: P(E_t | X_{1:t}, E_{1:t−1}) = P(E_t | X_t).</li>
+</ul>
+<h3>Components λ = (A, B, π)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>States S = {s₁ … sₙ}</td>
+<td>Hidden states (e.g. weather: Rainy, Sunny)</td>
+</tr>
+<tr>
+<td>Observations O = {o₁ … oₘ}</td>
+<td>Visible symbols (e.g. activity: walk, shop, clean)</td>
+</tr>
+<tr>
+<td>Transition matrix A</td>
+<td>a_ij = P(X_t = s_j | X_{t−1} = s_i); each row sums to 1</td>
+</tr>
+<tr>
+<td>Emission (sensor) matrix B</td>
+<td>b_j(o) = P(E_t = o | X_t = s_j)</td>
+</tr>
+<tr>
+<td>Initial distribution π</td>
+<td>π_i = P(X_1 = s_i)</td>
+</tr>
+</tbody>
+</table>
+<p>The joint probability of a state sequence and observations is</p>
+<div class="formula">P(x₁:T, e₁:T) = π(x₁) · b_x₁(e₁) · Π_{t=2..T} a(x_{t−1}, x_t) · b_xt(e_t)</div>
+<h3>Example</h3>
+<p>Hidden states: Rainy, Sunny. π = (0.6, 0.4). Transitions: Rainy→Rainy 0.7, Rainy→Sunny 0.3, Sunny→Rainy 0.4, Sunny→Sunny 0.6. Emissions: Rainy → walk 0.1, shop 0.4, clean 0.5; Sunny → walk 0.6, shop 0.3, clean 0.1.</p>
+<p>Probability of the state sequence (Rainy, Rainy) with observations (walk, shop) = 0.6 × 0.1 × 0.7 × 0.4 = <strong>0.0168</strong>.</p>
+<h3>Three basic problems</h3>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Question</th>
+<th>Algorithm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evaluation (likelihood)</td>
+<td>Given λ and an observation sequence, what is P(observations | λ)?</td>
+<td><strong>Forward algorithm</strong> (dynamic programming, O(N²T))</td>
+</tr>
+<tr>
+<td>Decoding</td>
+<td>What is the most likely hidden state sequence?</td>
+<td><strong>Viterbi algorithm</strong></td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>Estimate A, B, π that maximise the likelihood of the observations</td>
+<td><strong>Baum–Welch</strong> (EM)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Temporal inference tasks:</strong> filtering P(X_t | e_{1:t}), prediction, smoothing P(X_k | e_{1:t}) for k &lt; t, and most-likely explanation (Viterbi).</p>
+<h3>Forward algorithm</h3>
+<pre><code class="language-text">alpha_1(j) = pi_j * b_j(e_1)
+alpha_t(j) = [ sum_i alpha_{t-1}(i) * a_ij ] * b_j(e_t)
+P(e_1..e_T) = sum_j alpha_T(j)
+</code></pre>
+<h3>Viterbi algorithm</h3>
+<pre><code class="language-text">delta_1(j) = pi_j * b_j(e_1)
+delta_t(j) = max_i [ delta_{t-1}(i) * a_ij ] * b_j(e_t)
+psi_t(j)   = argmax_i [ delta_{t-1}(i) * a_ij ]      # back-pointer
+backtrack from argmax_j delta_T(j) using psi to read off the best state path
+</code></pre>
+<h3>Applications</h3>
+<p>Speech recognition, part-of-speech tagging, handwriting recognition, bioinformatics (gene finding), robot localisation, financial regime detection.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 205" width="100%" style="max-width:560px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><circle cx="70" cy="40" r="22" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="70" y="44" text-anchor="middle" font-size="13">X1</text><rect x="48" y="121" width="44" height="38" rx="3" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="70" y="144" text-anchor="middle" font-size="13">E1</text><line x1="70" y1="62" x2="70" y2="118" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="82.0" y="85.0" text-anchor="middle" font-size="11" fill="#333">b</text><line x1="92" y1="40" x2="178" y2="40" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="135.0" y="35.0" text-anchor="middle" font-size="11" fill="#333">a</text><circle cx="200" cy="40" r="22" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="200" y="44" text-anchor="middle" font-size="13">X2</text><rect x="178" y="121" width="44" height="38" rx="3" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="200" y="144" text-anchor="middle" font-size="13">E2</text><line x1="200" y1="62" x2="200" y2="118" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="212.0" y="85.0" text-anchor="middle" font-size="11" fill="#333">b</text><line x1="222" y1="40" x2="308" y2="40" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="265.0" y="35.0" text-anchor="middle" font-size="11" fill="#333">a</text><circle cx="330" cy="40" r="22" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="330" y="44" text-anchor="middle" font-size="13">X3</text><rect x="308" y="121" width="44" height="38" rx="3" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="330" y="144" text-anchor="middle" font-size="13">E3</text><line x1="330" y1="62" x2="330" y2="118" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="342.0" y="85.0" text-anchor="middle" font-size="11" fill="#333">b</text><text x="420" y="45" text-anchor="start" font-size="12" fill="#8a6d00" font-weight="bold">hidden states</text><text x="420" y="145" text-anchor="start" font-size="12" fill="#3b6fd4" font-weight="bold">observations</text><text x="235" y="195" text-anchor="middle" font-size="12" fill="#222" font-style="italic">Transitions A = P(X_t | X_t−1), emissions B = P(E_t | X_t), initial π</text></svg><figcaption>Figure 8. Hidden Markov model: hidden state chain emitting visible observations</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 195" width="100%" style="max-width:440px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><text x="60" y="22" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">t=1</text><text x="210" y="22" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">t=2</text><text x="360" y="22" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">t=3</text><circle cx="60" cy="70" r="26" fill="#dbe6fb" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="74" text-anchor="middle" font-size="13">Rainy</text><circle cx="60" cy="150" r="26" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="60" y="154" text-anchor="middle" font-size="13">Sunny</text><line x1="86" y1="70" x2="184" y2="70" stroke="#aaa" stroke-width="1"/><line x1="86" y1="70" x2="184" y2="150" stroke="#aaa" stroke-width="1"/><line x1="86" y1="150" x2="184" y2="70" stroke="#aaa" stroke-width="1"/><line x1="86" y1="150" x2="184" y2="150" stroke="#aaa" stroke-width="1"/><circle cx="210" cy="70" r="26" fill="#dbe6fb" stroke="#3b6fd4" stroke-width="1.4"/><text x="210" y="74" text-anchor="middle" font-size="13">Rainy</text><circle cx="210" cy="150" r="26" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="210" y="154" text-anchor="middle" font-size="13">Sunny</text><line x1="236" y1="70" x2="334" y2="70" stroke="#aaa" stroke-width="1"/><line x1="236" y1="70" x2="334" y2="150" stroke="#aaa" stroke-width="1"/><line x1="236" y1="150" x2="334" y2="70" stroke="#aaa" stroke-width="1"/><line x1="236" y1="150" x2="334" y2="150" stroke="#aaa" stroke-width="1"/><circle cx="360" cy="70" r="26" fill="#dbe6fb" stroke="#3b6fd4" stroke-width="1.4"/><text x="360" y="74" text-anchor="middle" font-size="13">Rainy</text><circle cx="360" cy="150" r="26" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="360" y="154" text-anchor="middle" font-size="13">Sunny</text></svg><figcaption>Figure 8b. Trellis: every state at time t connects to every state at t+1 (used by Forward and Viterbi)</figcaption></figure>
+<h2 class="sec">Q9. Decision trees, entropy and pruning</h2>
+<p>A <strong>decision tree</strong> is a supervised model that classifies an example by asking a sequence of questions about its attributes. Each <strong>internal node</strong> tests an attribute, each <strong>branch</strong> is a test outcome, and each <strong>leaf</strong> gives a class (decision). Learning is a greedy, top-down, divide-and-conquer process (ID3 / C4.5 / CART).</p>
+<pre><code class="language-text">function DECISION-TREE-LEARNING(examples, attributes, parent_examples):
+    if examples is empty: return PLURALITY-VALUE(parent_examples)
+    else if all examples have the same class: return that class
+    else if attributes is empty: return PLURALITY-VALUE(examples)
+    else:
+        A &lt;- attribute with the highest INFORMATION GAIN
+        tree &lt;- new decision tree with root test A
+        for each value v of A:
+            exs &lt;- examples with A = v
+            subtree &lt;- DECISION-TREE-LEARNING(exs, attributes - A, examples)
+            add branch (A = v) with subtree to tree
+        return tree
+</code></pre>
+<h3>Entropy and information gain</h3>
+<p>Entropy measures the impurity (uncertainty) of a set S with class proportions pᵢ:</p>
+<div class="formula">H(S) = − Σ_i p_i log₂ p_i          B(q) = −( q log₂ q + (1−q) log₂(1−q) )</div>
+<p>Entropy is 0 for a pure set and 1 bit for a 50/50 boolean split. <strong>Information gain</strong> of attribute A is the expected reduction in entropy:</p>
+<div class="formula">Gain(A) = H(S) − Σ_v ( |S_v| / |S| ) · H(S_v)</div>
+<h3>Restaurant waiting problem (12 examples: 6 Wait = Yes, 6 Wait = No)</h3>
+<p>Entropy of the whole set: H = B(6/12) = B(0.5) = <strong>1 bit</strong>.</p>
+<p><strong>Attribute Patrons</strong> (None / Some / Full):</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Examples</th>
+<th>Yes</th>
+<th>No</th>
+<th>Entropy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>None</td>
+<td>2</td>
+<td>0</td>
+<td>2</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Some</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Full</td>
+<td>6</td>
+<td>2</td>
+<td>4</td>
+<td>B(2/6) = 0.918</td>
+</tr>
+</tbody>
+</table>
+<p>Remainder = (2/12)(0) + (4/12)(0) + (6/12)(0.918) = 0.459. <strong>Gain(Patrons) = 1 − 0.459 = 0.541 bits.</strong></p>
+<p><strong>Attribute Type</strong> (French, Italian, Thai, Burger): each value has an equal number of Yes and No (1/1, 1/1, 2/2, 2/2), so every subset has entropy 1 and <strong>Gain(Type) = 0 bits</strong>.</p>
+<p>Patrons has the highest gain, so it becomes the root. The "None" and "Some" branches are already pure (No and Yes); the "Full" branch is split again on the next-best attribute (e.g. Hungry, then Type, Fri/Sat) recursively.</p>
+<h3>Pruning and overfitting</h3>
+<p>A fully grown tree fits noise in the training data and generalises poorly (overfitting). Pruning simplifies the tree:</p>
+<ul>
+<li><strong>Pre-pruning (early stopping)</strong> – stop splitting when the gain is not statistically significant (e.g. chi-squared test) or when depth / node-size limits are reached.</li>
+<li><strong>Post-pruning</strong> – grow the full tree, then replace subtrees with a leaf (majority class) if accuracy on a validation set does not drop (reduced-error pruning, cost-complexity pruning).</li>
+<li>Choose the tree size with <strong>cross-validation</strong>.</li>
+</ul>
+<p><strong>Advantages:</strong> easy to interpret, handles numeric and categorical data, little data preparation. <strong>Disadvantages:</strong> unstable, prone to overfitting, biased towards attributes with many values (fixed by gain ratio).</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 212" width="100%" style="max-width:520px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="190" y="5" width="120" height="34" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="250.0" y="26.0" text-anchor="middle" font-size="13"  font-weight="bold">Patrons?</text><rect x="40" y="100" width="90" height="32" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="85.0" y="120.0" text-anchor="middle" font-size="13"  font-weight="bold">No</text><rect x="210" y="100" width="80" height="32" rx="7" fill="#d8efdf" stroke="#2a8a55" stroke-width="1.4"/><text x="250.0" y="120.0" text-anchor="middle" font-size="13"  font-weight="bold">Yes</text><rect x="350" y="70" width="110" height="34" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="405.0" y="91.0" text-anchor="middle" font-size="13"  font-weight="bold">Hungry?</text><line x1="230" y1="39" x2="85" y2="100" stroke="#555" stroke-width="1.5"/><line x1="250" y1="39" x2="250" y2="100" stroke="#555" stroke-width="1.5"/><line x1="280" y1="39" x2="405" y2="70" stroke="#555" stroke-width="1.5"/><text x="130" y="62" text-anchor="middle" font-size="11" fill="#222">None</text><text x="262" y="76" text-anchor="middle" font-size="11" fill="#222">Some</text><text x="360" y="52" text-anchor="middle" font-size="11" fill="#222">Full</text><rect x="330" y="140" width="70" height="30" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="365.0" y="159.0" text-anchor="middle" font-size="11" >Type? …</text><rect x="430" y="140" width="60" height="30" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="460.0" y="159.0" text-anchor="middle" font-size="13" >No</text><line x1="380" y1="104" x2="365" y2="140" stroke="#555" stroke-width="1.5"/><line x1="430" y1="104" x2="460" y2="140" stroke="#555" stroke-width="1.5"/><text x="358" y="125" text-anchor="middle" font-size="11" fill="#222">Yes</text><text x="458" y="125" text-anchor="middle" font-size="11" fill="#222">No</text><text x="250" y="200" text-anchor="middle" font-size="11" fill="#222" font-style="italic">Root = attribute with highest information gain (Patrons 0.541 bits, Type 0 bits)</text></svg><figcaption>Figure 9. Decision tree for the restaurant waiting problem (leaf = WillWait yes/no)</figcaption></figure>
+<h2 class="sec">Q10. Linear / polynomial regression, overfitting and underfitting</h2>
+<p><strong>Regression</strong> is supervised learning in which the output is a continuous value. We fit a function h_w(x) to training pairs (x, y) by minimising the error.</p>
+<h3>Linear regression</h3>
+<p>Univariate model: <strong>h_w(x) = w₁x + w₀</strong> (multivariate: h_w(x) = w·x = Σ wᵢxᵢ). The loss is the squared error (least squares):</p>
+<div class="formula">Loss(w) = Σ_{j=1..N} ( y_j − (w₁ x_j + w₀) )²</div>
+<p>Closed-form solution for the line:</p>
+<div class="formula">w₁ = ( N Σx_j y_j − Σx_j Σy_j ) / ( N Σx_j² − (Σx_j)² )          w₀ = ( Σy_j − w₁ Σx_j ) / N</div>
+<p>For many features, use <strong>gradient descent</strong>: w ← w − α ∂Loss/∂w (repeat until convergence), or the normal equation w = (XᵀX)⁻¹Xᵀy.</p>
+<h3>Polynomial regression</h3>
+<p>When data is non-linear, add powers of x as new features: <strong>h_w(x) = w₀ + w₁x + w₂x² + … + w_d xᵈ</strong>. The model is still <em>linear in the weights</em>, so the same least-squares machinery applies; the <strong>degree d</strong> controls model complexity.</p>
+<h3>Underfitting vs. overfitting</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Underfitting</th>
+<th>Good fit</th>
+<th>Overfitting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model complexity</td>
+<td>Too simple (e.g. a line on curved data)</td>
+<td>Appropriate</td>
+<td>Too complex (e.g. degree-15 polynomial on 16 points)</td>
+</tr>
+<tr>
+<td>Training error</td>
+<td>High</td>
+<td>Low</td>
+<td>Very low (near zero)</td>
+</tr>
+<tr>
+<td>Test / validation error</td>
+<td>High</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Problem</td>
+<td><strong>High bias</strong>, low variance</td>
+<td>Balanced</td>
+<td><strong>High variance</strong>, low bias</td>
+</tr>
+<tr>
+<td>Cause</td>
+<td>Too few features / too simple model, too little training</td>
+<td>–</td>
+<td>Too many parameters, noise memorised, small dataset</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bias–variance trade-off:</strong> expected error = bias² + variance + irreducible noise. Increasing complexity lowers bias but raises variance.</p>
+<p><strong>Remedies for overfitting:</strong> more training data, simpler model, feature selection, <strong>regularisation</strong> (add λΣw² for ridge / L2 or λΣ|w| for lasso / L1 to the loss), cross-validation, early stopping, pruning / dropout.</p>
+<p><strong>Remedies for underfitting:</strong> more expressive model (higher degree), more relevant features, less regularisation, train longer.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190" width="100%" style="max-width:600px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="25" width="170" height="130" fill="#fafafa" stroke="#ccc"/><text x="95" y="16" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Underfitting (high bias)</text><circle cx="35.0" cy="117.8" r="3.5" fill="#3b6fd4"/><circle cx="50.0" cy="98.2" r="3.5" fill="#3b6fd4"/><circle cx="65.0" cy="86.8" r="3.5" fill="#3b6fd4"/><circle cx="80.0" cy="78.7" r="3.5" fill="#3b6fd4"/><circle cx="95.0" cy="60.3" r="3.5" fill="#3b6fd4"/><circle cx="110.0" cy="63.8" r="3.5" fill="#3b6fd4"/><circle cx="125.0" cy="46.5" r="3.5" fill="#3b6fd4"/><circle cx="140.0" cy="55.7" r="3.5" fill="#3b6fd4"/><circle cx="155.0" cy="40.8" r="3.5" fill="#3b6fd4"/><path d="M20,109.75 L170,78.7" fill="none" stroke="#c9302c" stroke-width="2"/><rect x="210" y="25" width="170" height="130" fill="#fafafa" stroke="#ccc"/><text x="295" y="16" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Good fit</text><circle cx="235.0" cy="117.8" r="3.5" fill="#3b6fd4"/><circle cx="250.0" cy="98.2" r="3.5" fill="#3b6fd4"/><circle cx="265.0" cy="86.8" r="3.5" fill="#3b6fd4"/><circle cx="280.0" cy="78.7" r="3.5" fill="#3b6fd4"/><circle cx="295.0" cy="60.3" r="3.5" fill="#3b6fd4"/><circle cx="310.0" cy="63.8" r="3.5" fill="#3b6fd4"/><circle cx="325.0" cy="46.5" r="3.5" fill="#3b6fd4"/><circle cx="340.0" cy="55.7" r="3.5" fill="#3b6fd4"/><circle cx="355.0" cy="40.8" r="3.5" fill="#3b6fd4"/><path d="M227.5,125.7 L229.8,123.6 L232.0,121.6 L234.2,119.6 L236.5,117.6 L238.8,115.7 L241.0,113.8 L243.2,111.9 L245.5,110.0 L247.8,108.1 L250.0,106.3 L252.2,104.5 L254.5,102.7 L256.8,101.0 L259.0,99.3 L261.2,97.6 L263.5,95.9 L265.8,94.3 L268.0,92.6 L270.2,91.0 L272.5,89.5 L274.8,87.9 L277.0,86.4 L279.2,84.9 L281.5,83.5 L283.8,82.0 L286.0,80.6 L288.2,79.2 L290.5,77.9 L292.8,76.6 L295.0,75.3 L297.2,74.0 L299.5,72.7 L301.8,71.5 L304.0,70.3 L306.2,69.1 L308.5,68.0 L310.8,66.8 L313.0,65.7 L315.2,64.7 L317.5,63.6 L319.8,62.6 L322.0,61.6 L324.2,60.6 L326.5,59.7 L328.8,58.8 L331.0,57.9 L333.2,57.0 L335.5,56.2 L337.8,55.3 L340.0,54.6 L342.2,53.8 L344.5,53.0 L346.8,52.3 L349.0,51.7 L351.2,51.0 L353.5,50.4 L355.8,49.8 L358.0,49.2 L360.2,48.6 L362.5,48.1" fill="none" stroke="#c9302c" stroke-width="2"/><rect x="410" y="25" width="170" height="130" fill="#fafafa" stroke="#ccc"/><text x="495" y="16" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">Overfitting (high variance)</text><circle cx="435.0" cy="117.8" r="3.5" fill="#3b6fd4"/><circle cx="450.0" cy="98.2" r="3.5" fill="#3b6fd4"/><circle cx="465.0" cy="86.8" r="3.5" fill="#3b6fd4"/><circle cx="480.0" cy="78.7" r="3.5" fill="#3b6fd4"/><circle cx="495.0" cy="60.3" r="3.5" fill="#3b6fd4"/><circle cx="510.0" cy="63.8" r="3.5" fill="#3b6fd4"/><circle cx="525.0" cy="46.5" r="3.5" fill="#3b6fd4"/><circle cx="540.0" cy="55.7" r="3.5" fill="#3b6fd4"/><circle cx="555.0" cy="40.8" r="3.5" fill="#3b6fd4"/><path d="M435.0,117.8 L436.0,130.0 L437.0,137.8 L438.0,141.9 L439.0,143.3 L440.0,142.4 L441.0,139.9 L442.0,136.2 L443.0,131.7 L444.0,126.7 L445.0,121.5 L446.0,116.3 L447.0,111.2 L448.0,106.5 L449.0,102.1 L450.0,98.2 L451.0,94.9 L452.0,92.0 L453.0,89.6 L454.0,87.7 L455.0,86.2 L456.0,85.2 L457.0,84.6 L458.0,84.2 L459.0,84.2 L460.0,84.4 L461.0,84.7 L462.0,85.2 L463.0,85.7 L464.0,86.2 L465.0,86.8 L466.0,87.2 L467.0,87.6 L468.0,87.8 L469.0,88.0 L470.0,87.9 L471.0,87.7 L472.0,87.3 L473.0,86.8 L474.0,86.1 L475.0,85.2 L476.0,84.1 L477.0,82.9 L478.0,81.6 L479.0,80.2 L480.0,78.7 L481.0,77.1 L482.0,75.5 L483.0,73.9 L484.0,72.3 L485.0,70.7 L486.0,69.2 L487.0,67.7 L488.0,66.3 L489.0,65.1 L490.0,63.9 L491.0,62.9 L492.0,62.0 L493.0,61.3 L494.0,60.7 L495.0,60.3 L496.0,60.0 L497.0,59.9 L498.0,59.9 L499.0,60.0 L500.0,60.2 L501.0,60.5 L502.0,60.9 L503.0,61.3 L504.0,61.8 L505.0,62.2 L506.0,62.7 L507.0,63.1 L508.0,63.4 L509.0,63.6 L510.0,63.8 L511.0,63.7 L512.0,63.6 L513.0,63.2 L514.0,62.7 L515.0,62.0 L516.0,61.1 L517.0,60.1 L518.0,58.8 L519.0,57.4 L520.0,55.8 L521.0,54.1 L522.0,52.2 L523.0,50.3 L524.0,48.4 L525.0,46.5 L526.0,44.6 L527.0,42.9 L528.0,41.3 L529.0,40.0 L530.0,38.9 L531.0,38.2 L532.0,37.9 L533.0,38.1 L534.0,38.8 L535.0,40.1 L536.0,41.9 L537.0,44.4 L538.0,47.6 L539.0,51.3 L540.0,55.7 L541.0,60.6 L542.0,65.9 L543.0,71.6 L544.0,77.4 L545.0,83.1 L546.0,88.5 L547.0,93.2 L548.0,96.9 L549.0,99.0 L550.0,99.0 L551.0,96.2 L552.0,89.9 L553.0,79.3 L554.0,63.3 L555.0,40.8" fill="none" stroke="#c9302c" stroke-width="2"/><text x="95" y="175" text-anchor="middle" font-size="11" fill="#222" font-style="italic">too simple: high train & test error</text><text x="295" y="175" text-anchor="middle" font-size="11" fill="#222" font-style="italic">balanced: low train & test error</text><text x="495" y="175" text-anchor="middle" font-size="11" fill="#222" font-style="italic">memorises noise: train≈0, test high</text></svg><figcaption>Figure 10. Underfitting, good fit and overfitting on the same data</figcaption></figure>
+<h2 class="sec">Q11. Support, confidence and lift using Apriori</h2>
+<p><strong>Association rule mining</strong> finds rules X → Y in transaction data (market-basket analysis). Definitions, for N transactions:</p>
+<div class="formula">Support(X→Y) = (transactions containing X ∪ Y) / N
+Confidence(X→Y) = Support(X ∪ Y) / Support(X)
+Lift(X→Y) = Confidence(X→Y) / Support(Y)</div>
+<p>Lift &gt; 1: positive association; lift = 1: independent; lift &lt; 1: negative association.</p>
+<p><strong>Apriori principle:</strong> every subset of a frequent itemset must also be frequent (equivalently, if an itemset is infrequent, all its supersets are infrequent). This prunes the search space.</p>
+<pre><code class="language-text">L1 &lt;- frequent 1-itemsets (support &gt;= min_sup)
+for k = 2; L(k-1) not empty; k++:
+    Ck &lt;- join L(k-1) with itself, then prune candidates having an infrequent (k-1)-subset
+    scan database, count support of each candidate in Ck
+    Lk &lt;- candidates in Ck with support &gt;= min_sup
+frequent itemsets = union of all Lk
+generate rules X -&gt; Y from each frequent itemset with confidence &gt;= min_conf
+</code></pre>
+<h3>Worked example</h3>
+<p>Transactions (N = 5), minimum support = 60% (count ≥ 3), minimum confidence = 70%.</p>
+<table>
+<thead>
+<tr>
+<th>TID</th>
+<th>Items</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>Bread, Milk</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>Bread, Diaper, Beer, Eggs</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>Milk, Diaper, Beer, Coke</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>Bread, Milk, Diaper, Beer</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>Bread, Milk, Diaper, Coke</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 1 – 1-itemsets (C1 → L1):</strong> Bread 4, Milk 4, Diaper 4, Beer 3, Coke 2, Eggs 1. Coke and Eggs fall below 3 and are removed. L1 = {Bread, Milk, Diaper, Beer}.</p>
+<p><strong>Step 2 – 2-itemsets (C2 → L2):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Itemset</th>
+<th>Count</th>
+<th>Frequent?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{Bread, Milk}</td>
+<td>3</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>{Bread, Diaper}</td>
+<td>3</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>{Bread, Beer}</td>
+<td>2</td>
+<td>No</td>
+</tr>
+<tr>
+<td>{Milk, Diaper}</td>
+<td>3</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>{Milk, Beer}</td>
+<td>2</td>
+<td>No</td>
+</tr>
+<tr>
+<td>{Diaper, Beer}</td>
+<td>3</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3 – 3-itemsets:</strong> the only candidate surviving the prune step is {Bread, Milk, Diaper} (all its 2-subsets are frequent); its count is 2 (T4, T5) &lt; 3, so L3 is empty and the algorithm stops.</p>
+<p><strong>Step 4 – rules from the frequent pairs:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Support</th>
+<th>Confidence</th>
+<th>Lift</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diaper → Beer</td>
+<td>3/5 = 0.60</td>
+<td>3/4 = 0.75</td>
+<td>0.75 / 0.60 = 1.25</td>
+<td>Strong, positive</td>
+</tr>
+<tr>
+<td>Beer → Diaper</td>
+<td>0.60</td>
+<td>3/3 = 1.00</td>
+<td>1.00 / 0.80 = 1.25</td>
+<td>Strong, positive</td>
+</tr>
+<tr>
+<td>Bread → Milk</td>
+<td>0.60</td>
+<td>3/4 = 0.75</td>
+<td>0.75 / 0.80 = 0.94</td>
+<td>Confident but lift &lt; 1</td>
+</tr>
+<tr>
+<td>Milk → Diaper</td>
+<td>0.60</td>
+<td>3/4 = 0.75</td>
+<td>0.75 / 0.80 = 0.94</td>
+<td>Confident but lift &lt; 1</td>
+</tr>
+</tbody>
+</table>
+<p>Interpretation: customers who buy Beer always buy Diapers (confidence 100%), and the two are bought together 25% more often than chance (lift 1.25). Bread→Milk looks confident but is not truly informative because lift is below 1.</p>
+<p><em>If your question gives its own transaction table, follow exactly the same four steps with the stated minimum support and confidence.</em></p>
+<h2 class="sec">Q12. Reinforcement learning (Q-learning, active vs. passive)</h2>
+<p><strong>Reinforcement learning (RL)</strong> is learning what to do from rewards: an agent interacts with an environment, observes state s, takes action a, receives reward r and moves to state s'. The goal is to learn a <strong>policy π(s)</strong> that maximises the expected discounted return R = r₀ + γr₁ + γ²r₂ + … (0 ≤ γ ≤ 1). The environment is modelled as a Markov Decision Process (MDP) with transition model P(s'|s,a) and reward R(s,a,s').</p>
+<p><strong>Key ideas:</strong> utility U(s) of a state = expected discounted reward from s; Bellman equation U(s) = R(s) + γ maxₐ Σ P(s'|s,a) U(s'); and the <strong>exploration vs. exploitation</strong> dilemma.</p>
+<h3>Q-learning</h3>
+<p>Q-learning is a <strong>model-free, off-policy, temporal-difference</strong> method. It learns the action-value function Q(s, a) = expected return of taking a in s and acting optimally afterwards, without knowing P or R in advance.</p>
+<div class="formula">Q(s,a) ← Q(s,a) + α [ r + γ · max_a&#x27; Q(s&#x27;,a&#x27;) − Q(s,a) ]</div>
+<pre><code class="language-text">initialise Q(s, a) = 0 for all s, a
+repeat for each episode:
+    s &lt;- start state
+    repeat until s is terminal:
+        choose a from s using epsilon-greedy policy (random with prob. epsilon, else argmax Q)
+        take a, observe reward r and next state s'
+        Q(s,a) &lt;- Q(s,a) + alpha * (r + gamma * max_a' Q(s',a') - Q(s,a))
+        s &lt;- s'
+</code></pre>
+<p>Example: Q(s,a) = 0, α = 0.5, γ = 0.9, r = 10, max Q(s',·) = 20. New Q = 0 + 0.5 (10 + 0.9×20 − 0) = <strong>14</strong>.</p>
+<ul>
+<li>Converges to the optimal Q* if every state–action pair is visited infinitely often and α decays appropriately.</li>
+<li>The optimal policy is π*(s) = argmaxₐ Q(s,a). SARSA is the on-policy variant, using the action actually taken next.</li>
+</ul>
+<h3>Passive vs. active reinforcement learning</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Passive RL</th>
+<th>Active RL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Policy</td>
+<td>Fixed policy π given</td>
+<td>Agent must decide what to do (learn the policy)</td>
+</tr>
+<tr>
+<td>Task</td>
+<td><strong>Policy evaluation:</strong> learn utility Uᵖ(s) of following π</td>
+<td>Learn the optimal policy and utilities</td>
+</tr>
+<tr>
+<td>Needs</td>
+<td>Observing the environment (like a learner watching)</td>
+<td>Exploration vs. exploitation; must consider the effect of actions</td>
+</tr>
+<tr>
+<td>Methods</td>
+<td>Direct utility estimation, Adaptive Dynamic Programming (ADP), Temporal-Difference (TD) learning: U(s) ← U(s) + α (r + γU(s') − U(s))</td>
+<td>Active ADP (solve Bellman optimality), Q-learning, SARSA, exploration functions (ε-greedy, optimism under uncertainty)</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Estimating how good a given route is for a taxi</td>
+<td>Learning the best route while still driving</td>
+</tr>
+</tbody>
+</table>
+<p>A purely greedy active agent may get stuck in a sub-optimal policy; it must balance <strong>exploitation</strong> (use known best action) with <strong>exploration</strong> (try new actions to gain information).</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180" width="100%" style="max-width:520px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="20" y="30" width="100" height="40" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="70.0" y="54.0" text-anchor="middle" font-size="13" >State s</text><rect x="180" y="30" width="130" height="40" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="245.0" y="46.0" text-anchor="middle" font-size="13" >Choose a</text><text x="245.0" y="62.0" text-anchor="middle" font-size="13" >(ε-greedy)</text><rect x="370" y="30" width="120" height="40" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="430.0" y="46.0" text-anchor="middle" font-size="13" >Take a →</text><text x="430.0" y="62.0" text-anchor="middle" font-size="13" >reward r, s'</text><rect x="180" y="120" width="330" height="44" rx="7" fill="#e4f3d6" stroke="#5a9a2a" stroke-width="1.4"/><text x="345.0" y="146.0" text-anchor="middle" font-size="12" >Q(s,a) ← Q(s,a) + α[ r + γ max Q(s',a') − Q(s,a) ]</text><line x1="120" y1="50" x2="180" y2="50" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="310" y1="50" x2="370" y2="50" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="430" y1="70" x2="430" y2="120" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><path d="M180,142 L70,142 L70,70" fill="none" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="120" y="136" text-anchor="middle" font-size="11" fill="#222">s ← s'</text></svg><figcaption>Figure 12. Q-learning cycle</figcaption></figure>
+<h2 class="sec">Q13. Naïve Bayes models and Support Vector Machines</h2>
+<h3>Naïve Bayes</h3>
+<p>A probabilistic classifier based on <strong>Bayes' theorem</strong> with the "naive" assumption that the features are <strong>conditionally independent given the class</strong>.</p>
+<div class="formula">P(C | x₁…xₙ) = P(C) · Π_i P(x_i | C) / P(x₁…xₙ)          Ĉ = argmax_C  P(C) · Π_i P(x_i | C)</div>
+<ul>
+<li>Parameters (class priors and per-feature likelihoods) are estimated by counting in the training data; the evidence in the denominator is the same for all classes and can be ignored.</li>
+<li><strong>Laplace smoothing</strong> avoids zero probabilities: P(x|C) = (count + 1) / (N_C + k).</li>
+<li>Variants: Gaussian (continuous features), Multinomial (word counts), Bernoulli (binary features).</li>
+</ul>
+<p><strong>Mini example:</strong> 10 emails, 4 spam. 3 of the spam and 1 of the 6 non-spam contain "free". For a new mail containing "free": P(spam)·P(free|spam) = 0.4 × 0.75 = 0.30; P(not spam)·P(free|not spam) = 0.6 × 0.167 = 0.10. Normalised, P(spam | free) = 0.30 / 0.40 = <strong>0.75</strong>, so the mail is classified as spam.</p>
+<p><strong>Advantages:</strong> fast, needs little data, works well for text and spam filtering, handles many features. <strong>Disadvantages:</strong> independence assumption is rarely true; zero-frequency problem; poor probability estimates.</p>
+<h3>Support Vector Machine (SVM)</h3>
+<p>A supervised classifier (also usable for regression) that finds the <strong>maximum-margin separating hyperplane</strong> w·x + b = 0 between two classes.</p>
+<ul>
+<li><strong>Margin</strong> = distance between the hyperplane and the closest points, 2/‖w‖. The closest points are the <strong>support vectors</strong>; only they determine the boundary.</li>
+<li>Hard-margin optimisation (separable data): minimise ½‖w‖² subject to yᵢ(w·xᵢ + b) ≥ 1 for all i.</li>
+<li><strong>Soft margin</strong> (noisy / overlapping data): minimise ½‖w‖² + C Σ ξᵢ with slack variables ξᵢ ≥ 0; large C = narrow margin and few errors, small C = wide margin and more tolerance.</li>
+<li><strong>Kernel trick:</strong> for non-linearly separable data, map inputs to a higher-dimensional space implicitly through a kernel K(x, x') = φ(x)·φ(x') – linear, polynomial (x·x' + 1)^d, RBF exp(−γ‖x − x'‖²), sigmoid – and find a linear separator there.</li>
+<li>Decision rule: sign(Σ αᵢ yᵢ K(xᵢ, x) + b), with nonzero αᵢ only for support vectors.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Naïve Bayes</th>
+<th>SVM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td>Generative, probabilistic</td>
+<td>Discriminative, geometric</td>
+</tr>
+<tr>
+<td>Training</td>
+<td>Counting, very fast</td>
+<td>Quadratic optimisation, slower on large data</td>
+</tr>
+<tr>
+<td>Assumption</td>
+<td>Feature independence</td>
+<td>Data separable (possibly after kernel mapping)</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>Class probabilities</td>
+<td>Class label (and distance from margin)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Text classification, small data</td>
+<td>High-dimensional data, complex boundaries</td>
+</tr>
+</tbody>
+</table>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 242" width="100%" style="max-width:380px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="10" width="360" height="200" fill="#fafafa" stroke="#ccc"/><line x1="60" y1="190" x2="320" y2="30" stroke="#222" stroke-width="2"/><line x1="40" y1="170" x2="300" y2="10" stroke="#888" stroke-dasharray="5,3"/><line x1="80" y1="210" x2="340" y2="50" stroke="#888" stroke-dasharray="5,3"/><circle cx="70" cy="100" r="6" fill="#3b6fd4"/><circle cx="110" cy="70" r="6" fill="#3b6fd4"/><circle cx="150" cy="50" r="6" fill="#3b6fd4"/><circle cx="100" cy="130" r="6" fill="#3b6fd4"/><circle cx="60" cy="60" r="6" fill="#3b6fd4"/><circle cx="200" cy="35" r="6" fill="#3b6fd4"/><rect x="244" y="184" width="12" height="12" fill="#c9602a"/><rect x="294" y="154" width="12" height="12" fill="#c9602a"/><rect x="324" y="114" width="12" height="12" fill="#c9602a"/><rect x="204" y="174" width="12" height="12" fill="#c9602a"/><rect x="174" y="144" width="12" height="12" fill="#c9602a"/><rect x="334" y="174" width="12" height="12" fill="#c9602a"/><circle cx="150" cy="50" r="10" fill="none" stroke="#2a7a3a" stroke-width="2"/><circle cx="180" cy="150" r="0" /><rect x="168" y="138" width="24" height="24" fill="none" stroke="#2a7a3a" stroke-width="2"/><text x="190" y="230" text-anchor="middle" font-size="11" fill="#222" font-style="italic">solid line: hyperplane w·x + b = 0; dashed lines: margin (width 2/‖w‖); circled points: support vectors</text><text x="270" y="25" text-anchor="middle" font-size="10" fill="#666">w·x+b=+1</text><text x="330" y="75" text-anchor="middle" font-size="10" fill="#666">w·x+b=−1</text></svg><figcaption>Figure 13. SVM maximum-margin hyperplane</figcaption></figure>
+<h2 class="sec">Q14. Foundations of AI, Turing Test, and the four approaches</h2>
+<p><strong>Artificial Intelligence</strong> is the science and engineering of making intelligent machines – systems that perceive, reason, learn and act to achieve goals.</p>
+<h3>Foundations of AI (contributing disciplines)</h3>
+<table>
+<thead>
+<tr>
+<th>Discipline</th>
+<th>Contribution to AI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Philosophy</td>
+<td>Logic, reasoning, mind as a physical system, rationality, knowledge and its sources</td>
+</tr>
+<tr>
+<td>Mathematics</td>
+<td>Formal logic, computability and algorithms, probability and statistics, decision theory</td>
+</tr>
+<tr>
+<td>Economics</td>
+<td>Utility, decision theory, game theory, Markov decision processes</td>
+</tr>
+<tr>
+<td>Neuroscience</td>
+<td>How the brain processes information; neurons, inspiration for neural networks</td>
+</tr>
+<tr>
+<td>Psychology</td>
+<td>Cognitive models, perception, learning, behaviour of humans and animals</td>
+</tr>
+<tr>
+<td>Computer engineering</td>
+<td>Fast hardware, memory and software to build AI systems</td>
+</tr>
+<tr>
+<td>Control theory and cybernetics</td>
+<td>Self-regulating systems that maximise an objective over time</td>
+</tr>
+<tr>
+<td>Linguistics</td>
+<td>Knowledge representation, grammar, natural language understanding</td>
+</tr>
+</tbody>
+</table>
+<h3>Four approaches to defining AI</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Human-like</th>
+<th>Rational (ideal)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Thought / reasoning</strong></td>
+<td><strong>Thinking humanly</strong> – cognitive modelling</td>
+<td><strong>Thinking rationally</strong> – "laws of thought"</td>
+</tr>
+<tr>
+<td><strong>Behaviour / action</strong></td>
+<td><strong>Acting humanly</strong> – Turing Test</td>
+<td><strong>Acting rationally</strong> – rational agent</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Thinking humanly (cognitive science):</strong> build programs that think like humans, validated by psychological experiments and brain imaging (introspection, psychological experiments, brain imaging). Example: General Problem Solver (GPS).</li>
+<li><strong>Thinking rationally (laws of thought):</strong> use logic (Aristotle's syllogisms) so that correct premises lead to correct conclusions. Problems: it is hard to express informal, uncertain knowledge in logic, and logical inference is computationally expensive.</li>
+<li><strong>Acting humanly (Turing Test):</strong> see below.</li>
+<li><strong>Acting rationally (rational agent):</strong> an agent acts to achieve the best expected outcome given its beliefs and the available information. This is the most general and widely used approach, because it does not require human-like behaviour, is mathematically well defined, and covers inference as one mechanism among others.</li>
+</ul>
+<h3>The Turing Test approach</h3>
+<p>Proposed by <strong>Alan Turing (1950)</strong> in "Computing Machinery and Intelligence". A human interrogator asks written questions to two hidden parties – a human and a computer. If the interrogator cannot tell which is the machine, the machine <strong>passes</strong> and is deemed intelligent. Typed communication avoids physical cues; the <strong>Total Turing Test</strong> also adds video (perception) and physical objects (manipulation).</p>
+<p>Capabilities the computer needs:</p>
+<ul>
+<li><strong>Natural language processing</strong> – to communicate in English.</li>
+<li><strong>Knowledge representation</strong> – to store what it knows or hears.</li>
+<li><strong>Automated reasoning</strong> – to answer questions and draw new conclusions.</li>
+<li><strong>Machine learning</strong> – to adapt to new circumstances and detect patterns.</li>
+<li><strong>Computer vision</strong> and <strong>robotics</strong> (Total Turing Test) – to perceive objects and move them.</li>
+</ul>
+<p><strong>Criticisms:</strong> it tests imitation rather than real understanding (Searle's <em>Chinese Room</em> argument); it is anthropocentric; and engineers rarely pursue it – aeronautical engineering did not succeed by imitating pigeons, but by studying aerodynamics.</p>
+<h3>Rational agent vs. human thinking (from your notes)</h3>
+<p>A <strong>rational agent</strong> perceives through sensors, acts through actuators and always selects the action that maximises its expected performance measure, given its percept sequence and built-in knowledge. Rational does not mean omniscient: in a partially observable environment it may make a "wrong" choice yet still be rational for what it knew.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Human thinking</th>
+<th>Rational agent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Decision basis</td>
+<td>Emotions, biases, intuition</td>
+<td>Percepts + knowledge + logic</td>
+</tr>
+<tr>
+<td>Consistency</td>
+<td>Inconsistent under stress</td>
+<td>Consistent</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>Limited (about 7 ± 2 chunks)</td>
+<td>Can store millions of states</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Slow for complex calculation</td>
+<td>Very fast</td>
+</tr>
+<tr>
+<td>Learning</td>
+<td>Slow, needs repetition</td>
+<td>Learns from vast data quickly</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>Cognitive biases (anchoring)</td>
+<td>Only from bad data or model</td>
+</tr>
+</tbody>
+</table>
+<p>Examples of the four approaches: thinking humanly – neural networks inspired by the brain, cognitive architectures such as SOAR; thinking rationally – Prolog programs, theorem provers, expert systems with IF-THEN rules; acting humanly – chatbots that pass as human in text conversation, humanoid robots; acting rationally – a self-driving car choosing the safest route, a chess engine choosing the best move. The term "Artificial Intelligence" was coined by John McCarthy at the 1956 Dartmouth Conference.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 210" width="100%" style="max-width:490px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="10" width="230" height="80" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="125.0" y="39.0" text-anchor="middle" font-size="12" >Thinking humanly</text><text x="125.0" y="54.0" text-anchor="middle" font-size="12" >Cognitive modelling</text><text x="125.0" y="69.0" text-anchor="middle" font-size="12" >(GPS, SOAR)</text><rect x="250" y="10" width="230" height="80" rx="7" fill="#d8efdf" stroke="#3b6fd4" stroke-width="1.4"/><text x="365.0" y="39.0" text-anchor="middle" font-size="12" >Thinking rationally</text><text x="365.0" y="54.0" text-anchor="middle" font-size="12" >'Laws of thought', logic</text><text x="365.0" y="69.0" text-anchor="middle" font-size="12" >(Prolog, expert systems)</text><rect x="10" y="100" width="230" height="80" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="125.0" y="129.0" text-anchor="middle" font-size="12" >Acting humanly</text><text x="125.0" y="144.0" text-anchor="middle" font-size="12" >Turing Test</text><text x="125.0" y="159.0" text-anchor="middle" font-size="12" >(chatbots, humanoid robots)</text><rect x="250" y="100" width="230" height="80" rx="7" fill="#d8efdf" stroke="#3b6fd4" stroke-width="1.4"/><text x="365.0" y="129.0" text-anchor="middle" font-size="12" >Acting rationally</text><text x="365.0" y="144.0" text-anchor="middle" font-size="12" >Rational agent – most widely used</text><text x="365.0" y="159.0" text-anchor="middle" font-size="12" >(self-driving car, chess engine)</text><text x="125" y="198" text-anchor="middle" font-size="12" fill="#555" font-weight="bold">HUMAN-LIKE</text><text x="365" y="198" text-anchor="middle" font-size="12" fill="#555" font-weight="bold">RATIONAL (IDEAL)</text></svg><figcaption>Figure 14a. The four approaches to defining AI</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 135" width="100%" style="max-width:400px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="20" width="120" height="40" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="70.0" y="36.0" text-anchor="middle" font-size="13" >Interrogator</text><text x="70.0" y="52.0" text-anchor="middle" font-size="13" >(human)</text><rect x="260" y="0" width="120" height="40" rx="7" fill="#e0f4e8" stroke="#2a8a55" stroke-width="1.4"/><text x="320.0" y="24.0" text-anchor="middle" font-size="13" >Human</text><rect x="260" y="60" width="120" height="40" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="320.0" y="84.0" text-anchor="middle" font-size="13" >Computer</text><line x1="130" y1="35" x2="260" y2="20" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="190.0" y="21.5" text-anchor="middle" font-size="11" fill="#333">typed questions</text><line x1="260" y1="32" x2="130" y2="50" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="195.0" y="55.0" text-anchor="middle" font-size="11" fill="#333">answers</text><line x1="130" y1="50" x2="260" y2="80" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="260" y1="88" x2="130" y2="58" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="195" y="125" text-anchor="middle" font-size="11" fill="#222" font-style="italic">Passes if the interrogator cannot tell which is the machine</text></svg><figcaption>Figure 14b. The Turing Test set-up</figcaption></figure>
+<h2 class="sec">Q15. Architecture and components of a Fuzzy Logic System</h2>
+<p><strong>Fuzzy logic</strong> (Lotfi Zadeh, 1965) handles imprecise, vague information by allowing <strong>degrees of truth</strong> between 0 and 1 instead of only true/false. A fuzzy set A is described by a <strong>membership function μ_A(x) ∈ [0, 1]</strong>; e.g. a temperature of 28 °C may be "warm" with μ = 0.7 and "hot" with μ = 0.2. Standard operations: AND = min(μ_A, μ_B), OR = max(μ_A, μ_B), NOT = 1 − μ_A.</p>
+<h3>Architecture (Mamdani fuzzy inference system)</h3>
+<pre><code class="language-text">Crisp input --&gt; [1. FUZZIFICATION] --&gt; fuzzy input --&gt; [3. INFERENCE ENGINE] --&gt; fuzzy output --&gt; [4. DEFUZZIFICATION] --&gt; Crisp output
+                                                              ^
+                                                              |
+                                                  [2. KNOWLEDGE BASE]
+                                              (membership functions + rule base)
+</code></pre>
+<h3>Components</h3>
+<ol>
+<li><strong>Fuzzification module</strong> – converts crisp sensor inputs (e.g. temperature = 28 °C) into fuzzy sets / membership degrees using the membership functions (triangular, trapezoidal, Gaussian).</li>
+<li><strong>Knowledge base</strong> – contains (a) the <strong>database</strong> of membership functions and linguistic variables (Cold, Warm, Hot), and (b) the <strong>rule base</strong>, a set of IF–THEN rules supplied by experts, e.g. <em>IF temperature is Hot AND humidity is High THEN fan speed is Fast</em>.</li>
+<li><strong>Inference engine (decision-making unit)</strong> – evaluates which rules fire and to what degree: it applies the fuzzy operators to the antecedents (min for AND), implies the consequent (clipping with min or scaling with product), and aggregates the outputs of all rules (max / union) into one fuzzy set.</li>
+<li><strong>Defuzzification module</strong> – converts the aggregated fuzzy output set back into a single crisp value for the actuator. Methods: <strong>centroid (centre of gravity)</strong> – most common, centre of area/bisector, mean of maxima, smallest/largest of maxima, weighted average.</li>
+</ol>
+<h3>Working example – air-conditioner fan</h3>
+<ol>
+<li>Crisp input: temperature = 28 °C → Warm 0.7, Hot 0.2.</li>
+<li>Rules: IF Warm THEN Fan = Medium; IF Hot THEN Fan = Fast.</li>
+<li>Inference: Medium is clipped at 0.7, Fast at 0.2; the two are combined using max.</li>
+<li>Defuzzification: centroid of the combined area gives, say, fan speed ≈ 55 %.</li>
+</ol>
+<h3>Types and applications</h3>
+<ul>
+<li><strong>Mamdani</strong> (fuzzy consequents, defuzzification needed) vs. <strong>Sugeno / Takagi–Sugeno</strong> (crisp linear or constant consequents, weighted-average output – more efficient).</li>
+<li>Applications: washing machines, air conditioners, anti-lock brakes, camera autofocus, subway control, medical diagnosis, stock-trading systems.</li>
+<li><strong>Advantages:</strong> handles uncertainty and vagueness, easy to design with human-like rules, tolerates imprecise input. <strong>Disadvantages:</strong> rule base can grow large, depends on expert tuning, no learning ability by itself (neuro-fuzzy systems add it).</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 190" width="100%" style="max-width:700px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="10" y="35" width="95" height="50" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="57.5" y="56.0" text-anchor="middle" font-size="13" >Crisp</text><text x="57.5" y="72.0" text-anchor="middle" font-size="13" >input</text><rect x="135" y="35" width="110" height="50" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="190.0" y="64.0" text-anchor="middle" font-size="13" >1. Fuzzification</text><rect x="275" y="35" width="130" height="50" rx="7" fill="#ede7f6" stroke="#6a4cc2" stroke-width="1.4"/><text x="340.0" y="56.0" text-anchor="middle" font-size="13" >3. Inference</text><text x="340.0" y="72.0" text-anchor="middle" font-size="13" >engine</text><rect x="435" y="35" width="125" height="50" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="497.5" y="64.0" text-anchor="middle" font-size="13" >4. Defuzzification</text><rect x="590" y="35" width="95" height="50" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="637.5" y="56.0" text-anchor="middle" font-size="13" >Crisp</text><text x="637.5" y="72.0" text-anchor="middle" font-size="13" >output</text><line x1="105" y1="60" x2="135" y2="60" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="245" y1="60" x2="275" y2="60" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="260.0" y="54.0" text-anchor="middle" font-size="11" fill="#333">fuzzy sets</text><line x1="405" y1="60" x2="435" y2="60" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><text x="420.0" y="54.0" text-anchor="middle" font-size="11" fill="#333">fuzzy output</text><line x1="560" y1="60" x2="590" y2="60" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="255" y="130" width="170" height="44" rx="7" fill="#fff3cd" stroke="#c99a00" stroke-width="1.4"/><text x="340.0" y="149.0" text-anchor="middle" font-size="11" >2. Knowledge base</text><text x="340.0" y="163.0" text-anchor="middle" font-size="11" >membership functions + IF–THEN rules</text><line x1="340" y1="130" x2="340" y2="85" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/></svg><figcaption>Figure 15a. Architecture of a fuzzy logic system (Mamdani)</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 185" width="100%" style="max-width:460px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="20" y="10" width="420" height="130" fill="#fafafa" stroke="#ccc"/><polyline points="20,140 80,20 200,140" fill="#3b6fd4" fill-opacity=".25" stroke="#3b6fd4" stroke-width="2"/><text x="80" y="160" text-anchor="middle" font-size="12" fill="#3b6fd4" font-weight="bold">Cold</text><polyline points="120,140 230,20 340,140" fill="#c99a00" fill-opacity=".25" stroke="#c99a00" stroke-width="2"/><text x="230" y="160" text-anchor="middle" font-size="12" fill="#c99a00" font-weight="bold">Warm</text><polyline points="260,140 380,20 440,140" fill="#c9302c" fill-opacity=".25" stroke="#c9302c" stroke-width="2"/><text x="380" y="160" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">Hot</text><line x1="300" y1="10" x2="300" y2="140" stroke="#222" stroke-dasharray="4,3"/><text x="300" y="175" text-anchor="middle" font-size="11" fill="#222" font-style="italic">x = 28 °C → Warm 0.7, Hot 0.2</text><text x="10" y="20" text-anchor="end" font-size="10" fill="#222">1</text><text x="10" y="140" text-anchor="end" font-size="10" fill="#222">0</text><text x="5" y="80" text-anchor="end" font-size="11" fill="#222">μ</text></svg><figcaption>Figure 15b. Triangular membership functions for temperature</figcaption></figure>
+<h2 class="sec">Supplement A. Uniform Cost Search (UCS)</h2>
+<p><em>The sections from here on come from the extra notes you attached; they sit outside the 15 questions but are useful for the same exam.</em></p>
+<p>UCS is an uninformed search that expands the node with the <strong>lowest cumulative path cost g(n)</strong>, using a priority queue. It finds the cheapest path in a weighted graph when all edge costs are non-negative. With equal step costs it behaves like BFS.</p>
+<pre><code class="language-text">function UNIFORM-COST-SEARCH(problem):
+    node &lt;- Node(problem.INITIAL, cost = 0)
+    frontier &lt;- priority queue ordered by path cost, containing node
+    explored &lt;- empty set
+    loop:
+        if frontier is empty return failure
+        node &lt;- frontier.pop()              # lowest g(n)
+        if goal(node) return SOLUTION(node) # goal test on EXPANSION, not generation
+        add node.state to explored
+        for each action in problem.ACTIONS(node.state):
+            child &lt;- CHILD(problem, node, action)
+            if child.state not in explored or frontier: frontier.insert(child)
+            else if child is in frontier with higher cost: replace it with child
+</code></pre>
+<p><strong>Trace.</strong> Edges: A→B 1, A→C 4, B→D 1, B→E 3, C→F 5, D→G 2, E→G 1, F→G 2. Start A, goal G.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Expand</th>
+<th>Frontier after expansion (node : g)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A (0)</td>
+<td>B:1, C:4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B (1)</td>
+<td>D:2, C:4, E:4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>D (2)</td>
+<td>C:4, E:4, G:4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>C (4)</td>
+<td>E:4, G:4, F:9</td>
+</tr>
+<tr>
+<td>5</td>
+<td>E (4)</td>
+<td>G:4 (the path via E costs 5, not better), F:9</td>
+</tr>
+<tr>
+<td>6</td>
+<td>G (4)</td>
+<td>Goal reached</td>
+</tr>
+</tbody>
+</table>
+<p>Least-cost path: <strong>A → B → D → G, total cost 4</strong>.</p>
+<ul>
+<li>Complete and optimal (non-negative costs). Time and space O(b^(1 + C*/ε)), where C* is the optimal cost and ε the minimum step cost.</li>
+<li>Applications: route finding, network routing, sliding-tile puzzles, resource allocation.</li>
+<li>Drawbacks: explores many nodes in all directions, high memory, repeated updates when cheaper paths are found.</li>
+</ul>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 245" width="100%" style="max-width:440px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="40" y1="100" x2="150" y2="50" stroke="#c9302c" stroke-width="3"/><text x="101.0" y="71.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">1</text><line x1="40" y1="100" x2="150" y2="160" stroke="#999" stroke-width="1.5"/><text x="101.0" y="126.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">4</text><line x1="150" y1="50" x2="270" y2="50" stroke="#c9302c" stroke-width="3"/><text x="216.0" y="46.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">1</text><line x1="150" y1="50" x2="270" y2="130" stroke="#999" stroke-width="1.5"/><text x="216.0" y="86.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">3</text><line x1="150" y1="160" x2="270" y2="200" stroke="#999" stroke-width="1.5"/><text x="216.0" y="176.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">5</text><line x1="270" y1="50" x2="380" y2="100" stroke="#c9302c" stroke-width="3"/><text x="331.0" y="71.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">2</text><line x1="270" y1="130" x2="380" y2="100" stroke="#999" stroke-width="1.5"/><text x="331.0" y="111.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">1</text><line x1="270" y1="200" x2="380" y2="100" stroke="#999" stroke-width="1.5"/><text x="331.0" y="146.0" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">2</text><circle cx="40" cy="100" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="40" y="104" text-anchor="middle" font-size="13">A</text><circle cx="150" cy="50" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="150" y="54" text-anchor="middle" font-size="13">B</text><circle cx="150" cy="160" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="150" y="164" text-anchor="middle" font-size="13">C</text><circle cx="270" cy="50" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="270" y="54" text-anchor="middle" font-size="13">D</text><circle cx="270" cy="130" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="270" y="134" text-anchor="middle" font-size="13">E</text><circle cx="270" cy="200" r="17" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="270" y="204" text-anchor="middle" font-size="13">F</text><circle cx="380" cy="100" r="17" fill="#fff3cd" stroke="#3b6fd4" stroke-width="1.4"/><text x="380" y="104" text-anchor="middle" font-size="13">G</text><text x="220" y="235" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">Least-cost path A → B → D → G (red), cost 4</text></svg><figcaption>Figure A. Uniform-cost search example graph</figcaption></figure>
+<h2 class="sec">Supplement B. Adversarial search: Minimax and Alpha-Beta pruning</h2>
+<p>Adversarial search is used in competitive environments where agents have conflicting goals, typically <strong>two-player zero-sum games</strong> (what is good for one player is bad for the other; no win-win outcome) such as chess, checkers, Go and tic-tac-toe. Single-agent searches (BFS, DFS, A*) do not model an opponent, so Minimax and Alpha-Beta are used instead.</p>
+<h3>Minimax algorithm</h3>
+<p>A recursive, depth-first algorithm that gives the optimal move assuming <strong>the opponent also plays optimally</strong>. <strong>MAX</strong> picks the maximum value; <strong>MIN</strong> picks the minimum value. Values start at −∞ for MAX and +∞ for MIN.</p>
+<pre><code class="language-text">function MINIMAX(node, depth, maximizingPlayer):
+    if depth = 0 or node is terminal: return UTILITY(node)
+    if maximizingPlayer:
+        best &lt;- -infinity
+        for each child: best &lt;- max(best, MINIMAX(child, depth-1, false))
+        return best
+    else:
+        best &lt;- +infinity
+        for each child: best &lt;- min(best, MINIMAX(child, depth-1, true))
+        return best
+</code></pre>
+<p><strong>Worked example.</strong> Tree: A (MAX) → B, C (MIN); B → D, E and C → F, G (MAX); leaves H=−1, I=4, J=2, K=6, L=−3, M=−5, N=0, O=7.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Node values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAX nodes D, E, F, G</td>
+<td>D = max(−1, 4) = 4; E = max(2, 6) = 6; F = max(−3, −5) = −3; G = max(0, 7) = 7</td>
+</tr>
+<tr>
+<td>MIN nodes B, C</td>
+<td>B = min(4, 6) = 4; C = min(−3, 7) = −3</td>
+</tr>
+<tr>
+<td>MAX root A</td>
+<td>A = max(4, −3) = <strong>4</strong> (best path A → B → D → I)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Complete (finite tree); optimal against an optimal opponent. Time O(b^m), space O(b·m) (b = branching factor, m = maximum depth).</li>
+<li>Limitation: far too slow for chess or Go because of the huge branching factor – improved by alpha-beta pruning.</li>
+</ul>
+<h3>Alpha-Beta pruning</h3>
+<p>An optimisation of minimax that returns <strong>the same move</strong> but skips branches that cannot affect the decision.</p>
+<ul>
+<li><strong>α</strong> = best (highest) value found so far for MAX along the path; initial α = −∞.</li>
+<li><strong>β</strong> = best (lowest) value found so far for MIN along the path; initial β = +∞.</li>
+<li><strong>Prune the remaining children whenever α ≥ β.</strong></li>
+<li>MAX nodes update only α; MIN nodes update only β; node values (not α/β) are passed up, while α and β are passed down to children.</li>
+</ul>
+<pre><code class="language-text">function ALPHA-BETA(node, depth, alpha, beta, maximizingPlayer):
+    if depth = 0 or node is terminal: return UTILITY(node)
+    if maximizingPlayer:
+        value &lt;- -infinity
+        for each child:
+            value &lt;- max(value, ALPHA-BETA(child, depth-1, alpha, beta, false))
+            alpha &lt;- max(alpha, value)
+            if alpha &gt;= beta: break          # beta cut-off
+        return value
+    else:
+        value &lt;- +infinity
+        for each child:
+            value &lt;- min(value, ALPHA-BETA(child, depth-1, alpha, beta, true))
+            beta &lt;- min(beta, value)
+            if alpha &gt;= beta: break          # alpha cut-off
+        return value
+</code></pre>
+<p><strong>Worked example.</strong> A (MAX) → B, C (MIN); B → D, E; C → F, G (all MAX); leaves D: 2, 3; E: 5, 9; F: 0, 1; G: 7, 5.</p>
+<ol>
+<li>A, B and D start with α = −∞, β = +∞. D = max(2, 3) = <strong>3</strong>.</li>
+<li>B (MIN) takes β = min(+∞, 3) = 3.</li>
+<li>E receives α = −∞, β = 3. First leaf 5 gives α = 5 ≥ β = 3, so the leaf <strong>9 is pruned</strong>; E = 5. B = min(3, 5) = <strong>3</strong>.</li>
+<li>A (MAX) sets α = 3 and passes α = 3, β = +∞ to C and F. F = max(0, 1) = 1.</li>
+<li>C (MIN) sets β = min(+∞, 1) = 1; now α = 3 ≥ β = 1, so <strong>subtree G (leaves 7, 5) is pruned</strong>; C = 1.</li>
+<li>A = max(3, 1) = <strong>3</strong>.</li>
+</ol>
+<h3>Move ordering</h3>
+<table>
+<thead>
+<tr>
+<th>Ordering</th>
+<th>Effect</th>
+<th>Time complexity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Worst</td>
+<td>Best moves examined last; no pruning, same as minimax</td>
+<td>O(b^m)</td>
+</tr>
+<tr>
+<td>Ideal</td>
+<td>Best moves examined first; most branches pruned, searches about twice as deep in the same time</td>
+<td>O(b^(m/2))</td>
+</tr>
+</tbody>
+</table>
+<p>Heuristics for good ordering: examine the best moves first, use domain knowledge (chess: captures, then threats, then forward moves, then backward moves) and remember repeated states.</p>
+<p><strong>Applications:</strong> chess engines (Stockfish), checkers, tic-tac-toe, and adversarial decision making in security, economic modelling and robotics.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 290" width="100%" style="max-width:580px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="260" y1="25" x2="140" y2="90" stroke="#555" stroke-width="1.5"/><line x1="260" y1="25" x2="380" y2="90" stroke="#555" stroke-width="1.5"/><line x1="140" y1="90" x2="80" y2="160" stroke="#555" stroke-width="1.5"/><line x1="140" y1="90" x2="200" y2="160" stroke="#555" stroke-width="1.5"/><line x1="380" y1="90" x2="320" y2="160" stroke="#555" stroke-width="1.5"/><line x1="380" y1="90" x2="440" y2="160" stroke="#555" stroke-width="1.5"/><line x1="80" y1="160" x2="50" y2="235" stroke="#555" stroke-width="1.5"/><line x1="80" y1="160" x2="110" y2="235" stroke="#555" stroke-width="1.5"/><line x1="200" y1="160" x2="170" y2="235" stroke="#555" stroke-width="1.5"/><line x1="200" y1="160" x2="230" y2="235" stroke="#555" stroke-width="1.5"/><line x1="320" y1="160" x2="290" y2="235" stroke="#555" stroke-width="1.5"/><line x1="320" y1="160" x2="350" y2="235" stroke="#555" stroke-width="1.5"/><line x1="440" y1="160" x2="410" y2="235" stroke="#555" stroke-width="1.5"/><line x1="440" y1="160" x2="470" y2="235" stroke="#555" stroke-width="1.5"/><polygon points="260,8 243,39 277,39" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="260" y="29" text-anchor="middle" font-size="13">A</text><text x="286" y="29" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">4</text><polygon points="140,107 123,76 157,76" fill="#dbe6fb" stroke="#3b6fd4" stroke-width="1.4"/><text x="140" y="94" text-anchor="middle" font-size="13">B</text><text x="166" y="94" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">4</text><polygon points="380,107 363,76 397,76" fill="#dbe6fb" stroke="#3b6fd4" stroke-width="1.4"/><text x="380" y="94" text-anchor="middle" font-size="13">C</text><text x="406" y="94" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">-3</text><polygon points="80,143 63,174 97,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="80" y="164" text-anchor="middle" font-size="13">D</text><text x="106" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">4</text><polygon points="200,143 183,174 217,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="200" y="164" text-anchor="middle" font-size="13">E</text><text x="226" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">6</text><polygon points="320,143 303,174 337,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="320" y="164" text-anchor="middle" font-size="13">F</text><text x="346" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">-3</text><polygon points="440,143 423,174 457,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="440" y="164" text-anchor="middle" font-size="13">G</text><text x="466" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">7</text><rect x="36" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="50" y="249" text-anchor="middle" font-size="13">H</text><text x="50" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">-1</text><rect x="96" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="110" y="249" text-anchor="middle" font-size="13">I</text><text x="110" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">4</text><rect x="156" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="170" y="249" text-anchor="middle" font-size="13">J</text><text x="170" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">2</text><rect x="216" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="230" y="249" text-anchor="middle" font-size="13">K</text><text x="230" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">6</text><rect x="276" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="290" y="249" text-anchor="middle" font-size="13">L</text><text x="290" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">-3</text><rect x="336" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="350" y="249" text-anchor="middle" font-size="13">M</text><text x="350" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">-5</text><rect x="396" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="410" y="249" text-anchor="middle" font-size="13">N</text><text x="410" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">0</text><rect x="456" y="234" width="28" height="22" rx="3" fill="#f1f1f1" stroke="#3b6fd4" stroke-width="1.4"/><text x="470" y="249" text-anchor="middle" font-size="13">O</text><text x="470" y="278" text-anchor="middle" font-size="12" fill="#222" font-weight="bold">7</text><text x="500" y="30" text-anchor="start" font-size="12" fill="#c9602a" font-weight="bold">MAX ▲</text><text x="500" y="95" text-anchor="start" font-size="12" fill="#3b6fd4" font-weight="bold">MIN ▼</text><text x="500" y="165" text-anchor="start" font-size="12" fill="#c9602a" font-weight="bold">MAX ▲</text><line x1="260" y1="25" x2="140" y2="90" stroke="#2a7a3a" stroke-width="3"/><line x1="140" y1="90" x2="80" y2="160" stroke="#2a7a3a" stroke-width="3"/><line x1="80" y1="160" x2="110" y2="231" stroke="#2a7a3a" stroke-width="3"/></svg><figcaption>Figure B1. Minimax tree: red numbers are backed-up values; best path A → B → D → I (value 4)</figcaption></figure>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 285" width="100%" style="max-width:520px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><line x1="240" y1="25" x2="130" y2="90" stroke="#555" stroke-width="1.5"/><line x1="240" y1="25" x2="350" y2="90" stroke="#555" stroke-width="1.5"/><line x1="130" y1="90" x2="70" y2="160" stroke="#555" stroke-width="1.5"/><line x1="130" y1="90" x2="190" y2="160" stroke="#555" stroke-width="1.5"/><line x1="350" y1="90" x2="310" y2="160" stroke="#555" stroke-width="1.5"/><line x1="350" y1="90" x2="430" y2="160" stroke="#555" stroke-width="1.5"/><line x1="70" y1="160" x2="40" y2="238" stroke="#999" stroke-width="1.5"/><line x1="70" y1="160" x2="100" y2="238" stroke="#999" stroke-width="1.5"/><line x1="190" y1="160" x2="160" y2="238" stroke="#999" stroke-width="1.5"/><line x1="190" y1="160" x2="220" y2="238" stroke="#c9302c" stroke-width="1.5" stroke-dasharray="5,3"/><line x1="310" y1="160" x2="280" y2="238" stroke="#999" stroke-width="1.5"/><line x1="310" y1="160" x2="340" y2="238" stroke="#999" stroke-width="1.5"/><line x1="430" y1="160" x2="400" y2="238" stroke="#c9302c" stroke-width="1.5" stroke-dasharray="5,3"/><line x1="430" y1="160" x2="460" y2="238" stroke="#c9302c" stroke-width="1.5" stroke-dasharray="5,3"/><polygon points="240,8 223,39 257,39" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="240" y="29" text-anchor="middle" font-size="13">A</text><text x="268" y="29" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">3</text><polygon points="130,107 113,76 147,76" fill="#dbe6fb" stroke="#3b6fd4" stroke-width="1.4"/><text x="130" y="94" text-anchor="middle" font-size="13">B</text><text x="158" y="94" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">3</text><polygon points="350,107 333,76 367,76" fill="#dbe6fb" stroke="#3b6fd4" stroke-width="1.4"/><text x="350" y="94" text-anchor="middle" font-size="13">C</text><text x="378" y="94" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">1</text><polygon points="70,143 53,174 87,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="70" y="164" text-anchor="middle" font-size="13">D</text><text x="98" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">3</text><polygon points="190,143 173,174 207,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="190" y="164" text-anchor="middle" font-size="13">E</text><text x="218" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">5</text><polygon points="310,143 293,174 327,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="310" y="164" text-anchor="middle" font-size="13">F</text><text x="338" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">1</text><polygon points="430,143 413,174 447,174" fill="#fde9e0" stroke="#3b6fd4" stroke-width="1.4"/><text x="430" y="164" text-anchor="middle" font-size="13">G</text><text x="458" y="164" text-anchor="middle" font-size="12" fill="#c9302c" font-weight="bold">pruned</text><rect x="26" y="238" width="28" height="28" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="40.0" y="256.0" text-anchor="middle" font-size="12" >2</text><rect x="86" y="238" width="28" height="28" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="100.0" y="256.0" text-anchor="middle" font-size="12" >3</text><rect x="146" y="238" width="28" height="28" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="160.0" y="256.0" text-anchor="middle" font-size="12" >5</text><rect x="206" y="238" width="28" height="28" rx="7" fill="#fff" stroke="#c9302c" stroke-width="1.4"/><text x="220.0" y="256.0" text-anchor="middle" font-size="12" >9</text><rect x="266" y="238" width="28" height="28" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="280.0" y="256.0" text-anchor="middle" font-size="12" >0</text><rect x="326" y="238" width="28" height="28" rx="7" fill="#f1f1f1" stroke="#888" stroke-width="1.4"/><text x="340.0" y="256.0" text-anchor="middle" font-size="12" >1</text><rect x="386" y="238" width="28" height="28" rx="7" fill="#fff" stroke="#c9302c" stroke-width="1.4"/><text x="400.0" y="256.0" text-anchor="middle" font-size="12" >7</text><rect x="446" y="238" width="28" height="28" rx="7" fill="#fff" stroke="#c9302c" stroke-width="1.4"/><text x="460.0" y="256.0" text-anchor="middle" font-size="12" >5</text><text x="230" y="105" text-anchor="middle" font-size="10" fill="#555">α=−∞ β=3</text><text x="190" y="185" text-anchor="middle" font-size="10" fill="#c9302c">α=5 ≥ β=3 → ✂ prune 9</text><text x="350" y="60" text-anchor="middle" font-size="10" fill="#c9302c">α=3 β=1 → ✂ prune G</text></svg><figcaption>Figure B2. Alpha-beta pruning: dashed red branches are never evaluated; root value 3</figcaption></figure>
+<h2 class="sec">Supplement C. Reasoning under uncertainty</h2>
+<p><strong>Reasoning under uncertainty</strong> means reaching conclusions or decisions when information is incomplete, ambiguous, noisy or uncertain (a doctor cannot be sure of a disease; a weather app cannot be 100% sure of rain). <strong>Probabilistic reasoning</strong> uses probability theory for this: instead of "the patient definitely has the disease" the system says "there is an 85% probability".</p>
+<p><strong>Probability</strong> P(A) = favourable outcomes / total outcomes, a value from 0 (impossible) to 1 (certain). Example: a bag with 6 red and 4 blue balls gives P(Red) = 6/10 = 0.6. A diagnosis system might output P(Flu) = 0.70, P(COVID-19) = 0.20, P(Other) = 0.10 for the same symptoms.</p>
+<h3>Conditional probability</h3>
+<p>Probability of A given that B has occurred:</p>
+<div class="formula">P(A | B) = P(A ∩ B) / P(B)</div>
+<p>Example: of 100 students, 60 study CS and 30 of those are female, so P(Female | CS) = 30/60 = 0.5.</p>
+<h3>Bayes' theorem</h3>
+<p>Updates a belief when new evidence arrives:</p>
+<div class="formula">P(A | B) = P(B | A) · P(A) / P(B)</div>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P(A)</td>
+<td>Prior</td>
+<td>Belief before evidence</td>
+</tr>
+<tr>
+<td>P(B | A)</td>
+<td>Likelihood</td>
+<td>Chance of the evidence if A is true</td>
+</tr>
+<tr>
+<td>P(B)</td>
+<td>Evidence (marginal)</td>
+<td>Overall chance of the evidence</td>
+</tr>
+<tr>
+<td>P(A | B)</td>
+<td>Posterior</td>
+<td>Updated belief after evidence</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example.</strong> 1% of people have a disease, so P(D) = 0.01. The test is positive for 90% of people with the disease, P(+|D) = 0.90, and for 5% of people without it, P(+|¬D) = 0.05.</p>
+<p>P(+) = (0.90)(0.01) + (0.05)(0.99) = 0.009 + 0.0495 = 0.0585</p>
+<p>P(D|+) = 0.009 / 0.0585 ≈ <strong>0.154 (15.4%)</strong>.</p>
+<p>Even after a positive test the chance of disease is only about 15%, because the prior is low and false positives are common.</p>
+<h3>Conditional independence</h3>
+<p>A and B are conditionally independent given C when P(A, B | C) = P(A | C) P(B | C): once C is known, B tells nothing more about A. Example: Traffic and Wet road both depend on Rain; given Rain, they can be treated as independent. This property is what makes Naïve Bayes (Q13) and Bayesian networks efficient.</p>
+<h3>Bayesian network</h3>
+<p>A <strong>Bayesian network</strong> is a graphical model of probabilistic relationships using a <strong>directed acyclic graph (DAG)</strong> with three components:</p>
+<ol>
+<li><strong>Nodes</strong> – random variables (Weather, Rain, Traffic, Disease).</li>
+<li><strong>Directed edges</strong> – probabilistic dependency (Rain → Wet Road).</li>
+<li><strong>Conditional probability tables (CPTs)</strong> – probability of a node given its parents.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Rain</th>
+<th>P(Wet Road = Yes)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yes</td>
+<td>0.95</td>
+</tr>
+<tr>
+<td>No</td>
+<td>0.10</td>
+</tr>
+</tbody>
+</table>
+<p>Medical example: Disease is the parent of Fever and Cough (child nodes), with P(Disease) = 0.1, P(Fever | Disease) = 0.8, P(Cough | Disease) = 0.7. The network then estimates P(Disease | Fever, Cough). The joint distribution factorises as P(x₁, …, xₙ) = Π P(xᵢ | parents(xᵢ)).</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 150" width="100%" style="max-width:520px" font-family="Helvetica,Arial,sans-serif" font-size="13"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#444"/></marker></defs><rect x="120" y="10" width="110" height="36" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="175.0" y="24.5" text-anchor="middle" font-size="12" >Disease</text><text x="175.0" y="39.5" text-anchor="middle" font-size="12" >P=0.1</text><rect x="20" y="100" width="110" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="75.0" y="115.0" text-anchor="middle" font-size="11" >Fever</text><text x="75.0" y="129.0" text-anchor="middle" font-size="11" >P(F|D)=0.8</text><rect x="220" y="100" width="120" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="280.0" y="115.0" text-anchor="middle" font-size="11" >Cough</text><text x="280.0" y="129.0" text-anchor="middle" font-size="11" >P(C|D)=0.7</text><line x1="150" y1="46" x2="90" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><line x1="200" y1="46" x2="260" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/><rect x="380" y="10" width="110" height="36" rx="7" fill="#fde9e0" stroke="#c9602a" stroke-width="1.4"/><text x="435.0" y="32.0" text-anchor="middle" font-size="13" >Rain</text><rect x="380" y="100" width="110" height="36" rx="7" fill="#e8f0fe" stroke="#3b6fd4" stroke-width="1.4"/><text x="435.0" y="115.0" text-anchor="middle" font-size="11" >Wet road</text><text x="435.0" y="129.0" text-anchor="middle" font-size="11" >P=0.95 | 0.10</text><line x1="435" y1="46" x2="435" y2="100" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/></svg><figcaption>Figure C. Bayesian networks (DAGs with conditional probability tables)</figcaption></figure>
+<h2 class="sec">Supplement D. Machine learning basics and Responsible AI</h2>
+<h3>Need for machine learning</h3>
+<p>Traditional programming cannot handle complex tasks or huge data efficiently. ML learns from data without fixed rules, which helps to:</p>
+<ul>
+<li>solve complex problems (image and speech recognition, medical diagnosis, language translation);</li>
+<li>handle large volumes of data (fraud detection, personalised feeds);</li>
+<li>automate repetitive tasks (spam filtering, chatbots);</li>
+<li>personalise user experience (Netflix and e-commerce recommendations);</li>
+<li>improve itself with more data (voice assistants, search engines, self-driving cars).</li>
+</ul>
+<h3>How machines learn</h3>
+<ol>
+<li><strong>Data input</strong> – quality and quantity of data matter.</li>
+<li><strong>Algorithm</strong> – mathematical method to find patterns (classification, regression).</li>
+<li><strong>Model training</strong> – adjust internal parameters to reduce the gap between predictions and actual results.</li>
+<li><strong>Feedback loop</strong> – compare predictions with true outcomes and correct errors (for example gradient descent).</li>
+<li><strong>Experience and iteration</strong> – repeat training to refine predictions.</li>
+<li><strong>Evaluation and generalisation</strong> – test on new data to confirm real-world performance.</li>
+</ol>
+<h3>Responsible AI</h3>
+<p>Responsible AI is designing, developing and deploying AI that is <strong>ethical, fair, transparent and accountable</strong>, minimising bias, risk and unintended consequences.</p>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Meaning</th>
+<th>Key practices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fairness</td>
+<td>Treat individuals and groups equally</td>
+<td>Diverse training data, bias detection, regular monitoring</td>
+</tr>
+<tr>
+<td>Transparency</td>
+<td>Decisions are understandable and open</td>
+<td>Explain decisions in loans, hiring, healthcare; interpretable, documented models</td>
+</tr>
+<tr>
+<td>Accountability</td>
+<td>Humans stay responsible for outcomes</td>
+<td>Clear roles, human oversight, monitoring and governance</td>
+</tr>
+<tr>
+<td>Privacy and security</td>
+<td>Protect personal and sensitive data</td>
+<td>Limit personal data use, follow privacy regulations, strong security</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>Consistent, accurate and safe behaviour</td>
+<td>Testing and validation, error analysis, resilient design</td>
+</tr>
+<tr>
+<td>Ethical usability</td>
+<td>Easy, inclusive and beneficial to all users</td>
+<td>User-friendly design, clear communication, respect for user autonomy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to implement it:</strong></p>
+<ol>
+<li>Define clear Responsible AI principles (with cross-functional teams).</li>
+<li>Educate teams and raise awareness.</li>
+<li>Integrate ethics throughout the AI lifecycle (address bias, document data and decisions).</li>
+<li>Protect privacy and sensitive data.</li>
+<li>Enable human oversight and accountability.</li>
+<li>Monitor systems and improve continuously.</li>
+</ol>
